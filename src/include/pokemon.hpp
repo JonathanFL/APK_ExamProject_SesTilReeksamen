@@ -45,8 +45,8 @@ public:
     // PrimaryType>::value);
     // static_assert(std::is_base_of<poketypes::PokemonType,
     // SecondaryType>::value);
-    static_assert(Contains<poketypes::PokemonTypeList, PrimaryType>::value);
-    static_assert(Contains<poketypes::PokemonTypeList, SecondaryType>::value);
+    static_assert(Contains<poketypes::PokemonTypeList, PrimaryType>::value, "Must be a PokemonType");
+    static_assert(Contains<poketypes::PokemonTypeList, SecondaryType>::value, "Must be a PokemonType");
     this->health_ = health;
     this->level_  = level;
   }
