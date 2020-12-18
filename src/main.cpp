@@ -5,8 +5,11 @@
 int main() {
 // double health, unsigned int level, unsigned int xp, double attack, double defense, std::string name, std::string nickname){
         
-    Pokemon<poketypes::GroundPokemonType, poketypes::WaterPokemonType> p(100.2,10,0,50,100,"Jonathan", "Squirtle");  
-    std::cout << "Pokemon health: " << p.getHealth_() << std::endl;
-    
+    Pokemon<poketypes::GroundPokemonType, poketypes::WaterPokemonType> p1(100.2,10,0,50,100,"Jonathan", "Squirtle");
+    std::cout << p1 << "\n";
+
+    Pokemon<poketypes::GroundPokemonType, poketypes::WaterPokemonType> p2;
+    std::cout << p2 << std::endl;
+
     return 0;
 }
