@@ -41,12 +41,6 @@ class ElectricPokemonType
 {
 };
 
-class ErrorPokemonType
-    : public PokemonType<FireType, TypeList<WaterType, NullType>,
-                         TypeList<GrassType, NullType>>
-{
-};
-
 typedef TYPELIST5(FirePokemonType, WaterPokemonType, GroundPokemonType,
                   GrassPokemonType, ElectricPokemonType) PokemonTypeList;
 } // namespace poketypes

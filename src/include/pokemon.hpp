@@ -41,8 +41,12 @@ public:
   Pokemon(double health, unsigned int level, unsigned int xp, double attack,
           double defense, std::string name, std::string nickname)
   {
+    // static_assert(std::is_base_of<poketypes::PokemonType<>,
+    // PrimaryType>::value);
+    // static_assert(std::is_base_of<poketypes::PokemonType,
+    // SecondaryType>::value);
     static_assert(Contains<poketypes::PokemonTypeList, PrimaryType>::value);
-    static_assert(Contains<poketypes::PokemonTypeList, PrimaryType>::value);
+    static_assert(Contains<poketypes::PokemonTypeList, SecondaryType>::value);
     this->health_ = health;
     this->level_  = level;
   }
