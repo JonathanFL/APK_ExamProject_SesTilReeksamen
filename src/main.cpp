@@ -1,3 +1,4 @@
+#include "include/ball/ball.hpp"
 #include "include/pokemon.hpp"
 #include "include/poke_type.hpp"
 #include <iostream>
@@ -10,6 +11,8 @@ int main() {
 
     Pokemon<poketypes::GroundPokemonType, poketypes::WaterPokemonType> p2;
     std::cout << p2 << std::endl;
+
+    Ball b;
 
     return 0;
 }
