@@ -53,6 +53,8 @@ public:
 
   Pokemon() {}
   ~Pokemon() {}
+
+  
 };
 
 #endif
