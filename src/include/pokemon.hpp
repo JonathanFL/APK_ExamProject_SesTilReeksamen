@@ -1,8 +1,14 @@
+#ifndef POKEMON_HPP
+#define POKEMON_HPP
+
 #include <string>
 #include <iostream>
-// #include "poketype.hpp"
+#include "poke_type.hpp"
+#include "is_same.hpp"
+#include "type_list_algorithms.hpp"
+
 template<typename PrimaryType, typename SecondaryType>
-class pokemon
+class Pokemon
 {
 private:
     /* data */
@@ -33,13 +39,17 @@ public:
 
     PrimaryType   primaryType_;
     SecondaryType secondaryType_;
-    pokemon(double health, unsigned int level, unsigned int xp, double attack, double defense, std::string name, std::string nickname){
-        static_assert(std::is_same_v<PrimaryType, PokeType>);
-        static_assert(std::is_same_v<SecondaryType, PokeType>);
-        this.health_ = health;
+    Pokemon(double health, unsigned int level, unsigned int xp, double attack, double defense, std::string name, std::string nickname){
+        static_assert(std::is_base_of<poketypes::PokemonType, PrimaryType>::value);
+        static_assert(std::is_base_of<poketypes::PokemonType, SecondaryType>::value);
+        static_assert(Contains<poketypes::PokemonTypeList,PrimaryType>::value);
+        static_assert(Contains<poketypes::PokemonTypeList,PrimaryType>::value);
+        this->health_ = health;
         this->level_ = level;
     }
 
-    pokemon();
-    ~pokemon();
+    Pokemon();
+    ~Pokemon();
 };
+
+#endif

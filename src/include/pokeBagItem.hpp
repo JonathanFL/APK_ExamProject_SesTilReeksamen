@@ -1,0 +1,4 @@
+#ifndef POKEBAGITEM_HPP
+#define POKEBAGITEM_HPP
+
+#endif
