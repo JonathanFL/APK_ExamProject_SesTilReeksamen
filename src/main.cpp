@@ -1,7 +1,4 @@
-#include "include/test.hpp"
 
-int main(){
-    Pokemon p;
-    p.Scream();
+int main() {
     return 0;
 }
