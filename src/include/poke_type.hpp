@@ -3,14 +3,13 @@
 #include "element_type.hpp"
 #include "type_list.hpp"
 #include <string>
-namespace poketypes{
+namespace poketypes
+{
 template <typename T, typename WTL, typename STL,
           typename = std::enable_if<std::is_base_of<ElementType, T>::value>>
 class PokemonType
 {
 };
-
-typedef TYPELIST5(FirePokemonType, WaterPokemonType, GroundPokemonType,GrassPokemonType, ElectricPokemonType) PokemonTypeList;
 
 class FirePokemonType
     : public PokemonType<FireType, TypeList<WaterType, NullType>,
@@ -48,5 +47,7 @@ class ErrorPokemonType
 {
 };
 
-}
+typedef TYPELIST5(FirePokemonType, WaterPokemonType, GroundPokemonType,
+                  GrassPokemonType, ElectricPokemonType) PokemonTypeList;
+} // namespace poketypes
 #endif
