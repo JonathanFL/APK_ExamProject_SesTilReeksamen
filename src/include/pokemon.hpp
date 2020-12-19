@@ -9,8 +9,16 @@
 #include <string.h>
 
 using namespace std;
+class IPokemon {
 
-template <typename PrimaryType, typename SecondaryType> class Pokemon
+};
+
+class UndiscoveredPokemon : public IPokemon 
+{
+    
+};
+
+template <typename PrimaryType, typename SecondaryType> class Pokemon : public IPokemon
 {
 private:
   /* data */
