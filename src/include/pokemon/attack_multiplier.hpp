@@ -1,5 +1,0 @@
-#ifndef ATTACKMULTIPLIER_HPP
-#define ATTACKMULTIPLIER_HPP
-
-
-#endif
