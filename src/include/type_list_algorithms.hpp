@@ -15,16 +15,16 @@ template <typename F> struct Contains<NullType, F>
   static const bool value = false;
 };
 
-template <typename TL, typename T> struct EveryIsBaseT
-{
-  static const bool value = std::is_base_of<T, typename TL::First>::value &&
-                            EveryIsBaseT<typename TL::Rest, T>::value;
-};
+// template <typename TL, typename T> struct EveryIsBaseT
+// {
+//   static const bool value = std::is_base_of<T, typename TL::First>::value &&
+//                             EveryIsBaseT<typename TL::Rest, T>::value;
+// };
 
-template <typename T> struct EveryIsBaseT<NullType, T>
-{
-  static const bool value = true;
-};
+// template <typename T> struct EveryIsBaseT<NullType, T>
+// {
+//   static const bool value = true;
+// };
 
 template <typename TL, template<typename T> typename C> struct Every
 {

@@ -1,11 +1,14 @@
 #ifndef POKEBAGITEM_HPP
 #define POKEBAGITEM_HPP
-#include "../pokemon.hpp"
-#include <iostream>
-class IPokeBagItem
+class PokeBagItem
 {
-public:
-	virtual void Use() = 0;
-};
+private:
+  double price_;
 
+public:
+  PokeBagItem(double price) : price_(price) {}
+  double getPrice() {
+      return price_;
+  }
+};
 #endif

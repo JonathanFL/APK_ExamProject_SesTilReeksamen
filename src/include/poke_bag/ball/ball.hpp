@@ -3,7 +3,7 @@
 #include "../pokeBagItem.hpp"
 #include <iostream>
 
-class Ball : IPokeBagItem {
+class Ball : PokeBagItem {
 public:
     void Use (){
 		std::cout << " Using ball";

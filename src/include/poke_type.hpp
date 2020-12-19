@@ -14,12 +14,33 @@ class PokemonType
   static_assert(Every<STL, IsDerivedElementType>::value);
   static_assert(Every<RTL, IsDerivedElementType>::value);
   static_assert(Every<VTL, IsDerivedElementType>::value);
+
+public:
   typedef WTL WeakAgainst;
   typedef STL StrongAgainst;
   typedef RTL ResistantAgainst;
   typedef VTL VulnerableAgainst;
-
-public:
+  template<typename D, typename ORTL, typename OVTL>
+  double getAttackModifier() {
+      const bool strongAgainst = Contains<STL, D>::value;
+      const bool weakAgainst = Contains<WTL, D>::value;
+      const bool otherVulnerableTo = Contains<OVTL, T>::value;
+      const bool otherResistantTo = Contains<ORTL, T>::value;
+      double attackModifier = 1;
+      if constexpr(strongAgainst) {
+          attackModifier *= 1.5;
+      }
+      if constexpr(weakAgainst) {
+          attackModifier *= 0.666;
+      }
+      if constexpr(otherVulnerableTo) {
+          attackModifier *= 1.5;
+      }
+      if constexpr(otherResistantTo) {
+          attackModifier *= 0.666;
+      }
+      return attackModifier;
+  }
 };
 class FirePokemonType
     : public PokemonType<
@@ -61,5 +82,6 @@ class ElectricPokemonType
 
 typedef TYPELIST5(FirePokemonType, WaterPokemonType, GroundPokemonType,
                   GrassPokemonType, ElectricPokemonType) PokemonTypeList;
-} // namespace poketypes
+} 
+// namespace poketypes
 #endif
