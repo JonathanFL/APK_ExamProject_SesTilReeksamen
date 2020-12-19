@@ -58,6 +58,8 @@ public:
 
   Pokemon() : health_(0), level_(0),xp_(0),attack_(0),defense_(0),name_(""), nickname_("") {}
   ~Pokemon() {}
+
+  
 };
 
 // toString
