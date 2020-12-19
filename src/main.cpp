@@ -1,7 +1,6 @@
 #include "include/poke_bag/ball/ball.hpp"
-#include "include/pokemon.hpp"
+#include "include/pokemon/pokemon.hpp"
 #include "include/config_reader/config_reader.hpp"
-#include "include/poke_type.hpp"
 #include "include/poke_bag/pokeBagItem.hpp"
 #include "include/poke_bag/pokeBag.hpp"
 #include "include/poke_bag/pokeBagItem.hpp"

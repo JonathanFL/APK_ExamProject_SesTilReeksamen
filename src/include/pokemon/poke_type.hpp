@@ -1,8 +1,8 @@
 #ifndef POKETYPE_HPP
 #define POKETYPE_HPP
 #include "element_type.hpp"
-#include "type_list.hpp"
-#include "type_list_algorithms.hpp"
+#include "../metaprogramming/type_list.hpp"
+#include "../metaprogramming/type_list_algorithms.hpp"
 #include <string>
 namespace poketypes
 {

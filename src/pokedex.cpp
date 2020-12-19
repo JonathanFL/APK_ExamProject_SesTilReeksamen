@@ -1,4 +1,4 @@
-#include "include/pokedex.hpp"
+#include "include/pokemon/pokedex.hpp"
 void Pokedex::print() {}
 
 int Pokedex::discovered() {

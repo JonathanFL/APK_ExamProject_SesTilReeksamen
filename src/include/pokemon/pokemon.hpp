@@ -1,9 +1,9 @@
 #ifndef POKEMON_HPP
 #define POKEMON_HPP
 
-#include "is_same.hpp"
+#include "../metaprogramming/is_same.hpp"
 #include "poke_type.hpp"
-#include "type_list_algorithms.hpp"
+#include "../metaprogramming/type_list_algorithms.hpp"
 #include <iostream>
 #include <string>
 #include <string.h>

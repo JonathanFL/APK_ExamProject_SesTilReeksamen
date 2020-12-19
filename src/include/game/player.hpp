@@ -1,7 +1,7 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 #include "if_then_else.hpp"
-#include "pokeBag.hpp"
+#include "../poke_bag/pokeBag.hpp"
 #include "pokedex.hpp"
 #include <string>
 class Player

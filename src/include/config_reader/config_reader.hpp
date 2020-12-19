@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "pokemon_dto.hpp"
-#include "../pokemon.hpp"
+#include "../pokemon/pokemon.hpp"
 
 typedef std::vector<PokemonDto> PokemonList; 
 

@@ -1,7 +1,7 @@
 #ifndef POKEBAG_HPP
 #define POKEBAG_HPP
 #include "pokeBagItem.hpp"
-#include "../pokemon.hpp"
+#include "../pokemon/pokemon.hpp"
 #include <vector>
 class PokeBag
 {
