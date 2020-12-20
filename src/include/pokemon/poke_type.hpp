@@ -82,11 +82,28 @@ namespace poketypes
                              TYPELIST1(GrassType), TYPELIST1(ElectricType),
                              TYPELIST2(WaterType, GrassType)>
     {
-        typedef GroundType Type;
-        typedef TYPELIST2(ElectricType, FireType) StrongAgainst;
-        typedef TYPELIST1(GrassType) WeakAgainst;
-        typedef TYPELIST1(ElectricType) ResistantAgainst;
-        typedef TYPELIST2(GrassType, WaterType) VulnerableAgainst;
+    };
+
+    struct FirePokemonType
+        : public PokemonType<
+              FireType, TYPELIST1(GrassType), TYPELIST2(WaterType, FireType),
+              TYPELIST2(GrassType, FireType), TYPELIST2(GroundType, WaterType)>
+    {
+    };
+
+    struct WaterPokemonType
+        : public PokemonType<WaterType, TYPELIST2(GroundType, FireType),
+                             TYPELIST2(WaterType, GrassType),
+                             TYPELIST2(FireType, WaterType),
+                             TYPELIST2(GrassType, ElectricType)>
+    {
+    };
+
+    struct GroundPokemonType
+        : public PokemonType<GroundType, TYPELIST2(FireType, ElectricType),
+                             TYPELIST1(GrassType), TYPELIST1(ElectricType),
+                             TYPELIST2(WaterType, GrassType)>
+    {
     };
 
     struct GrassPokemonType
@@ -96,12 +113,6 @@ namespace poketypes
                                        ElectricType),
                              TYPELIST1(FireType)>
     {
-        typedef GrassType Type;
-        typedef TYPELIST2(GroundType, WaterType) StrongAgainst;
-        typedef TYPELIST2(FireType, GrassType) WeakAgainst;
-        typedef TYPELIST4(ElectricType, GrassType, WaterType,
-                          GroundType) ResistantAgainst;
-        typedef TYPELIST1(FireType) VulnerableAgainst;
     };
 
     struct ElectricPokemonType
@@ -109,22 +120,12 @@ namespace poketypes
                              TYPELIST3(GroundType, GrassType, ElectricType),
                              TYPELIST1(ElectricType), TYPELIST1(GroundType)>
     {
-        typedef ElectricType Type;
-        typedef TYPELIST1(WaterType) StrongAgainst;
-        typedef TYPELIST3(GroundType, GrassType, ElectricType) WeakAgainst;
-        typedef TYPELIST1(ElectricType) ResistantAgainst;
-        typedef TYPELIST1(GroundType) VulnerableAgainst;
     };
 
     struct NormalPokemonType
         : public PokemonType<NormalType, TYPELIST1(NullType), TYPELIST1(NullType),
                              TYPELIST1(NullType), TYPELIST1(NullType)>
     {
-        typedef NormalType Type;
-        typedef TYPELIST1(NullType) StrongAgainst;
-        typedef TYPELIST1(NullType) WeakAgainst;
-        typedef TYPELIST1(NullType) ResistantAgainst;
-        typedef TYPELIST1(NullType) VulnerableAgainst;
     };
 
     typedef boost::variant<NormalPokemonType, FirePokemonType, WaterPokemonType,
@@ -136,29 +137,11 @@ namespace poketypes
         template <typename T, typename U>
         double operator()(T &t, U &u) const
         {
-            return t.getAttackModifier<typename decltype(U::Type),
-                                       typename U::ResistantAgainst(),
-                                       typename U::VulnerableAgainst()>();
+            return t.template getAttackModifier<typename U::Type,
+                                                typename U::ResistantAgainst,
+                                                typename U::VulnerableAgainst>();
         }
-        // double operator()(WaterPokemonType &pokemon) const {
-
-        // }
-
-        // double operator()(GroundPokemonType &pokemon) const {
-
-        // }
-
-        // double operator()(GrassPokemonType &pokemon) const {
-
-        // }
-
-        // double operator()(ElectricPokemonType &pokemon) const {
-
-        // }
     };
-
-    typedef TYPELIST5(FirePokemonType, WaterPokemonType, GroundPokemonType,
-                      GrassPokemonType, ElectricPokemonType) PokemonTypeList;
 
     struct PokemonTypeFactory
     {
