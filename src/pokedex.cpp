@@ -15,7 +15,7 @@ public:
 
 void Pokedex::print()
 {
-  for (const auto &[n, p] : pokemons_)
+  for (const auto & [n,p]: pokemons_)
   {
     std::cout << "No. " << n << boost::apply_visitor(PokedexPrinterVisitor(), p) << std::endl;
   }
