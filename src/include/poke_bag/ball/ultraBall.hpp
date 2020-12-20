@@ -1,16 +1,16 @@
-#ifndef MASTERBALL_HPP
-#define MASTERBALL_HPP
+#ifndef ULTRABALL_HPP
+#define ULTRABALL_HPP
 #include "ball.hpp"
-class MasterBall : public Ball {
+class UltraBall : public Ball {
 public:
-    MasterBall(){}
+    UltraBall(){}
     void Catch() override
     {
         std::cout << " Using MasterBall" << std::endl;
     }
 
     void formatImpl(std::ostream &out) const override{
-        out << "MasterBall";
+        out << "UltraBall";
     }
 
 };

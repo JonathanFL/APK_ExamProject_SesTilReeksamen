@@ -3,19 +3,29 @@
 #include "pokeBagItem.hpp"
 #include "../pokemon/pokemon.hpp"
 #include <vector>
+#include <memory>
 class PokeBag
 {
 private:
-  std::vector<PokeBagItem> items_;
-  std::vector<IPokemon>    pokemons_;
+  std::vector<PokeBagItem*> items_; // For polymorfi, skal bruge pointers!
+                                    // Hvis ikke pointers, kan compileren kun se den abstracte klasse
+  std::vector<Pokemon>    pokemons_;
 
 public:
   void empty();
 
-  void addItem(PokeBagItem&& item);
+  template<typename T, typename ...Args>
+  void addItem(PokeBagItem* item) {
+    static_assert(std::is_base_of<PokeBagItem, T>::value, "The type must be a base class of `PokeBagItem`");
+    static_assert(std::is_convertible<T&, PokeBagItem&>::value, "The type must be an *accessible* base class of `PokeBagItem`");
+    //std::cout << *item << std::endl;
+    this->items_.push_back(item);
+  }
+
+  void listItems();
 
   double getTotalValue();
-
+  
 //   void sortPokemon(auto comparer) {}
 };
 

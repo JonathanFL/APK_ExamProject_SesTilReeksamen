@@ -6,7 +6,7 @@
 
 class Pokedex {
 private:
-    std::map<int, boost::variant<std::string, IPokemon>> pokemons_;
+    std::map<int, boost::variant<std::string, Pokemon>> pokemons_;
 public:
     void print();
 

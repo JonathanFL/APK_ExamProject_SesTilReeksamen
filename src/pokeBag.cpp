@@ -2,14 +2,21 @@
 #include <algorithm>
 #include <numeric>
 #include <vector>
+#include <iterator>
+#include <memory>
 void PokeBag::empty() { std::cout << "Emptying bag..." << std::endl; }
 
-void PokeBag::addItem(PokeBagItem &&item) {}
+void PokeBag::listItems(){
+  std::ostream_iterator<PokeBagItem*> oStreamIter(std::cout, "\n");
+  copy(items_.begin(), items_.end(), oStreamIter);// copy vil compile sålænge objektet har operator ++ = og *
+}
 
 double PokeBag::getTotalValue()
 {
-  std::vector<double> prices;
-  std::transform(items_.begin(), items_.end(), std::back_inserter(prices),
-                 [](PokeBagItem item) { return item.getPrice(); });
-  return std::accumulate(prices.begin(), prices.end(), 0.0);
+  // std::vector<double> prices;
+  // std::transform(items_.begin(), items_.end(), std::back_inserter(prices),
+  //                [](PokeBagItem &item) { return item.getPrice(); });
+  // return std::accumulate(prices.begin(), prices.end(), 0.0);
+  return 0;
 }
+
