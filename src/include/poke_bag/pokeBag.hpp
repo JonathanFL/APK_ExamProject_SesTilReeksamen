@@ -9,7 +9,7 @@ class PokeBag
 private:
   std::vector<PokeBagItem*> items_; // For polymorfi, skal bruge pointers!
                                     // Hvis ikke pointers, kan compileren kun se den abstracte klasse
-  std::vector<IPokemon>    pokemons_;
+  std::vector<Pokemon>    pokemons_;
 
 public:
   void empty();

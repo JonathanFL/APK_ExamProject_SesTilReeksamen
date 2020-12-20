@@ -1,15 +1,15 @@
 #include "include/pokemon/pokedex.hpp"
-class PokedexPrinterVisitor : public boost::static_visitor<std::string &&>
+class PokedexPrinterVisitor : public boost::static_visitor<std::string>
 {
 public:
-  std::string &&operator() (const std::string &s) const
+  std::string operator() (const std::string &s) const
   {
-    return std::move("Unkown pokémon: " + s);
+    return "Unkown pokémon: " + s;
   }
 
-  std::string &&operator() (const IPokemon &p) const
+  std::string operator() (const Pokemon &p) const
   {
-    return std::move(""); // Skal måske laves om så den printer
+    return ""; // Skal måske laves om så den printer
   }
 };
 
