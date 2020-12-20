@@ -6,6 +6,7 @@
 #include <boost/variant.hpp>
 #include <string>
 #include "boost/variant.hpp"
+#include "../config_reader/poke_type_factory.hpp"
 
 namespace poketypes
 {
@@ -158,6 +159,25 @@ namespace poketypes
 
     typedef TYPELIST5(FirePokemonType, WaterPokemonType, GroundPokemonType,
                       GrassPokemonType, ElectricPokemonType) PokemonTypeList;
+
+    struct PokemonTypeFactory
+    {
+        static PokemonTypeVariant getPokemonType(std::string type)
+        {
+            if (type == "ElectricPokemonType")
+            {
+                return poketypes::ElectricPokemonType();
+            }
+            else if (type == "WaterPokemonType")
+            {
+                return poketypes::WaterPokemonType();
+            }
+            else
+            {
+                return poketypes::WaterPokemonType();
+            }
+        };
+    };
 } // namespace poketypes
 // namespace poketypes
 #endif

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "poke_type_factory.hpp"
+#include "../pokemon/poke_type.hpp"
 
 class PokemonDto
 {
@@ -31,17 +31,17 @@ public:
         return nickname_;
     }
 
-    const PokemonTypeInstance &primaryType() const
+    const poketypes::PokemonTypeVariant primaryType() const
     {
-        return factories::getPokemonType(primaryType_);
+        return poketypes::PokemonTypeFactory().getPokemonType(primaryType_);
     }
 
-    const PokemonTypeInstance &secondaryType() const
+    const poketypes::PokemonTypeVariant secondaryType() const
     {
-        return factories::getPokemonType(secondaryType_);
+        return poketypes::PokemonTypeFactory().getPokemonType(secondaryType_);
     }
 
-    const double &health() const
+    double &health()
     {
         return health_;
     }
@@ -61,7 +61,7 @@ public:
         return attack_;
     }
 
-    const int &defense() const
+    const double &defense() const
     {
         return defense_;
     }

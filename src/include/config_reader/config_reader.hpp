@@ -5,12 +5,10 @@
 #include "boost/variant.hpp"
 #include "pokemon_dto.hpp"
 #include "../pokemon/pokemon.hpp"
-#include "../pokemon/poke_type.hpp"
 
 using namespace poketypes;
 
 typedef std::vector<PokemonDto> PokemonList;
-typedef boost::variant<ElectricPokemonType, WaterPokemonType> PokemonTypeInstance;
 
 class ConfigReader
 {
@@ -53,22 +51,7 @@ public:
     {
         for (size_t i = 0; i < pl.size(); i++)
         {
-            typedef decltype(pl[i].primaryType()) PrimaryType;
-            typedef decltype(pl[i].secondaryType()) SecondaryType;
-
-            Pokemon<PrimaryType, SecondaryType> p(pl[i].health(), pl[i].level(), pl[i].xp(), pl[i].attack(), pl[i].defense(), pl[i].name(), pl[i].nickname());
-        }
-    }
-
-    PokemonTypeInstance GetPokemonType(std::string type)
-    {
-        if (type == "ElectricPokemonType")
-        {
-            return ElectricPokemonType();
-        }
-        else if (type == "WaterPokemonType")
-        {
-            return WaterPokemonType();
+            Pokemon p(pl[i].health(), pl[i].level(), pl[i].xp(), pl[i].attack(), pl[i].defense(), pl[i].name(), pl[i].nickname(), pl[i].primaryType(), pl[i].secondaryType());
         }
     }
 };
