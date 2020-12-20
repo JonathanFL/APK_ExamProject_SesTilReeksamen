@@ -17,11 +17,10 @@ class PokemonType
   static_assert(Every<VTL, IsDerivedElementType>::value);
 
 public:
-  typedef T                                                  Type;
-  typedef WTL                                                WeakAgainst;
-  typedef STL                                                StrongAgainst;
-  typedef RTL                                                ResistantAgainst;
-  typedef VTL                                                VulnerableAgainst;
+  // typedef T                                                  Type;
+  // typedef WTL                                                WeakAgainst;
+  // typedef STL                                                StrongAgainst;
+  // typedef RTL ResistantAgainst; typedef VTL VulnerableAgainst;
   template <typename D, typename ORTL, typename OVTL> double getAttackModifier()
   {
     const bool strongAgainst     = Contains<STL, D>::value;
@@ -131,25 +130,10 @@ struct PokemonTypeModifierVisitor : public boost::static_visitor<double>
 {
   template <typename T, typename U> double operator()(T &t, U &u) const
   {
-    return t.getAttackModifier<typename decltype(U::Type),
-                               typename U::ResistantAgainst(),
-                               typename U::VulnerableAgainst()>();
+    return t.template getAttackModifier<typename U::Type,
+                                        typename U::ResistantAgainst,
+                                        typename U::VulnerableAgainst>();
   }
-  // double operator()(WaterPokemonType &pokemon) const {
-
-  // }
-
-  // double operator()(GroundPokemonType &pokemon) const {
-
-  // }
-
-  // double operator()(GrassPokemonType &pokemon) const {
-
-  // }
-
-  // double operator()(ElectricPokemonType &pokemon) const {
-
-  // }
 };
 
 typedef TYPELIST5(FirePokemonType, WaterPokemonType, GroundPokemonType,

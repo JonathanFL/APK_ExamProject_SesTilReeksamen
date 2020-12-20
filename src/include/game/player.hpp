@@ -3,7 +3,7 @@
 #include "../metaprogramming/if_then_else.hpp"
 #include "../poke_bag/pokeBag.hpp"
 #include "../pokemon/pokedex.hpp"
-#include "battle.hpp"
+// #include "battle.hpp"
 #include <string>
 
 class Player
