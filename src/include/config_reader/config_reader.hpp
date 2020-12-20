@@ -2,11 +2,15 @@
 #include <iostream>
 #include <iterator>
 #include <vector>
-
+#include "boost/variant.hpp"
 #include "pokemon_dto.hpp"
 #include "../pokemon/pokemon.hpp"
+#include "../pokemon/poke_type.hpp"
 
-typedef std::vector<PokemonDto> PokemonList; 
+using namespace poketypes;
+
+typedef std::vector<PokemonDto> PokemonList;
+typedef boost::variant<ElectricPokemonType, WaterPokemonType> PokemonTypeInstance;
 
 class ConfigReader
 {
@@ -26,10 +30,10 @@ public:
         pl.clear();
         std::ifstream pFile(fileName.c_str());
 
-        if (!pFile) 
+        if (!pFile)
         {
-		    std::cerr << "!!unable to open the necessary files." << std::endl;
-	    }
+            std::cerr << "!!unable to open the necessary files." << std::endl;
+        }
 
         std::istream_iterator<PokemonDto> it1(pFile);
         std::istream_iterator<PokemonDto> it2;
@@ -39,10 +43,32 @@ public:
 
     void PrintPokemonList(const PokemonList &pl)
     {
-        // Pokemon<int, poketypes::WaterPokemonType> p(100.2,10,0,50,100,"Jonathan", "Squirtle"); 
+        // Pokemon<int, poketypes::WaterPokemonType> p(100.2,10,0,50,100,"Jonathan", "Squirtle");
 
         std::ostream_iterator<PokemonDto> it1(std::cout);
         std::copy(pl.begin(), pl.end(), it1);
     }
-};
 
+    void InitPokemons(const PokemonList &pl)
+    {
+        for (size_t i = 0; i < pl.size(); i++)
+        {
+            typedef decltype(pl[i].primaryType()) PrimaryType;
+            typedef decltype(pl[i].secondaryType()) SecondaryType;
+
+            Pokemon<PrimaryType, SecondaryType> p(pl[i].health(), pl[i].level(), pl[i].xp(), pl[i].attack(), pl[i].defense(), pl[i].name(), pl[i].nickname());
+        }
+    }
+
+    PokemonTypeInstance GetPokemonType(std::string type)
+    {
+        if (type == "ElectricPokemonType")
+        {
+            return ElectricPokemonType();
+        }
+        else if (type == "WaterPokemonType")
+        {
+            return WaterPokemonType();
+        }
+    }
+};

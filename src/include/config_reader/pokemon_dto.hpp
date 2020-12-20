@@ -1,24 +1,70 @@
 #include <iostream>
+#include "poke_type_factory.hpp"
 
 class PokemonDto
 {
 private:
-    std::string  name_;
-    std::string  nickname_;
-    std::string  primaryType_;
-    std::string  secondaryType_;
+    std::string name_;
+    std::string nickname_;
+    std::string primaryType_;
+    std::string secondaryType_;
     double health_;
     int level_;
     int xp_;
     double attack_;
     double defense_;
-    
+
 public:
     PokemonDto(const std::string &name, const std::string &nickname, const std::string &primaryType, const std::string &secondaryType, double health, int level, int xp, double attack, double defense)
-    : name_(name), nickname_(nickname), primaryType_(primaryType), secondaryType_(secondaryType), health_(health), level_(level), xp_(xp), attack_(attack), defense_(defense)
+        : name_(name), nickname_(nickname), primaryType_(primaryType), secondaryType_(secondaryType), health_(health), level_(level), xp_(xp), attack_(attack), defense_(defense)
     {
     }
-    PokemonDto():name_(""), nickname_(""), primaryType_(""), secondaryType_(""), health_(0.0), level_(0), xp_(0), attack_(0.0), defense_(0.0){}
+    PokemonDto() : name_(""), nickname_(""), primaryType_(""), secondaryType_(""), health_(0.0), level_(0), xp_(0), attack_(0.0), defense_(0.0) {}
+
+    const std::string &name() const
+    {
+        return name_;
+    }
+
+    const std::string &nickname() const
+    {
+        return nickname_;
+    }
+
+    const PokemonTypeInstance &primaryType() const
+    {
+        return factories::getPokemonType(primaryType_);
+    }
+
+    const PokemonTypeInstance &secondaryType() const
+    {
+        return factories::getPokemonType(secondaryType_);
+    }
+
+    const double &health() const
+    {
+        return health_;
+    }
+
+    const int &level() const
+    {
+        return level_;
+    }
+
+    const int &xp() const
+    {
+        return xp_;
+    }
+
+    const double &attack() const
+    {
+        return attack_;
+    }
+
+    const int &defense() const
+    {
+        return defense_;
+    }
 
     friend std::istream &operator>>(std::istream &i, PokemonDto &p);
 
@@ -40,5 +86,5 @@ std::istream &operator>>(std::istream &i, PokemonDto &p)
 
 std::ostream &operator<<(std::ostream &o, const PokemonDto &p)
 {
-    return o << "name: " <<p.name_ << " nickname: " << p.nickname_ << " level: " << p.level_ << " xp: " <<  p.xp_ << " attack: "<< p.attack_ << " defense: " << p.defense_ << " primary type: "<< p.primaryType_ << " secondary type: "<< p.secondaryType_<< std::endl;
+    return o << "name: " << p.name_ << " nickname: " << p.nickname_ << " level: " << p.level_ << " xp: " << p.xp_ << " attack: " << p.attack_ << " defense: " << p.defense_ << " primary type: " << p.primaryType_ << " secondary type: " << p.secondaryType_ << std::endl;
 }
