@@ -86,9 +86,9 @@ public:
 
   double getModifier(Pokemon &other)
   {
-    double                        modifier = 1;
-    poketypes::PokemonTypeVariant pt       = other.getPrimaryType();
-    poketypes::PokemonTypeVariant st       = other.getSecondaryType();
+    double modifier = 1;
+    poketypes::PokemonTypeVariant pt = other.getPrimaryType();
+    poketypes::PokemonTypeVariant st = other.getSecondaryType();
     modifier *= boost::apply_visitor(poketypes::PokemonTypeModifierVisitor(),
                                      pType_, pt);
     modifier *= boost::apply_visitor(poketypes::PokemonTypeModifierVisitor(),
@@ -115,19 +115,22 @@ public:
 
   friend std::istream &operator>>(std::istream &in, Pokemon &p)
   {
-    in >> p.name_;
-    in >> p.nickname_;
+    std::string nickname, primaryType, secondaryType;
 
-    std::string primaryType;
-    in >> primaryType;
-    if (!primaryType.empty())
+    in >> nickname;
+    if (nickname.empty())
     {
-      p.pType_ = poketypes::PokeTypeFactory().getPokeTypeFromString(primaryType);
+      return in;
     }
+    nickname != "null" ? p.nickname_ = nickname : p.nickname_ = "";
 
-    std::string secondaryType;
+    in >> p.name_;
+
+    in >> primaryType;
+    p.pType_ = poketypes::PokeTypeFactory().getPokeTypeFromString(primaryType);
+
     in >> secondaryType;
-    if (!secondaryType.empty())
+    if (secondaryType != "null")
     {
       p.sType_ = poketypes::PokeTypeFactory().getPokeTypeFromString(secondaryType);
     }
