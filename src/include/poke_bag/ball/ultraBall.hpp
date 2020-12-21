@@ -3,26 +3,20 @@
 #include "ball.hpp"
 #include <chrono>
 #include <thread>
-#include <random>
+#include <string>
 
 class UltraBall : public Ball {
 private:
-    unsigned int probabilityOfCatch = 75;
-    bool caught_ = [](){
-        std::random_device rd;
-        std::uniform_int_distribution<int> distribution(1, 100);
-        std::mt19937 engine(rd()); // Mersenne twister MT19937
-
-        int value=distribution(engine);
-        return value > 75;
-    };
+    const unsigned int probabilityOfCatch = 75;
+    
 public:
     UltraBall(){}
-    void Catch(std::function<void()> callback) override
+    void Catch(std::function<void(PokeBagItemResult res)> callback) override
     {
-        std::cout << " Using UltraBall..." << std::endl;
+        std::cout << " Using UltraBall: probability of catching is " << std::to_string(probabilityOfCatch) << "%" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        callback();
+        PokeBagItemResult res;res.result = caught(probabilityOfCatch) ? "You caught the Pokemon" : "You did NOT catch the Pokemon";
+        callback(res);
     }
 
     void formatImpl(std::ostream &out) const override{

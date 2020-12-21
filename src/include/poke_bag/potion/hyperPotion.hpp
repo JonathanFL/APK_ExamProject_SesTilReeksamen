@@ -7,11 +7,12 @@
 class HyperPotion : public Potion {
 public:
     HyperPotion(){}
-    void UsePotion(std::function<void()> callback) override
+    void UsePotion(std::function<void(PokeBagItemResult res)> callback) override
     {
         std::cout << " Using HyperPotion..." << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        callback();
+        PokeBagItemResult res;res.result = std::to_string(100);
+        callback(res);
     }
 
     void formatImpl(std::ostream &out) const override{

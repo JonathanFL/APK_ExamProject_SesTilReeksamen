@@ -3,6 +3,13 @@
 #include<string> 
 #include <fstream>
 #include <functional>
+#include <variant>
+
+struct PokeBagItemResult
+{
+  std::string result;
+};
+
 class PokeBagItem
 {
   static unsigned int indexCounter;
@@ -19,7 +26,7 @@ public:
       return price_;
   }
 
-  virtual void Use(std::function<void()> callback) = 0;
+  virtual void Use(std::function<void(PokeBagItemResult res)> callback) = 0;
   virtual void format(std::ostream &out) const = 0;
   
 

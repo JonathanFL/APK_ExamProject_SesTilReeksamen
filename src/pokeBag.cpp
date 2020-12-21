@@ -6,17 +6,12 @@
 #include <memory>
 void PokeBag::empty() { std::cout << "Emptying bag..." << std::endl; }
 
-std::variant<PokeBagItem*, ErrorCode> PokeBag::getItemByIndex(unsigned int index) 
+std::variant<PokeBagItem*, ErrorCode> PokeBag::getItemByIndex(unsigned int index) // no-throw-guarantee
 {
-  try
-  {
+  if(this->items_.size() > index)
     return this->items_.at(index);
-  }
-  catch(const std::exception& e)
-  {
-    //std::cerr << "Index out of range - " << e.what() << "\n";
+  else
     return ErrorCode::SystemError;
-  }
 }
 
 // void PokeBag::useItem(std::function<void()> callback) 
