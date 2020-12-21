@@ -14,11 +14,10 @@ private:
 public:
   void empty();
 
-  template<typename T, typename ...Args>
+  template<typename T>
   void addItem(PokeBagItem* item) {
     static_assert(std::is_base_of<PokeBagItem, T>::value, "The type must be a base class of `PokeBagItem`");
     static_assert(std::is_convertible<T&, PokeBagItem&>::value, "The type must be an *accessible* base class of `PokeBagItem`");
-    //std::cout << *item << std::endl;
     this->items_.push_back(item);
   }
 
