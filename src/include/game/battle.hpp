@@ -1,64 +1,94 @@
-// #ifndef BATTLE_HPP
-// #define BATTLE_HPP
-// #include "player.hpp"
-// #include <boost/signals2.hpp>
-// namespace battle
-// {
+#ifndef BATTLE_HPP
+#define BATTLE_HPP
+#include "player.hpp"
+#include <boost/signals2.hpp>
+#include <iostream>
+namespace battle
+{
 
-// struct PlayerBattleTag
-// {
-// };
-// struct PokemonBattleTag
-// {
-// };
-// template <typename T1, typename T2, typename = void> void battle(T1 *t1, T2 *t2)
-// {
-//   battleImpl(t1, t2,
-//              IfThenElse<PlayerBattleTag, PokemonBattleTag,
-//                         IsSame<T1, T2>::value>::Type);
-// }
-// template <typename T1, typename T2>
-// void battleImpl(T1 *player1, T2 *player2, PlayerBattleTag);
-// template <typename T, typename P>
-// void battleImpl(T *player, P *pokemon, PokemonBattleTag);
+struct PlayerBattleTag
+{
+};
+struct PokemonBattleTag
+{
+};
+template <typename T1, typename T2, typename = void> void battle(T1 *t1, T2 *t2)
+{
+  battleImpl(t1, t2,
+             IfThenElse<PlayerBattleTag, PokemonBattleTag,
+                        IsSame<T1, T2>::value>::Type);
+}
+template <typename T1, typename T2>
+void battleImpl(T1 *player1, T2 *player2, PlayerBattleTag);
+template <typename T, typename P>
+void battleImpl(T *player, P *pokemon, PokemonBattleTag);
 
-// // template <typename PT, typename ST> class Attack
-// // {
-// // private:
-// //   int strength_;
+template <typename T> class Attack
+{
+private:
+  T attacker_;
 
-// // public:
-// //   Attack(int strength) : strength_(strength) {}
-// //   typedef PT PrimaryType;
-// //   typedef ST SecondaryType;
-// //   int        getStrength() { return strength_; }
-// //   typedef typename boost::signals2::signal<void(Attack<PT, ST>)>::signature_type
-// //       type;
-// // };
+public:
+  Attack(T &attacker) : attacker_(attacker) {}
+  void doAttack(Pokemon &p);
+};
 
-// template <typename PT1, typename ST1, typename PT2, typename ST2>
-// class BattleMediator
+// class PokeballAttack : public Attack
 // {
 // private:
-//   boost::signals2::signal<void()> battleFinishedSignal;
-//   boost::signals2::signal<void()> battleStartedSignal;
-//   typedef typename boost::signals2::signal<void(Pokemon &)>::signature_type
-//       p1TurnType;
-//   typedef typename boost::signals2::signal<void(Pokemon &)>::signature_type
-//       p2TurnType;
-//   boost::signals2::signal<p1TurnType>             p1TurnSignal;
-//   boost::signals2::signal<p2TurnType>             p2TurnSignal;
-//   boost::signals2::signal<Attack<PT1, ST1>::type> p1DefendSignal;
-//   boost::signals2::signal<Attack<PT2, ST2>::type> p2DefendSignal;
-
 // public:
-//   template <typename BFS, typename BSS>
-//   void participateP1(BFS &bfs, BSS &bss, p1TurnType tt);
-//   template <typename BFS, typename BSS>
-//   void participateP2(BFS &bfs, BSS &bss, p2TurnType tt);
-//   void attackP1()
+//   PokeballAttack(Pokeball &pb) : Attack(pb) {}
 // };
 
-// } // namespace battle
+// class PokemonAttack : public Attack
+// {
+// private:
+//   poketypes::PokemonTypeVariant *pt_;
+//   poketypes::PokemonTypeVariant *st_;
 
-// #endif
+// public:
+//   PokemonAttack(double strength, poketypes::PokemonTypeVariant *pt,
+//                 poketypes::PokemonTypeVariant *st)
+//       : Attack(strength), pt_(pt), st_(st)
+//   {
+//   }
+// };
+
+template <typename T> class PrintContainer
+{
+public:
+typedef T value_type;
+  using iterator =
+      typename std::back_insert_iterator<PrintContainer>;
+  void push_back(const T &value) { std::cout << value << std::endl; }
+};
+
+template <typename Container> struct aggregate_output
+{
+  typedef Container result_type;
+
+  template <typename InputIterator>
+  Container operator()(InputIterator first, InputIterator last) const
+  {
+    Container                    c;
+    typename Container::iterator it(c);
+    std::copy(first, last, it);
+    return c;
+  }
+};
+typedef boost::signals2::signal<std::string(),
+                                aggregate_output<PrintContainer<std::string>>>
+                                   BattleCrySignal;
+typedef BattleCrySignal::slot_type BattleCrySlot;
+class BattleCry
+{
+private:
+  BattleCrySignal battleCrySignal_;
+public:
+  void add(const BattleCrySlot &cb) { battleCrySignal_.connect(cb); }
+  void              operator()() { battleCrySignal_(); }
+};
+
+} // namespace battle
+
+#endif

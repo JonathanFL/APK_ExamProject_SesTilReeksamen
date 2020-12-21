@@ -82,11 +82,13 @@ public:
     sType_ = poketypes::PokemonTypeVariant();
   }
 
+  std::string battleCry() { return name_ + name_ + "!!"; }
+
   double getModifier(Pokemon &other)
   {
-    double modifier = 1;
-    poketypes::PokemonTypeVariant pt = other.getPrimaryType();
-    poketypes::PokemonTypeVariant st = other.getSecondaryType();
+    double                        modifier = 1;
+    poketypes::PokemonTypeVariant pt       = other.getPrimaryType();
+    poketypes::PokemonTypeVariant st       = other.getSecondaryType();
     modifier *= boost::apply_visitor(poketypes::PokemonTypeModifierVisitor(),
                                      pType_, pt);
     modifier *= boost::apply_visitor(poketypes::PokemonTypeModifierVisitor(),
@@ -95,6 +97,7 @@ public:
                                      sType_, pt);
     modifier *= boost::apply_visitor(poketypes::PokemonTypeModifierVisitor(),
                                      sType_, st);
+    modifier *= attack_ / other.getDefense_();
     return modifier;
   }
 
