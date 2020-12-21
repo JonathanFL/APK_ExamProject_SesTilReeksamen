@@ -46,7 +46,7 @@ int main()
     bag.addItem<SuperPotion>(&superPotion);
     bag.addItem<HyperPotion>(&hyperPotion);
     bag.listItems();
-    auto item = bag.getItemByIndex(10);
+    auto item = bag.getItemByIndex(2);
     if (std::holds_alternative<PokeBagItem*>(item)){
       std::get<PokeBagItem*>(item)->Use([]() { 
         std::cout << "Item used\n";

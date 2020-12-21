@@ -14,7 +14,7 @@ std::variant<PokeBagItem*, ErrorCode> PokeBag::getItemByIndex(unsigned int index
   }
   catch(const std::exception& e)
   {
-    std::cerr << "Index out of range - " << e.what() << "\n";
+    //std::cerr << "Index out of range - " << e.what() << "\n";
     return ErrorCode::SystemError;
   }
 }
