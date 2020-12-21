@@ -10,6 +10,7 @@
 #include <string>
 
 using namespace std;
+
 class Pokemon
 {
 private:
@@ -81,25 +82,7 @@ public:
     sType_ = poketypes::PokemonTypeVariant();
   }
 
-  Pokemon(double health, unsigned int level, unsigned int xp, double attack,
-          double defense, std::string &&name, std::string &&nickname)
-  {
-    // static_assert(std::is_base_of<poketypes::PokemonType<>,
-    // PrimaryType>::value);
-    // static_assert(std::is_base_of<poketypes::PokemonType,
-    // SecondaryType>::value);
-    // static_assert(Contains<poketypes::PokemonTypeList, PrimaryType>::value,
-    //               "Must be a PokemonType");
-    // static_assert(Contains<poketypes::PokemonTypeList, SecondaryType>::value,
-    //               "Must be a PokemonType");
-    this->health_ = health;
-    this->level_ = level;
-    this->name_ = std::move(name);
-    this->nickname_ = std::move(nickname);
-    this->xp_ = xp;
-    this->attack_ = attack;
-    this->defense_ = defense;
-  }
+  std::string battleCry() { return name_ + name_ + "!!"; }
 
   double getModifier(Pokemon &other)
   {
@@ -114,6 +97,7 @@ public:
                                      sType_, pt);
     modifier *= boost::apply_visitor(poketypes::PokemonTypeModifierVisitor(),
                                      sType_, st);
+    modifier *= attack_ / other.getDefense_();
     return modifier;
   }
 
@@ -131,13 +115,26 @@ public:
 
   friend std::istream &operator>>(std::istream &in, Pokemon &p)
   {
+    std::string nickname, primaryType, secondaryType;
+
+    in >> nickname;
+    if (nickname.empty())
+    {
+      return in;
+    }
+    nickname != "null" ? p.nickname_ = nickname : p.nickname_ = "";
+
     in >> p.name_;
-    in >> p.nickname_;
-    std::string primaryType;
+
     in >> primaryType;
     p.pType_ = poketypes::PokeTypeFactory().getPokeTypeFromString(primaryType);
-    in >> primaryType;
-    p.sType_ = poketypes::PokeTypeFactory().getPokeTypeFromString(primaryType);
+
+    in >> secondaryType;
+    if (secondaryType != "null")
+    {
+      p.sType_ = poketypes::PokeTypeFactory().getPokeTypeFromString(secondaryType);
+    }
+
     in >> p.health_;
     in >> p.level_;
     in >> p.xp_;
@@ -157,10 +154,6 @@ public:
   }
 };
 
-// // toString
-// template <typename PrimaryType, typename SecondaryType>
-// std::ostream &operator<<(std::ostream &out, const Pokemon &p)
-// {
-// }
+typedef std::vector<Pokemon> PokemonList;
 
 #endif

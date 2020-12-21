@@ -37,6 +37,8 @@ public:
   void listItems();
 
   double getTotalValue();
+  void listPokemon();
+  Pokemon * findPokemon(std::string name);
   
 //   void sortPokemon(auto comparer) {}
 };
