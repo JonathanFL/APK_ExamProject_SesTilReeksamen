@@ -66,7 +66,7 @@ int main()
     auto item = bag.getItemByIndex(1);
     if (std::holds_alternative<PokeBagItem*>(item)){
       std::get<PokeBagItem*>(item)->Use([](PokeBagItemResult result) {
-        std::cout << "Item used\n" << result.result;
+        std::cout << result.result;
       });
     }
 

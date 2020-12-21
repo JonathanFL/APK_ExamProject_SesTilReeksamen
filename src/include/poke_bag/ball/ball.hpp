@@ -3,17 +3,24 @@
 #include "../pokeBagItem.hpp"
 #include <iostream>
 #include <random>
+#include <string>
+
+constexpr long double operator"" _to_percent( long double input )
+{
+    return input*100;
+}
 
 class Ball : public PokeBagItem {
 public:
     Ball(){}
-    
-    bool caught(int probabilityOfCatch){
+    const std::string caughtSuccessMessage = "You caught the Pokemon\n";
+    const std::string caughtFailMessage = "You did NOT catch the Pokemon\n";
+    bool caught(double probabilityOfCatch){
         std::random_device rd;
-        std::uniform_int_distribution<int> distribution(1, 100);
+        std::uniform_real_distribution<double> distribution(0, 1);
         std::mt19937 engine(rd()); // Mersenne twister MT19937
 
-        int value=distribution(engine);
+        double value=distribution(engine);
         return value < probabilityOfCatch;
     };
 

@@ -21,6 +21,7 @@ std::variant<PokeBagItem*, ErrorCode> PokeBag::getItemByIndex(unsigned int index
 // }
 
 void PokeBag::listItems(){
+  std::cout << "--- Items in PokeBag: ---\n";
   std::ostream_iterator<PokeBagItem*> oStreamIter(std::cout, "\n");
   copy(items_.begin(), items_.end(), oStreamIter);// copy vil compile sålænge objektet har operator ++ = og *
 }
