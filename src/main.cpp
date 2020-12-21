@@ -17,39 +17,41 @@
 
 int main()
 {
-  Pokemon p1(100.2, 10, 0, 50, 100, "Squirtle", "Jonathan",
-             poketypes::PokemonTypeVariant(poketypes::WaterPokemonType()));
-             
-  Pokemon p2(100.2, 10, 0, 50, 100, "Diglet", "Valle",
-             poketypes::PokemonTypeVariant(poketypes::WaterPokemonType()),
-             poketypes::PokemonTypeVariant(poketypes::GrassPokemonType()));
-  std::cout << p1.getModifier(p2) << std::endl;
+    Pokemon p1(100.2, 10, 0, 50, 100, "Squirtle", "Jonathan",
+               poketypes::WaterPokemonType());
+    //   std::cout << p1 << "\n";
+    Pokemon p2(100.2, 10, 0, 50, 100, "Diglet", "Valle",
+               poketypes::PokemonTypeVariant(poketypes::WaterPokemonType()),
+               poketypes::PokemonTypeVariant(poketypes::GrassPokemonType()));
 
-  PokemonList  pl;
-  ConfigReader cr;
+    std::cout << p1.getModifier(p2) << std::endl;
 
-  cr.ReadPokemonsList(pl, POKEMONS_DB_FILE);
-  cr.PrintPokemonList(pl);
+    PokemonList pl;
+    ConfigReader cr(POKEMONS_DB_FILE);
 
-  PokeBag    bag;
-  MasterBall masterBall1;
-  MasterBall masterBall2;
-  UltraBall  ultraBall;
-  SuperPotion superPotion;
-  HyperPotion hyperPotion;
-  bag.addItem<MasterBall>(&masterBall1);
-  bag.addItem<MasterBall>(&masterBall2);
-  bag.addItem<UltraBall>(&ultraBall);
-  bag.addItem<SuperPotion>(&superPotion);
-  bag.addItem<HyperPotion>(&hyperPotion);
-  bag.listItems();
-  auto item = bag.getItemByIndex(10);
-  if (std::holds_alternative<PokeBagItem*>(item)){
-    std::get<PokeBagItem*>(item)->Use([]() { 
-      std::cout << "Item used\n";
-    });
-  }
-  
+    cr.ReadPokemonsList(pl);
+    cr.PrintPokemonList(pl);
 
-  return 0;
+    std::cout << pl[1].getModifier(pl[0]) << std::endl;
+
+    PokeBag    bag;
+    MasterBall masterBall1;
+    MasterBall masterBall2;
+    UltraBall  ultraBall;
+    SuperPotion superPotion;
+    HyperPotion hyperPotion;
+    bag.addItem<MasterBall>(&masterBall1);
+    bag.addItem<MasterBall>(&masterBall2);
+    bag.addItem<UltraBall>(&ultraBall);
+    bag.addItem<SuperPotion>(&superPotion);
+    bag.addItem<HyperPotion>(&hyperPotion);
+    bag.listItems();
+    auto item = bag.getItemByIndex(10);
+    if (std::holds_alternative<PokeBagItem*>(item)){
+      std::get<PokeBagItem*>(item)->Use([]() { 
+        std::cout << "Item used\n";
+      });
+    }
+
+    return 0;
 }

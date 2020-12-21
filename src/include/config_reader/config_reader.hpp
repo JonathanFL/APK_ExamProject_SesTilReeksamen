@@ -2,47 +2,43 @@
 #include <iostream>
 #include <iterator>
 #include <vector>
-
-#include "pokemon_dto.hpp"
 #include "../pokemon/pokemon.hpp"
 
-typedef std::vector<PokemonDto> PokemonList; 
+using namespace poketypes;
+
+typedef std::vector<Pokemon> PokemonList;
 
 class ConfigReader
 {
 private:
-    // std::vector<std::string> pl;
-    // std::string fileName;
+    std::string fileName_;
 
 public:
-    ConfigReader()
+    ConfigReader(const std::string fileName)
     {
-        // fileName = POKEMONS_DB_FILE;
+        fileName_ = fileName;
     }
     ~ConfigReader(){};
 
-    void ReadPokemonsList(PokemonList &pl, const std::string &fileName)
+    void ReadPokemonsList(PokemonList &pl)
     {
         pl.clear();
-        std::ifstream pFile(fileName.c_str());
+        std::ifstream pFile(fileName_.c_str());
 
-        if (!pFile) 
+        if (!pFile)
         {
-		    std::cerr << "!!unable to open the necessary files." << std::endl;
-	    }
+            std::cerr << "!!unable to open the necessary files." << std::endl;
+        }
 
-        std::istream_iterator<PokemonDto> it1(pFile);
-        std::istream_iterator<PokemonDto> it2;
+        std::istream_iterator<Pokemon> it1(pFile);
+        std::istream_iterator<Pokemon> it2;
 
         std::copy(it1, it2, std::back_inserter(pl));
     }
 
     void PrintPokemonList(const PokemonList &pl)
     {
-        // Pokemon<int, poketypes::WaterPokemonType> p(100.2,10,0,50,100,"Jonathan", "Squirtle"); 
-
-        std::ostream_iterator<PokemonDto> it1(std::cout);
+        std::ostream_iterator<Pokemon> it1(std::cout);
         std::copy(pl.begin(), pl.end(), it1);
     }
 };
-

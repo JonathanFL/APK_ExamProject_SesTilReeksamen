@@ -29,9 +29,8 @@ public:
     temp->format(out);
     return out;
   }
-  
-  virtual~PokeBagItem();
-  
+
+  virtual ~PokeBagItem();
 };
 
 #endif
