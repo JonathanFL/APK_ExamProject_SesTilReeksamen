@@ -6,7 +6,6 @@
 #include <boost/variant.hpp>
 #include <string>
 #include "boost/variant.hpp"
-#include "../config_reader/poke_type_factory.hpp"
 
 namespace poketypes
 {
@@ -51,37 +50,6 @@ namespace poketypes
             }
             return attackModifier;
         }
-    };
-    struct FirePokemonType
-        : public PokemonType<
-              FireType, TYPELIST1(GrassType), TYPELIST2(WaterType, FireType),
-              TYPELIST2(GrassType, FireType), TYPELIST2(GroundType, WaterType)>
-    {
-        typedef FireType Type;
-        typedef TYPELIST1(GrassType) StrongAgainst;
-        typedef TYPELIST2(WaterType, FireType) WeakAgainst;
-        typedef TYPELIST2(GrassType, FireType) ResistantAgainst;
-        typedef TYPELIST2(GroundType, WaterType) VulnerableAgainst;
-    };
-
-    struct WaterPokemonType
-        : public PokemonType<WaterType, TYPELIST2(GroundType, FireType),
-                             TYPELIST2(WaterType, GrassType),
-                             TYPELIST2(FireType, WaterType),
-                             TYPELIST2(GrassType, ElectricType)>
-    {
-        typedef WaterType Type;
-        typedef TYPELIST2(GroundType, FireType) StrongAgainst;
-        typedef TYPELIST2(WaterType, GrassType) WeakAgainst;
-        typedef TYPELIST2(FireType, WaterType) ResistantAgainst;
-        typedef TYPELIST2(GrassType, ElectricType) VulnerableAgainst;
-    };
-
-    struct GroundPokemonType
-        : public PokemonType<GroundType, TYPELIST2(FireType, ElectricType),
-                             TYPELIST1(GrassType), TYPELIST1(ElectricType),
-                             TYPELIST2(WaterType, GrassType)>
-    {
     };
 
     struct FirePokemonType
@@ -143,24 +111,24 @@ namespace poketypes
         }
     };
 
-    struct PokemonTypeFactory
-    {
-        static PokemonTypeVariant getPokemonType(std::string type)
-        {
-            if (type == "ElectricPokemonType")
-            {
-                return poketypes::ElectricPokemonType();
-            }
-            else if (type == "WaterPokemonType")
-            {
-                return poketypes::WaterPokemonType();
-            }
-            else
-            {
-                return poketypes::WaterPokemonType();
-            }
-        };
-    };
+    // struct PokemonTypeFactory
+    // {
+    //     static PokemonTypeVariant getPokemonType(std::string type)
+    //     {
+    //         if (type == "ElectricPokemonType")
+    //         {
+    //             return poketypes::ElectricPokemonType();
+    //         }
+    //         else if (type == "WaterPokemonType")
+    //         {
+    //             return poketypes::WaterPokemonType();
+    //         }
+    //         else
+    //         {
+    //             return poketypes::WaterPokemonType();
+    //         }
+    //     };
+    // };
 } // namespace poketypes
 // namespace poketypes
 #endif

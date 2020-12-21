@@ -4,6 +4,7 @@
 #include "../metaprogramming/is_same.hpp"
 #include "../metaprogramming/type_list_algorithms.hpp"
 #include "poke_type.hpp"
+#include "poke_type_factory.hpp"
 #include <iostream>
 #include <string.h>
 #include <string>
@@ -79,6 +80,27 @@ public:
     pType_ = std::move(primaryType);
     sType_ = poketypes::PokemonTypeVariant();
   }
+
+  Pokemon(double health, unsigned int level, unsigned int xp, double attack,
+          double defense, std::string &&name, std::string &&nickname)
+  {
+    // static_assert(std::is_base_of<poketypes::PokemonType<>,
+    // PrimaryType>::value);
+    // static_assert(std::is_base_of<poketypes::PokemonType,
+    // SecondaryType>::value);
+    // static_assert(Contains<poketypes::PokemonTypeList, PrimaryType>::value,
+    //               "Must be a PokemonType");
+    // static_assert(Contains<poketypes::PokemonTypeList, SecondaryType>::value,
+    //               "Must be a PokemonType");
+    this->health_ = health;
+    this->level_ = level;
+    this->name_ = std::move(name);
+    this->nickname_ = std::move(nickname);
+    this->xp_ = xp;
+    this->attack_ = attack;
+    this->defense_ = defense;
+  }
+
   double getModifier(Pokemon &other)
   {
     double modifier = 1;
@@ -106,18 +128,39 @@ public:
   {
   }
   ~Pokemon() {}
+
+  friend std::istream &operator>>(std::istream &in, Pokemon &p)
+  {
+    in >> p.name_;
+    in >> p.nickname_;
+    std::string primaryType;
+    in >> primaryType;
+    p.pType_ = poketypes::PokeTypeFactory().getPokeTypeFromString(primaryType);
+    in >> primaryType;
+    p.sType_ = poketypes::PokeTypeFactory().getPokeTypeFromString(primaryType);
+    in >> p.health_;
+    in >> p.level_;
+    in >> p.xp_;
+    in >> p.attack_;
+    return in >> p.defense_;
+  };
+
+  friend std::ostream &operator<<(std::ostream &out, const Pokemon &p)
+  {
+    return out << "Pokemon: " << p.getName_()
+               << " - Attack: " << to_string(p.getAttack_())
+               << " - Health: " << to_string(p.getHealth_())
+               << " - Level: " << to_string(p.getLevel_())
+               << " - XP: " << to_string(p.getXp_())
+               << " - Nickname: " << p.getNickname_()
+               << std::endl;
+  }
 };
 
-// toString
-template <typename PrimaryType, typename SecondaryType>
-std::ostream &operator<<(std::ostream &out, const Pokemon &v)
-{
-  return out << "Pokemon: " << v.getName_()
-             << " - Attack: " << to_string(v.getAttack_())
-             << " - Health: " << to_string(v.getHealth_())
-             << " - Level: " << to_string(v.getLevel_())
-             << " - XP: " << to_string(v.getXp_())
-             << " - Nickname: " << v.getNickname_();
-}
+// // toString
+// template <typename PrimaryType, typename SecondaryType>
+// std::ostream &operator<<(std::ostream &out, const Pokemon &p)
+// {
+// }
 
 #endif

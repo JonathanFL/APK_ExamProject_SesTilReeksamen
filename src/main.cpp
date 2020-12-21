@@ -19,7 +19,7 @@ int main()
     // Pokemon<poketypes::ElectricPokemonType, poketypes::WaterPokemonType>
     // p(100.2,10,0,50,100,"Jonathan", "Squirtle");
     Pokemon p1(100.2, 10, 0, 50, 100, "Squirtle", "Jonathan",
-               poketypes::PokemonTypeVariant(poketypes::WaterPokemonType()));
+               poketypes::WaterPokemonType());
     //   std::cout << p1 << "\n";
     Pokemon p2(100.2, 10, 0, 50, 100, "Diglet", "Valle",
                poketypes::PokemonTypeVariant(poketypes::WaterPokemonType()),
@@ -28,10 +28,12 @@ int main()
     std::cout << p1.getModifier(p2) << std::endl;
 
     PokemonList pl;
-    ConfigReader cr;
+    ConfigReader cr(POKEMONS_DB_FILE);
 
-    cr.ReadPokemonsList(pl, POKEMONS_DB_FILE);
+    cr.ReadPokemonsList(pl);
     cr.PrintPokemonList(pl);
+
+    std::cout << pl[1].getModifier(pl[0]) << std::endl;
 
     PokeBag bag;
     MasterBall masterBall1;
