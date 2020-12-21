@@ -6,6 +6,25 @@
 #include <memory>
 void PokeBag::empty() { std::cout << "Emptying bag..." << std::endl; }
 
+std::variant<PokeBagItem*, ErrorCode> PokeBag::getItemByIndex(unsigned int index) 
+{
+  try
+  {
+    return this->items_.at(index);
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << "Index out of range - " << e.what() << "\n";
+    return ErrorCode::SystemError;
+  }
+}
+
+// void PokeBag::useItem(std::function<void()> callback) 
+// {
+//   std::cout << "Using item" << std::endl;
+//   callback();
+// }
+
 void PokeBag::listItems(){
   std::ostream_iterator<PokeBagItem*> oStreamIter(std::cout, "\n");
   copy(items_.begin(), items_.end(), oStreamIter);// copy vil compile sålænge objektet har operator ++ = og *

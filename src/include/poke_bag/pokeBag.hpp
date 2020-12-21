@@ -4,6 +4,16 @@
 #include "../pokemon/pokemon.hpp"
 #include <vector>
 #include <memory>
+#include <functional>
+#include <variant>
+
+enum class ErrorCode
+{
+    SystemError,
+    IoError,
+    NetworkError
+};
+
 class PokeBag
 {
 private:
@@ -20,6 +30,9 @@ public:
     static_assert(std::is_convertible<T&, PokeBagItem&>::value, "The type must be an *accessible* base class of `PokeBagItem`");
     this->items_.push_back(item);
   }
+
+  // void useItem(std::function<void()> callback);
+  std::variant<PokeBagItem*, ErrorCode> getItemByIndex(unsigned int index);
 
   void listItems();
 
