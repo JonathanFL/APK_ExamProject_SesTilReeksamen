@@ -1,4 +1,4 @@
-#include "include/config_reader/config_reader.hpp"
+#include "include/dbloader/PokemonLoader.hpp"
 #include "include/poke_bag/ball/ball.hpp"
 #include "include/poke_bag/ball/masterBall.hpp"
 #include "include/poke_bag/ball/ultraBall.hpp"
@@ -13,6 +13,31 @@
 
 int main()
 {
+    PokemonList pokemons;
+    dbloader::PokemonLoader pokemonLoader;
+
+    try
+    {
+        pokemonLoader.ReadPokemonsList(POKEMONS_DB_FILE);
+        pokemons = pokemonLoader.getPokemons();
+        pokemonLoader.PrintPokemonList(pokemons);
+    }
+    catch (poketypes::UnknownPokemonTypeException &e)
+    {
+        std::cout << "UnknownPokemonTypeException: " << e.what() << std::endl;
+        return 0;
+    }
+    catch (dbloader::FileNotFoundException &e)
+    {
+        std::cout << "FileNotFoundException: " << e.what() << std::endl;
+        return 0;
+    }
+    catch (...)
+    {
+        std::cout << "Unknown error on reading pokemons" << std::endl;
+        return 0;
+    }
+
     Pokemon p1(100.2, 10, 0, 50, 100, "Squirtle", "Jonathan",
                poketypes::WaterPokemonType());
     //   std::cout << p1 << "\n";
@@ -20,15 +45,7 @@ int main()
                poketypes::PokemonTypeVariant(poketypes::WaterPokemonType()),
                poketypes::PokemonTypeVariant(poketypes::GrassPokemonType()));
 
-    std::cout << p1.getModifier(p2) << std::endl;
-
-    PokemonList pl;
-    ConfigReader cr(POKEMONS_DB_FILE);
-
-    cr.ReadPokemonsList(pl);
-    cr.PrintPokemonList(pl);
-
-    std::cout << pl[1].getModifier(pl[0]) << std::endl;
+    std::cout << pokemons[0].getModifier(pokemons[1]) << std::endl;
 
     PokeBag bag;
     MasterBall masterBall1;

@@ -110,25 +110,6 @@ namespace poketypes
                                                 typename U::VulnerableAgainst>();
         }
     };
-
-    // struct PokemonTypeFactory
-    // {
-    //     static PokemonTypeVariant getPokemonType(std::string type)
-    //     {
-    //         if (type == "ElectricPokemonType")
-    //         {
-    //             return poketypes::ElectricPokemonType();
-    //         }
-    //         else if (type == "WaterPokemonType")
-    //         {
-    //             return poketypes::WaterPokemonType();
-    //         }
-    //         else
-    //         {
-    //             return poketypes::WaterPokemonType();
-    //         }
-    //     };
-    // };
 } // namespace poketypes
 // namespace poketypes
 #endif

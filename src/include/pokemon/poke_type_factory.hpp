@@ -2,30 +2,35 @@
 #define POKETYPEFACTORY_HPP
 
 #include <iostream>
+#include <map>
 #include "poke_type.hpp"
+#include "UnknownPokemonTypeException.hpp"
 
 namespace poketypes
 {
     class PokeTypeFactory
     {
     private:
-        /* data */
+        std::map<std::string, PokemonTypeVariant> pokeTypeMap;
+
     public:
-        PokeTypeFactory(){};
-        static PokemonTypeVariant getPokeTypeFromString(std::string type)
+        PokeTypeFactory()
         {
-            if (type == "ElectricPokemonType")
+            pokeTypeMap["ElectricPokemonType"] = ElectricPokemonType();
+            pokeTypeMap["WaterPokemonType"] = WaterPokemonType();
+            pokeTypeMap["FirePokemonType"] = FirePokemonType();
+            pokeTypeMap["GroundPokemonType"] = GroundPokemonType();
+            pokeTypeMap["GrassPokemonType"] = GrassPokemonType();
+            pokeTypeMap["NormalPokemonType"] = NormalPokemonType();
+        };
+        PokemonTypeVariant getPokeTypeFromString(const std::string type)
+        {
+            if (pokeTypeMap.count(type))
             {
-                return ElectricPokemonType();
+                return pokeTypeMap[type];
             }
-            else if (type == "WaterPokemonType")
-            {
-                return WaterPokemonType();
-            }
-            else
-            {
-                return ElectricPokemonType();
-            }
+
+            throw(UnknownPokemonTypeException(type));
         }
     };
 
