@@ -1,26 +1,32 @@
 #ifndef POKEBAGITEM_HPP
 #define POKEBAGITEM_HPP
-#include <string.h>
+#include<string> 
 #include <fstream>
+#include <functional>
 class PokeBagItem
 {
+  static unsigned int indexCounter;
 private:
   double price_;
 
 public:
-  PokeBagItem() { price_ = 0; }
-  virtual void Use() = 0;
-  virtual void format(std::ostream &out) const = 0;
+  PokeBagItem(){index_ = indexCounter++; price_ = 0;}
+  unsigned int index_;
 
-  /*PokeBagItem(double price) : price_(price) {}
+  PokeBagItem(double price) : price_(price) {index_ = indexCounter++;}
+  
   double getPrice() {
       return price_;
-  }*/
+  }
 
-  friend std::ostream &operator<<(std::ostream &out, const PokeBagItem *temp) // bruger pointer for at dereferere objekt.
+  virtual void Use(std::function<void()> callback) = 0;
+  virtual void format(std::ostream &out) const = 0;
+  
+
+  friend std::ostream& operator<<(std::ostream& out, const PokeBagItem* temp)// bruger pointer for at dereferere objekt yderligere efter derefereringen i Copy.
   {
+    out << "[" << std::to_string(temp->index_) << "] ";
     temp->format(out);
-    out << "TEST";
     return out;
   }
 
