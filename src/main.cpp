@@ -1,10 +1,13 @@
 #include "include/dbloader/PokemonLoader.hpp"
+#include "include/poke_bag/ball/ball.hpp"
+#include "include/poke_bag/ball/masterBall.hpp"
+#include "include/poke_bag/ball/ultraBall.hpp"
+#include "include/poke_bag/potion/hyperPotion.hpp"
+#include "include/poke_bag/potion/superPotion.hpp"
 #include "include/poke_bag/pokeBag.hpp"
 #include "include/poke_bag/pokeBagItem.hpp"
-#include "include/poke_center.hpp"
 #include "include/pokemon/pokemon.hpp"
-#include "include/poke_center.hpp"
-#include "include/poke_bag/ball/ball.hpp"
+
 #include <boost/variant.hpp>
 #include <boost/bind.hpp>
 #include <iostream>
@@ -49,10 +52,23 @@ int main()
     std::cout << pokemons[0].getModifier(pokemons[1]) << std::endl;
 
     PokeBag    bag;
-    PokeCenter::Center pokeCenter;
-    pokeCenter.ListAvailableItems();
-    auto ball = pokeCenter.BuyBall();
-    std::cout << std::to_string(ball.get()->getPrice()) << std::endl;
-    
+    MasterBall masterBall1;
+    MasterBall masterBall2;
+    UltraBall  ultraBall;
+    SuperPotion superPotion;
+    HyperPotion hyperPotion;
+    bag.addItem<MasterBall>(&masterBall1);
+    bag.addItem<MasterBall>(&masterBall2);
+    bag.addItem<UltraBall>(&ultraBall);
+    bag.addItem<SuperPotion>(&superPotion);
+    bag.addItem<HyperPotion>(&hyperPotion);
+    bag.listItems();
+    auto item = bag.getItemByIndex(1);
+    if (std::holds_alternative<PokeBagItem*>(item)){
+      std::get<PokeBagItem*>(item)->Use([](PokeBagItemResult result) {
+        std::cout << result.result;
+      });
+    }
+
     return 0;
 }

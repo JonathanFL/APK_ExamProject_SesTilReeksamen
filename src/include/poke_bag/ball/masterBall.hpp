@@ -9,17 +9,16 @@ private:
     const double probabilityOfCatch = 1;
 public:
     MasterBall(){}
-    void Catch(Pokemon& pokemon, std::function<void(PokeBagItemResult res)> callback) override
+    void Catch(std::function<void(PokeBagItemResult res)> callback) override
     {
         std::cout << "Using UltraBall: probability of catching is " << 1.0_to_percent << "%" << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        PokeBagItemResult res;
-        res.result = caught(probabilityOfCatch) ? caughtSuccessMessage : caughtFailMessage;
+        PokeBagItemResult res;res.result = caught(probabilityOfCatch) ? caughtSuccessMessage : caughtFailMessage;
         callback(res);
     }
 
     void formatImpl(std::ostream &out) const override{
-        out << "Masterball";
+        out << "MasterBall";
     }
 
 };

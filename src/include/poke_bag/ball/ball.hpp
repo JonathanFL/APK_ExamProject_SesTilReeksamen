@@ -12,7 +12,7 @@ constexpr long double operator"" _to_percent( long double input )
 
 class Ball : public PokeBagItem {
 public:
-    Ball():PokeBagItem(){}
+    Ball(){}
     const std::string caughtSuccessMessage = "You caught the Pokemon\n";
     const std::string caughtFailMessage = "You did NOT catch the Pokemon\n";
     bool caught(double probabilityOfCatch){
@@ -24,8 +24,8 @@ public:
         return value < probabilityOfCatch;
     };
 
-    void Use(Pokemon& pokemon, std::function<void(PokeBagItemResult res)> callback) override{
-        Catch(pokemon, callback);
+    void Use(std::function<void(PokeBagItemResult res)> callback) override{
+        Catch(callback);
     }
     void format(std::ostream &out) const override{
         this->formatImpl(out);
@@ -33,7 +33,7 @@ public:
 
     virtual void formatImpl(std::ostream &out) const = 0;
 
-    virtual void Catch(Pokemon& pokemon, std::function<void(PokeBagItemResult res)> callback) = 0;
+    virtual void Catch(std::function<void(PokeBagItemResult res)> callback) = 0;
 
     virtual~Ball();
 private:

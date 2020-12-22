@@ -22,16 +22,6 @@ public:
   {
   }
 
-  PokeBagItem* choosePokeBagItem()
-  {
-    std::cout << "Enter the name of the Poke Ball that you would like to choose:"
-              << std::endl;
-    bag_.listNumberOfEachItemByType();
-    int choice;
-    std::cin >> choice;
-    return bag_.getItemByIndex(choice);
-  }
-
   Pokemon *choosePokemon()
   {
     std::cout << "Enter the name of the pokemon that you would like to choose:"
