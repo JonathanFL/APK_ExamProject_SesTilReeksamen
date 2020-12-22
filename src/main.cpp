@@ -77,17 +77,6 @@ int main()
 
   pokemonLoader.PrintPokemonList(testPokemons2);
 
-  PokeBag bag;
-  MasterBall masterBall1;
-  MasterBall masterBall2;
-  UltraBall ultraBall;
-  SuperPotion superPotion;
-  HyperPotion hyperPotion;
-  bag.addItem<MasterBall>(&masterBall1);
-  Pokemon p3(55, 10, 0, 50, 75, "Charmander", "Charmy",
-             poketypes::PokemonTypeVariant(poketypes::FirePokemonType()),
-             poketypes::PokemonTypeVariant(poketypes::ElectricPokemonType()));
-
   PokeBag     bag;
   MasterBall  masterBall1;
   MasterBall  masterBall2;
