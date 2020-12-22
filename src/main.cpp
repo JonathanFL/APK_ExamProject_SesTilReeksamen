@@ -44,65 +44,20 @@ int main()
     return 0;
   }
 
-  Pokemon p1(100.2, 10, 0, 50, 100, "Squirtle", "Jonathan",
-             poketypes::WaterPokemonType());
-  //   std::cout << p1 << "\n";
-  Pokemon p2(100.2, 10, 0, 50, 100, "Diglet", "Valle",
-             poketypes::PokemonTypeVariant(poketypes::WaterPokemonType()),
-             poketypes::PokemonTypeVariant(poketypes::GrassPokemonType()));
-
-  PokemonList testPokemons({p1, p2});
-  std::cout << p1.getModifier(p2) << std::endl;
-  std::cout << p2.getModifier(p1) << std::endl;
-  pokemonLoader.PrintPokemonList(testPokemons);
-
-  Pokemon p3(std::move(p2));
-
-  PokemonList testPokemons1({p1, p2, p3});
-
-  std::cout << p1.getModifier(p3) << std::endl;
-  std::cout << p2.getModifier(p3) << std::endl;
-  std::cout << p3.getModifier(p1) << std::endl;
-  std::cout << p3.getModifier(p2) << std::endl;
-
-  pokemonLoader.PrintPokemonList(testPokemons1);
-  p3 = std::move(p1);
-
-  PokemonList testPokemons2({p1, p2, p3});
-
-  std::cout << p1.getModifier(p3) << std::endl;
-  std::cout << p2.getModifier(p3) << std::endl;
-  std::cout << p3.getModifier(p1) << std::endl;
-  std::cout << p3.getModifier(p2) << std::endl;
-
-  pokemonLoader.PrintPokemonList(testPokemons2);
-
+  Pokemon p2(100.2, 10, 0, 50, 100, "Charmander", "Valle",
+             poketypes::FirePokemonType(),
+             poketypes::ElectricPokemonType());
   PokeBag     bag;
-  MasterBall  masterBall1;
-  MasterBall  masterBall2;
-  UltraBall   ultraBall;
-  SuperPotion superPotion;
-  HyperPotion hyperPotion;
-  bag.addItem<MasterBall>(&masterBall1); //Overvej forwarding af parametre - allokeringen bør ikke foregå i main
-  bag.addItem<MasterBall>(&masterBall2);
-  bag.addItem<UltraBall>(&ultraBall);
-  bag.addItem<SuperPotion>(&superPotion);
-  bag.addItem<HyperPotion>(&hyperPotion);
-  bag.listItems();
-  auto item = bag.getItemByIndex(1);
-  if (std::holds_alternative<PokeBagItem *>(item))
-  {
-    std::get<PokeBagItem *>(item)->Use(
-        [](PokeBagItemResult result) { std::cout << result.result; });
-  }
-  PokemonList wildPokemon = PokemonList{p1, p2, p3};
+
   bool        exit        = false;
-  bag.addPokemon(p1);
+  for(auto &p : pokemons)
+  {
+    bag.addPokemon(p);
+  }
   Player player("Ash", bag);
   while (!exit) // Game loop
   {
-    
-    battle::playBattle(&player, &p1);
+    battle::playBattle(&player, &p2);
 
     if(!player.canBattle())
     {
