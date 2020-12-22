@@ -26,6 +26,9 @@
 *.a
 *.lib
 
+# Compiled file
+myapp
+
 # Executables
 *.exe
 *.out
