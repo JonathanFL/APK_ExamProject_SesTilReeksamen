@@ -15,29 +15,50 @@ class Pokemon
 {
 private:
   /* data */
-  double health_;
-  unsigned int level_;
-  unsigned int xp_;
-  double attack_;
-  double defense_;
-  std::string name_;
-  std::string nickname_;
+  double                        health_;
+  unsigned int                  level_;
+  unsigned int                  xp_;
+  double                        attack_;
+  double                        defense_;
+  std::string                   name_;
+  std::string                   nickname_;
   poketypes::PokemonTypeVariant pType_;
   poketypes::PokemonTypeVariant sType_;
 
+  template <typename T>
+  typename std::enable_if<std::is_same_v<T, double> || std::is_same_v<T, unsigned int>>::type
+  moveVariableStrategy(T &target, T &source)
+  {
+    std::swap(target, source);
+    if (source != 0)
+    {
+      source = 0;
+    }
+  }
+
+  template <typename T>
+  typename std::enable_if<std::is_same_v<T, std::string> || std::is_same_v<T, poketypes::PokemonTypeVariant>>::type
+  moveVariableStrategy(T &target, T &source)
+  {
+    target = std::move(source);
+  }
+
 public:
   const double getHealth_() const { return this->health_; }
-  void setHealth_(double health_) { this->health_ = health_; }
-  const int getLevel_() const { return this->level_; }
-  void setLevel_(int level_) { this->level_ = level_; }
-  const int getXp_() const { return this->xp_; }
-  void setXp_(int xp_) { this->xp_ = xp_; }
-  const double getAttack_() const { return this->attack_; }
-  void setAttack_(double attack_) { this->attack_ = attack_; }
-  const double getDefense_() const { return this->defense_; }
-  void setDefense_(double defense_) { this->defense_ = defense_; }
+  void         setHealth_(double health_)
+  {
+    this->health_ = health_;
+  }
+  const int         getLevel_() const { return this->level_; }
+  void              setLevel_(int level_) { this->level_ = level_; }
+  const int         getXp_() const { return this->xp_; }
+  void              setXp_(int xp_) { this->xp_ = xp_; }
+  const double      getAttack_() const { return this->attack_; }
+  void              setAttack_(double attack_) { this->attack_ = attack_; }
+  const double      getDefense_() const { return this->defense_; }
+  void              setDefense_(double defense_) { this->defense_ = defense_; }
   const std::string getName_() const { return this->name_; }
-  void setName_(std::string name_) { this->name_ = name_; }
+  void              setName_(std::string name_) { this->name_ = name_; }
   const std::string getNickname_() const { return this->nickname_; }
   void setNickname_(std::string nickname_) { this->nickname_ = nickname_; }
   poketypes::PokemonTypeVariant getPrimaryType() const { return pType_; }
@@ -48,47 +69,39 @@ public:
           poketypes::PokemonTypeVariant &&primaryType,
           poketypes::PokemonTypeVariant &&secondaryType)
   {
-    // static_assert(std::is_base_of<poketypes::PokemonType<>,
-    // PrimaryType>::value);
-    // static_assert(std::is_base_of<poketypes::PokemonType,
-    // SecondaryType>::value);
-    // static_assert(Contains<poketypes::PokemonTypeList, PrimaryType>::value,
-    //               "Must be a PokemonType");
-    // static_assert(Contains<poketypes::PokemonTypeList, SecondaryType>::value,
-    //               "Must be a PokemonType");
     this->health_ = health;
     this->level_ = level;
     this->name_ = std::move(name);
     this->nickname_ = std::move(nickname);
-    this->xp_ = xp;
-    this->attack_ = attack;
-    this->defense_ = defense;
-    sType_ = std::move(secondaryType);
-    pType_ = std::move(primaryType);
+    this->xp_       = xp;
+    this->attack_   = attack;
+    this->defense_  = defense;
+    sType_          = std::move(secondaryType);
+    pType_          = std::move(primaryType);
   }
 
   Pokemon(double health, unsigned int level, unsigned int xp, double attack,
           double defense, std::string &&name, std::string &&nickname,
           poketypes::PokemonTypeVariant &&primaryType)
   {
-    this->health_ = health;
-    this->level_ = level;
-    this->name_ = std::move(name);
+    this->health_   = health;
+    this->level_    = level;
+    this->name_     = std::move(name);
     this->nickname_ = std::move(nickname);
-    this->xp_ = xp;
-    this->attack_ = attack;
-    this->defense_ = defense;
-    pType_ = std::move(primaryType);
-    sType_ = poketypes::PokemonTypeVariant();
+    this->xp_       = xp;
+    this->attack_   = attack;
+    this->defense_  = defense;
+    pType_          = std::move(primaryType);
+    sType_          = poketypes::PokemonTypeVariant();
   }
 
   std::string battleCry() { return name_ + name_ + "!!"; }
 
   double getModifier(Pokemon &other)
   {
-    double modifier = 1;
-    poketypes::PokemonTypeVariant pt = other.getPrimaryType();
-    poketypes::PokemonTypeVariant st = other.getSecondaryType();
+    double                        modifier = 1;
+    poketypes::PokemonTypeVariant pt       = other.getPrimaryType();
+    poketypes::PokemonTypeVariant st       = other.getSecondaryType();
     modifier *= boost::apply_visitor(poketypes::PokemonTypeModifierVisitor(),
                                      pType_, pt);
     modifier *= boost::apply_visitor(poketypes::PokemonTypeModifierVisitor(),
@@ -132,7 +145,8 @@ public:
     in >> secondaryType;
     if (secondaryType != "null")
     {
-      p.sType_ = poketypes::PokeTypeFactory().getPokeTypeFromString(secondaryType);
+      p.sType_ =
+          poketypes::PokeTypeFactory().getPokeTypeFromString(secondaryType);
     }
 
     in >> p.health_;
@@ -149,8 +163,67 @@ public:
                << " - Health: " << to_string(p.getHealth_())
                << " - Level: " << to_string(p.getLevel_())
                << " - XP: " << to_string(p.getXp_())
-               << " - Nickname: " << p.getNickname_()
-               << std::endl;
+               << " - Nickname: " << p.getNickname_() << std::endl;
+  }
+
+  Pokemon(Pokemon &&other) noexcept
+  {
+    moveVariableStrategy(this->name_, other.name_);
+    moveVariableStrategy(this->nickname_, other.nickname_);
+    moveVariableStrategy(this->health_, other.health_);
+    moveVariableStrategy(this->level_, other.level_);
+    moveVariableStrategy(this->xp_, other.xp_);
+    moveVariableStrategy(this->attack_, other.attack_);
+    moveVariableStrategy(this->defense_, other.defense_);
+    moveVariableStrategy(this->pType_, other.pType_);
+    moveVariableStrategy(this->sType_, other.sType_); // TODO: Make move assignment and move constructor
+  }
+
+  Pokemon &operator=(Pokemon &&other) noexcept
+  {
+    if (this != &other)
+    {
+      moveVariableStrategy(this->name_, other.name_);
+      moveVariableStrategy(this->nickname_, other.nickname_);
+      moveVariableStrategy(this->health_, other.health_);
+      moveVariableStrategy(this->level_, other.level_);
+      moveVariableStrategy(this->xp_, other.xp_);
+      moveVariableStrategy(this->attack_, other.attack_);
+      moveVariableStrategy(this->defense_, other.defense_);
+      moveVariableStrategy(this->pType_, other.pType_);
+      moveVariableStrategy(this->sType_, other.sType_); // TODO: Make move assignment and move constructor
+    }
+    return *this;
+  }
+
+  Pokemon(const Pokemon &other)
+  {
+    this->name_ = other.name_;
+    this->nickname_ = other.nickname_;
+    this->health_ = other.health_;
+    this->level_ = other.level_;
+    this->xp_ = other.xp_;
+    this->attack_ = other.attack_;
+    this->defense_ = other.defense_;
+    this->sType_ = other.sType_;
+    this->pType_ = other.pType_; //TODO: Make copy assignment and copy constructor
+  }
+
+  Pokemon &operator=(const Pokemon &other)
+  {
+    if (this != &other)
+    {
+      this->name_ = other.name_;
+      this->nickname_ = other.nickname_;
+      this->health_ = other.health_;
+      this->level_ = other.level_;
+      this->xp_ = other.xp_;
+      this->attack_ = other.attack_;
+      this->defense_ = other.defense_;
+      this->sType_ = other.sType_;
+      this->pType_ = other.pType_; // TODO: Make move assignment and move constructor
+    }
+    return *this;
   }
 };
 

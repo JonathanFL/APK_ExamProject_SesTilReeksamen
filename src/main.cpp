@@ -1,16 +1,18 @@
 #include "include/dbloader/PokemonLoader.hpp"
+#include "include/game/battle.hpp"
+#include "include/game/player.hpp"
 #include "include/poke_bag/ball/ball.hpp"
 #include "include/poke_bag/ball/masterBall.hpp"
 #include "include/poke_bag/ball/ultraBall.hpp"
-#include "include/poke_bag/potion/hyperPotion.hpp"
-#include "include/poke_bag/potion/superPotion.hpp"
 #include "include/poke_bag/pokeBag.hpp"
 #include "include/poke_bag/pokeBagItem.hpp"
+#include "include/poke_bag/potion/hyperPotion.hpp"
+#include "include/poke_bag/potion/superPotion.hpp"
 #include "include/pokemon/pokemon.hpp"
 #include "include/algorithms/select_random_if.hpp"
 
-#include <boost/variant.hpp>
 #include <boost/bind.hpp>
+#include <boost/variant.hpp>
 #include <iostream>
 #include <variant>
 
@@ -18,7 +20,7 @@
 
 int main()
 {
-  PokemonList wildPokemons;
+  PokemonList             wildPokemons;
   dbloader::PokemonLoader pokemonLoader;
 
   try
@@ -61,6 +63,7 @@ int main()
       std::cout << "You either have no pokemon, or they have all fainted."
                 << std::endl;
     }
-
-    return 0;
   }
+
+  return 0;
+}

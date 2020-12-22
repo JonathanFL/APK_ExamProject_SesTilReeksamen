@@ -4,6 +4,7 @@
 #include <memory>
 #include <numeric>
 #include <vector>
+#include <variant>
 void PokeBag::empty() { std::cout << "Emptying bag..." << std::endl; }
 
 std::variant<PokeBagItem*, ErrorCode> PokeBag::getItemByIndex(unsigned int index) // no-throw-guarantee
