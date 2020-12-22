@@ -16,6 +16,7 @@ class Pokemon
 private:
   /* data */
   double health_;
+  double maxHealth_;
   unsigned int level_;
   unsigned int xp_;
   double attack_;
@@ -28,6 +29,8 @@ private:
 public:
   const double getHealth_() const { return this->health_; }
   void setHealth_(double health_) { this->health_ = health_; }
+  const double getMaxHealth_() const { return this->maxHealth_; }
+  void setMaxHealth_(double maxHealth) { this->maxHealth_ = maxHealth; }
   const int getLevel_() const { return this->level_; }
   void setLevel_(int level_) { this->level_ = level_; }
   const int getXp_() const { return this->xp_; }
@@ -48,15 +51,8 @@ public:
           poketypes::PokemonTypeVariant &&primaryType,
           poketypes::PokemonTypeVariant &&secondaryType)
   {
-    // static_assert(std::is_base_of<poketypes::PokemonType<>,
-    // PrimaryType>::value);
-    // static_assert(std::is_base_of<poketypes::PokemonType,
-    // SecondaryType>::value);
-    // static_assert(Contains<poketypes::PokemonTypeList, PrimaryType>::value,
-    //               "Must be a PokemonType");
-    // static_assert(Contains<poketypes::PokemonTypeList, SecondaryType>::value,
-    //               "Must be a PokemonType");
     this->health_ = health;
+    this->setMaxHealth_(health_);
     this->level_ = level;
     this->name_ = std::move(name);
     this->nickname_ = std::move(nickname);
@@ -72,6 +68,7 @@ public:
           poketypes::PokemonTypeVariant &&primaryType)
   {
     this->health_ = health;
+    this->setMaxHealth_(health_);
     this->level_ = level;
     this->name_ = std::move(name);
     this->nickname_ = std::move(nickname);
