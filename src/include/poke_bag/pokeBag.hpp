@@ -30,6 +30,17 @@ public:
     static_assert(std::is_convertible<T&, PokeBagItem&>::value, "The type must be an *accessible* base class of `PokeBagItem`");
     this->items_.push_back(item);
   }
+  template <typename P, typename... Pokemons>
+  void addPokemon(P & pokemon, Pokemons&... pokemons) 
+  {
+    static_assert(IsSame<P, Pokemon>::value);
+    addPokemon(pokemon);
+    addPokemon(pokemons...);
+  }
+
+  void addPokemon(Pokemon & pokemon) {
+    pokemons_.push_back(std::move(pokemon));
+  }
 
   // void useItem(std::function<void()> callback);
   std::variant<PokeBagItem*, ErrorCode> getItemByIndex(unsigned int index);

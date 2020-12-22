@@ -7,6 +7,8 @@
 #include "include/poke_bag/pokeBag.hpp"
 #include "include/poke_bag/pokeBagItem.hpp"
 #include "include/pokemon/pokemon.hpp"
+#include "include/game/player.hpp"
+#include "include/game/battle.hpp"
 
 #include <boost/variant.hpp>
 #include <boost/bind.hpp>
@@ -69,6 +71,14 @@ int main()
         std::cout << result.result;
       });
     }
+    bool exit = false;
+    bag.addPokemon(p1, p2);
+    Player player("Ash", bag);
+    while(!exit) //Game loop
+    {
+      battle::playBattle(&player, &p1);
+    }
+
 
     return 0;
 }
