@@ -7,6 +7,7 @@
 #include "include/poke_bag/pokeBag.hpp"
 #include "include/poke_bag/pokeBagItem.hpp"
 #include "include/pokemon/pokemon.hpp"
+#include "include/algorithms/select_random_if.hpp"
 
 #include <boost/variant.hpp>
 #include <boost/bind.hpp>
@@ -17,58 +18,49 @@
 
 int main()
 {
-    PokemonList pokemons;
-    dbloader::PokemonLoader pokemonLoader;
+  PokemonList wildPokemons;
+  dbloader::PokemonLoader pokemonLoader;
 
-    try
-    {
-        pokemonLoader.ReadPokemonsList(POKEMONS_DB_FILE);
-        pokemons = pokemonLoader.getPokemons();
-        pokemonLoader.PrintPokemonList(pokemons);
-    }
-    catch (poketypes::UnknownPokemonTypeException &e)
-    {
-        std::cout << "UnknownPokemonTypeException: " << e.what() << std::endl;
-        return 0;
-    }
-    catch (dbloader::FileNotFoundException &e)
-    {
-        std::cout << "FileNotFoundException: " << e.what() << std::endl;
-        return 0;
-    }
-    catch (...)
-    {
-        std::cout << "Unknown error on reading pokemons" << std::endl;
-        return 0;
-    }
+  try
+  {
+    pokemonLoader.ReadPokemonsList(POKEMONS_DB_FILE);
+    wildPokemons = pokemonLoader.getPokemons();
+    pokemonLoader.PrintPokemonList(wildPokemons);
+  }
+  catch (poketypes::UnknownPokemonTypeException &e)
+  {
+    std::cout << "UnknownPokemonTypeException: " << e.what() << std::endl;
+    return 0;
+  }
+  catch (dbloader::FileNotFoundException &e)
+  {
+    std::cout << "FileNotFoundException: " << e.what() << std::endl;
+    return 0;
+  }
+  catch (...)
+  {
+    std::cout << "Unknown error on reading pokemons" << std::endl;
+    return 0;
+  }
 
-    Pokemon p1(100.2, 10, 0, 50, 100, "Squirtle", "Jonathan",
-               poketypes::WaterPokemonType());
-    //   std::cout << p1 << "\n";
-    Pokemon p2(100.2, 10, 0, 50, 100, "Diglet", "Valle",
-               poketypes::PokemonTypeVariant(poketypes::WaterPokemonType()),
-               poketypes::PokemonTypeVariant(poketypes::GrassPokemonType()));
+  Pokemon p2(100.2, 10, 0, 50, 100, "Charmander", "Valle",
+             poketypes::FirePokemonType(), poketypes::ElectricPokemonType());
+  PokeBag bag;
 
-    std::cout << pokemons[0].getModifier(pokemons[1]) << std::endl;
-
-    PokeBag    bag;
-    MasterBall masterBall1;
-    MasterBall masterBall2;
-    UltraBall  ultraBall;
-    SuperPotion superPotion;
-    HyperPotion hyperPotion;
-    bag.addItem<MasterBall>(&masterBall1);
-    bag.addItem<MasterBall>(&masterBall2);
-    bag.addItem<UltraBall>(&ultraBall);
-    bag.addItem<SuperPotion>(&superPotion);
-    bag.addItem<HyperPotion>(&hyperPotion);
-    bag.listItems();
-    auto item = bag.getItemByIndex(1);
-    if (std::holds_alternative<PokeBagItem*>(item)){
-      std::get<PokeBagItem*>(item)->Use([](PokeBagItemResult result) {
-        std::cout << result.result;
-      });
+  bool exit = false;
+  bag.addPokemon(p2);
+  Player player("Ash", bag);
+  while (!exit) // Game loop
+  {
+    PokemonList::iterator randomPokemon =
+        select_random_if(wildPokemons.begin(), wildPokemons.end(),
+                         [](const Pokemon &p) { return p.getHealth_() > 0; });
+    battle::playBattle(&player, &*randomPokemon);
+    if (!player.canBattle())
+    {
+      std::cout << "You either have no pokemon, or they have all fainted."
+                << std::endl;
     }
 
     return 0;
-}
+  }
