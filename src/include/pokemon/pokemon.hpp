@@ -25,6 +25,24 @@ private:
   poketypes::PokemonTypeVariant pType_;
   poketypes::PokemonTypeVariant sType_;
 
+  template <typename T>
+  typename std::enable_if<std::is_same_v<T, double> || std::is_same_v<T, unsigned int>>::type
+  moveVariableStrategy(T &target, T &source)
+  {
+    std::swap(target, source);
+    if (source != 0)
+    {
+      source = 0;
+    }
+  }
+
+  template <typename T>
+  typename std::enable_if<std::is_same_v<T, std::string> || std::is_same_v<T, poketypes::PokemonTypeVariant>>::type
+  moveVariableStrategy(T &target, T &source)
+  {
+    target = std::move(source);
+  }
+
 public:
   const double getHealth_() const { return this->health_; }
   void setHealth_(double health_) { this->health_ = health_; }
@@ -143,6 +161,66 @@ public:
                << " - XP: " << to_string(p.getXp_())
                << " - Nickname: " << p.getNickname_()
                << std::endl;
+  }
+
+  Pokemon(Pokemon &&other) noexcept
+  {
+    moveVariableStrategy(this->name_, other.name_);
+    moveVariableStrategy(this->nickname_, other.nickname_);
+    moveVariableStrategy(this->health_, other.health_);
+    moveVariableStrategy(this->level_, other.level_);
+    moveVariableStrategy(this->xp_, other.xp_);
+    moveVariableStrategy(this->attack_, other.attack_);
+    moveVariableStrategy(this->defense_, other.defense_);
+    moveVariableStrategy(this->pType_, other.pType_);
+    moveVariableStrategy(this->sType_, other.sType_); // TODO: Make move assignment and move constructor
+  }
+
+  Pokemon &operator=(Pokemon &&other) noexcept
+  {
+    if (this != &other)
+    {
+      moveVariableStrategy(this->name_, other.name_);
+      moveVariableStrategy(this->nickname_, other.nickname_);
+      moveVariableStrategy(this->health_, other.health_);
+      moveVariableStrategy(this->level_, other.level_);
+      moveVariableStrategy(this->xp_, other.xp_);
+      moveVariableStrategy(this->attack_, other.attack_);
+      moveVariableStrategy(this->defense_, other.defense_);
+      moveVariableStrategy(this->pType_, other.pType_);
+      moveVariableStrategy(this->sType_, other.sType_); // TODO: Make move assignment and move constructor
+    }
+    return *this;
+  }
+
+  Pokemon(const Pokemon &other)
+  {
+    this->name_ = other.name_;
+    this->nickname_ = other.nickname_;
+    this->health_ = other.health_;
+    this->level_ = other.level_;
+    this->xp_ = other.xp_;
+    this->attack_ = other.attack_;
+    this->defense_ = other.defense_;
+    this->sType_ = other.sType_;
+    this->pType_ = other.pType_; //TODO: Make copy assignment and copy constructor
+  }
+
+  Pokemon &operator=(const Pokemon &other)
+  {
+    if (this != &other)
+    {
+      this->name_ = other.name_;
+      this->nickname_ = other.nickname_;
+      this->health_ = other.health_;
+      this->level_ = other.level_;
+      this->xp_ = other.xp_;
+      this->attack_ = other.attack_;
+      this->defense_ = other.defense_;
+      this->sType_ = other.sType_;
+      this->pType_ = other.pType_; // TODO: Make move assignment and move constructor
+    }
+    return *this;
   }
 };
 
