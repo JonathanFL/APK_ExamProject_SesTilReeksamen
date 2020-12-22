@@ -1,17 +1,17 @@
 #include "include/dbloader/PokemonLoader.hpp"
+#include "include/game/battle.hpp"
+#include "include/game/player.hpp"
 #include "include/poke_bag/ball/ball.hpp"
 #include "include/poke_bag/ball/masterBall.hpp"
 #include "include/poke_bag/ball/ultraBall.hpp"
-#include "include/poke_bag/potion/hyperPotion.hpp"
-#include "include/poke_bag/potion/superPotion.hpp"
 #include "include/poke_bag/pokeBag.hpp"
 #include "include/poke_bag/pokeBagItem.hpp"
+#include "include/poke_bag/potion/hyperPotion.hpp"
+#include "include/poke_bag/potion/superPotion.hpp"
 #include "include/pokemon/pokemon.hpp"
-#include "include/game/player.hpp"
-#include "include/game/battle.hpp"
 
-#include <boost/variant.hpp>
 #include <boost/bind.hpp>
+#include <boost/variant.hpp>
 #include <iostream>
 #include <variant>
 
@@ -19,7 +19,7 @@
 
 int main()
 {
-  PokemonList pokemons;
+  PokemonList             pokemons;
   dbloader::PokemonLoader pokemonLoader;
 
   try
@@ -77,8 +77,6 @@ int main()
 
   pokemonLoader.PrintPokemonList(testPokemons2);
 
-  std::cout << pokemons[0].getModifier(pokemons[1]) << std::endl;
-
   PokeBag bag;
   MasterBall masterBall1;
   MasterBall masterBall2;
@@ -86,6 +84,17 @@ int main()
   SuperPotion superPotion;
   HyperPotion hyperPotion;
   bag.addItem<MasterBall>(&masterBall1);
+  Pokemon p3(55, 10, 0, 50, 75, "Charmander", "Charmy",
+             poketypes::PokemonTypeVariant(poketypes::FirePokemonType()),
+             poketypes::PokemonTypeVariant(poketypes::ElectricPokemonType()));
+
+  PokeBag     bag;
+  MasterBall  masterBall1;
+  MasterBall  masterBall2;
+  UltraBall   ultraBall;
+  SuperPotion superPotion;
+  HyperPotion hyperPotion;
+  bag.addItem<MasterBall>(&masterBall1); //Overvej forwarding af parametre - allokeringen bør ikke foregå i main
   bag.addItem<MasterBall>(&masterBall2);
   bag.addItem<UltraBall>(&ultraBall);
   bag.addItem<SuperPotion>(&superPotion);
@@ -94,16 +103,22 @@ int main()
   auto item = bag.getItemByIndex(1);
   if (std::holds_alternative<PokeBagItem *>(item))
   {
-    std::get<PokeBagItem *>(item)->Use([](PokeBagItemResult result) {
-      std::cout << result.result;
-    });
+    std::get<PokeBagItem *>(item)->Use(
+        [](PokeBagItemResult result) { std::cout << result.result; });
   }
-  bool exit = false;
-  bag.addPokemon(p1, p2);
+  PokemonList wildPokemon = PokemonList{p1, p2, p3};
+  bool        exit        = false;
+  bag.addPokemon(p1);
   Player player("Ash", bag);
-  while (!exit) //Game loop
+  while (!exit) // Game loop
   {
+    
     battle::playBattle(&player, &p1);
+
+    if(!player.canBattle())
+    {
+      std::cout << "You either have no pokemon, or they have all fainted." << std::endl;
+    }
   }
 
   return 0;

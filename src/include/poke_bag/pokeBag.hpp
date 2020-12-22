@@ -50,6 +50,9 @@ public:
   double getTotalValue();
   void listPokemon();
   Pokemon * findPokemon(std::string name);
+  const std::vector<Pokemon> & getPokemon() const {
+    return pokemons_;
+  }
   
 //   void sortPokemon(auto comparer) {}
 };

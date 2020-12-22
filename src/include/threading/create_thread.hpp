@@ -1,3 +1,5 @@
+#ifndef CREATETHREAD_HPP
+#define CREATETHREAD_HPP
 #include "future"
 #include <thread>
 template<typename R, typename Function>
@@ -8,3 +10,5 @@ std::future<R> createFuture(Function & function)
     std::thread(function, std::move(p)).detach();
     return f;
 }
+
+#endif
