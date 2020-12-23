@@ -14,6 +14,6 @@ ForwardIt select_random_if(ForwardIt first, ForwardIt last, UnaryPredicate predi
         }
     }
     int randomElement = rand() % validElements.size();
-    advance(tempIt, randomElement);
+    advance(tempIt, validElements[randomElement]);
     return tempIt;
 }
