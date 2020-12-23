@@ -48,6 +48,7 @@ int main()
   }
 
   PokeBag bag;
+  PokeCenter::Center center;
 
   // PokeCenter::Center pokecenter;
   // pokecenter.ListAvailableItems();
@@ -76,7 +77,7 @@ int main()
     switch (choice)
     {
     case PlayerGameChoice::GoToPokecenter:
-      /* code */
+      center.usePokecenter(player);
       break;
     case PlayerGameChoice::BattleWildPokemon:
       PokemonList::iterator randomPokemon =

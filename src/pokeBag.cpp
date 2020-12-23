@@ -1,5 +1,6 @@
 #include "include/poke_bag/pokeBag.hpp"
 #include "include/poke_center.hpp"
+#include "include/exceptions/cancel_exception.hpp"
 #include <algorithm>
 #include <iterator>
 #include <memory>
@@ -8,24 +9,22 @@
 #include <variant>
 void PokeBag::empty() { std::cout << "Emptying bag..." << std::endl; }
 
-PokeBagItem* PokeBag::getItemByIndex(unsigned int index)
+std::shared_ptr<PokeBagItem>& PokeBag::getItemByIndex(unsigned int index)
 {
   if(this->items_.size() > index)
     return this->items_.at(index);
-  else
-    return nullptr;
 }
 
-PokeBagItem* PokeBag::findPokeBagItem(std::string itemName) 
+std::shared_ptr<PokeBagItem> PokeBag::findPokeBagItem(std::string itemName) 
 {
-  std::vector<PokeBagItem*>::iterator it;
-  it = find_if(items_.begin(), items_.end(), [itemName](PokeBagItem *p) { return p->getType() == itemName; });
+  std::vector<shared_ptr<PokeBagItem>>::iterator it;
+  it = find_if(items_.begin(), items_.end(), [itemName](std::shared_ptr<PokeBagItem> p) { return p->getType() == itemName; });
   if(it == items_.end())
     return nullptr;
   return *it;
 }
 
-void PokeBag::addItem(PokeBagItem* item) {
+void PokeBag::addItem(std::shared_ptr<PokeBagItem> item) {
     this->items_.push_back(item);
 }
 

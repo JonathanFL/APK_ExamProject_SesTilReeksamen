@@ -35,7 +35,7 @@ public:
   {
   }
 
-  PokeBagItem* choosePokeBagItem()
+  std::shared_ptr<PokeBagItem> choosePokeBagItem()
   {
     std::cout << "Enter the name of the Poke Ball that you would like to choose:"
               << std::endl;
@@ -173,6 +173,9 @@ public:
       p.set_value_at_thread_exit(choice);
     };
     return createFuture<PlayerBattleChoice>(choiceLambda);
+  }
+  PokeBag &getBag() {
+    return bag_;
   }
 };
 

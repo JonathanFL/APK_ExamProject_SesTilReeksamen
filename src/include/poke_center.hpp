@@ -15,7 +15,19 @@
 #include <vector>
 #include <memory>
 
+
 namespace PokeCenter{
+
+enum PokecenterChoice {
+    HealPokemon = 1,
+    BuyItem = 2
+};
+
+enum BuyItemChoice {
+    BuyPokeball = 1,
+    BuyPotion = 2
+};
+
 static std::vector<std::pair<std::string, double>> Items = {
     {"Pokeball",200},{"Greatball",600},{"Ultraball",800},{"Masterball",9001},{"Superpotion",700},{"Hyperpotion",1200}
 };
@@ -26,18 +38,19 @@ private:
     std::vector<std::shared_ptr<PokeBagItem>> potions_;
 
     template<typename T>
-    std::shared_ptr<PokeBagItem> createItem(double price, std::string type){
+    std::shared_ptr<PokeBagItem>&& createItem(double price, std::string type){
         static_assert(std::is_base_of<PokeBagItem, T>::value, "The type must be a base class of `PokeBagItem`");
         static_assert(std::is_convertible<T&, PokeBagItem&>::value, "The type must be an *accessible* base class of `PokeBagItem`");
-        std::shared_ptr<T> ball = std::make_shared<T>();
-        T* pbitem = ball.get();
+        std::shared_ptr<T> t = std::make_shared<T>();
+        T* pbitem = t.get();
         pbitem->setPrice(price);
         pbitem->setType(type);
-        return ball;
+        return std::move(t);
     }
 
     void printItemsInShop()
     {
+        std::cout << "Available items:" << "\n"; 
         auto i = 0;
         for(auto [first,second] : PokeCenter::Items){
             std::cout << "#" << i << " " << first << ", Price:" << second << "\n";
@@ -62,12 +75,15 @@ public:
         }
     }
 
+    void usePokecenter(Player &p);
+
     void Heal(Pokemon& pokemon);
     std::shared_ptr<PokeBagItem>&& BuyPotion();
     std::shared_ptr<PokeBagItem>&& BuyBall();
     void ListAvailableItems(){
         printItemsInShop();
     }
+    std::shared_ptr<PokeBagItem> buyPokeBagItem();
 };
 }
 
