@@ -80,7 +80,7 @@ int main()
                   << std::endl;
         exit = true;
       }
-      if (!player.canBattle())
+      else if (!player.canBattle())
       {
         std::cout << "You either have no pokemon, or they have all fainted."
                   << std::endl;
