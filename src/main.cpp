@@ -1,3 +1,4 @@
+#include "include/algorithms/select_random_if.hpp"
 #include "include/dbloader/PokemonLoader.hpp"
 #include "include/game/battle.hpp"
 #include "include/game/player.hpp"
@@ -8,16 +9,13 @@
 #include "include/poke_bag/pokeBagItem.hpp"
 #include "include/poke_bag/potion/hyperPotion.hpp"
 #include "include/poke_bag/potion/superPotion.hpp"
+#include "include/poke_center.hpp"
 #include "include/pokemon/pokemon.hpp"
-#include "include/algorithms/select_random_if.hpp"
 
 #include <boost/bind.hpp>
 #include <boost/variant.hpp>
 #include <iostream>
 #include <variant>
-
-#define WILD_POKEMONS_DB_FILE "config/pokemons.db"
-#define USER_POKEMONS_DB_FILE "config/pokemons.db"
 
 int main()
 {
@@ -51,21 +49,56 @@ int main()
 
   PokeBag bag;
 
+  // PokeCenter::Center pokecenter;
+  // pokecenter.ListAvailableItems();
+  // auto potion = pokecenter.BuyPotion();
+  // auto p = potion.get();
+  // p->Use(p2,[](PokeBagItemResult result) {
+  //       std::cout << result.result << "\n";
+  //     });
+  // std::cout << p2 << std::endl;
+
   bool exit = false;
-  bag.addPokemon(wildPokemons[user].at(0));
+  try
+  {
+    bag.addPokemon(wildPokemons[user].at(0));
+  }
+  catch (...)
+  {
+    std::cout << "caugth an error" << endl;
+  }
   Player player("Ash", bag);
   while (!exit) // Game loop
   {
-    PokemonList::iterator randomPokemon =
-        select_random_if(wildPokemons[wild].begin(), wildPokemons[wild].end(),
-                         [](const Pokemon &p) { return p.getHealth_() > 0; });
-    battle::playBattle(&player, &*randomPokemon);
-    if (!player.canBattle())
+    std::future<PlayerGameChoice> choiceFuture = player.makeGameChoice();
+    choiceFuture.wait();
+    PlayerGameChoice choice = choiceFuture.get();
+    switch (choice)
     {
-      std::cout << "You either have no pokemon, or they have all fainted."
-                << std::endl;
+    case PlayerGameChoice::GoToPokecenter:
+      /* code */
+      break;
+    case PlayerGameChoice::BattleWildPokemon:
+      PokemonList::iterator randomPokemon =
+          select_random_if(wildPokemons[wild].begin(), wildPokemons[wild].end(),
+                           [](const Pokemon &p) { return p.getHealth_() > 0; });
+      if (randomPokemon == wildPokemons[wild].end())
+      {
+        std::cout << "No wild pokemon left - you have won the game!"
+                  << std::endl;
+        exit = true;
+      }
+      else if (!player.canBattle())
+      {
+        std::cout << "You either have no pokemon, or they have all fainted."
+                  << std::endl;
+      }
+      else
+      {
+        battle::playBattle(&player, &*randomPokemon);
+      }
+      break;
     }
   }
-
   return 0;
 }

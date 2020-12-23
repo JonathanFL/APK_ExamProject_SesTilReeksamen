@@ -5,6 +5,8 @@
 #include <functional>
 #include <variant>
 
+#include "../pokemon/pokemon.hpp"
+
 struct PokeBagItemResult
 {
   std::string result;
@@ -12,21 +14,37 @@ struct PokeBagItemResult
 
 class PokeBagItem
 {
-  static unsigned int indexCounter;
+  
 private:
   double price_;
-
+  std::string type_;
+  unsigned int index_;
+  static unsigned int indexCounter;
+  
 public:
   PokeBagItem(){index_ = indexCounter++; price_ = 0;}
-  unsigned int index_;
+  PokeBagItem(double price, std::string type) : price_(price), type_(type) {index_ = indexCounter++;}
+  PokeBagItem(PokeBagItem&& other) noexcept
+  {
 
-  PokeBagItem(double price) : price_(price) {index_ = indexCounter++;}
-  
-  double getPrice() {
-      return price_;
   }
+  PokeBagItem& operator=(PokeBagItem& other) noexcept
+  {
+    std::swap(price_, other.price_);
+    std::swap(type_,other.type_);
+    return *this;
+  }
+  PokeBagItem(const PokeBagItem& other) : PokeBagItem(other.price_, other.type_)
+  {
 
-  virtual void Use(std::function<void(PokeBagItemResult res)> callback) = 0;
+  }
+  
+  double getPrice() {return price_;}
+  void setPrice(double price){price_ = price;}
+  std::string getType(){return type_;}
+  void setType(const std::string type){type_ = type;}
+
+  virtual void Use(Pokemon& pokemon, std::function<void(PokeBagItemResult res)> callback) = 0;
   virtual void format(std::ostream &out) const = 0;
   
 
