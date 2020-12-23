@@ -3,9 +3,8 @@
 #include "../poke_bag/ball/ball.hpp"
 #include "../threading/create_thread.hpp"
 #include "player.hpp"
-
-#include "future"
-#include <boost/signals2.hpp>
+#include "attack.hpp"
+#include "battle_cry.hpp"
 #include <future>
 #include <iostream>
 #include <thread>
@@ -13,40 +12,7 @@
 namespace battle
 {
 
-template <typename T> class PrintContainer
-{
-public:
-  typedef T value_type;
-  using iterator = typename std::back_insert_iterator<PrintContainer>;
-  void push_back(const T &value) { std::cout << value << std::endl; }
-};
 
-template <typename Container> struct aggregate_output
-{
-  typedef Container result_type;
-
-  template <typename InputIterator>
-  Container operator()(InputIterator first, InputIterator last) const
-  {
-    Container                    c;
-    typename Container::iterator it(c);
-    std::copy(first, last, it);
-    return c;
-  }
-};
-typedef boost::signals2::signal<std::string(),
-                                aggregate_output<PrintContainer<std::string>>>
-                                   BattleCrySignal;
-typedef BattleCrySignal::slot_type BattleCrySlot;
-class BattleCry
-{
-private:
-  BattleCrySignal battleCrySignal_;
-
-public:
-  void add(const BattleCrySlot &cb) { battleCrySignal_.connect(cb); }
-  void operator()() { battleCrySignal_(); }
-};
 
 struct PlayerBattleTag
 {
@@ -55,52 +21,7 @@ struct PokemonBattleTag
 {
 };
 
-template <typename T> class Attack
-{
-private:
-  T attacker_;
 
-public:
-  Attack(T &attacker) : attacker_(attacker) {}
-  template <typename T1 = T>
-  typename std::enable_if<IsSame<T1, Pokemon>::value, std::string>::type
-  doAttack(Pokemon &p)
-  {
-    double modifier      = attacker_.getModifier(p);
-    double currentHealth = p.getHealth_();
-    double damage        = attacker_.getAttack_() * modifier;
-    currentHealth        -= damage;
-    if (currentHealth < 0) currentHealth = 0;
-    p.setHealth_(currentHealth);
-    std::string effectiveness;
-    if (modifier < 0.5)
-    {
-      effectiveness = "It was very ineffective";
-    }
-    else if (modifier < 1)
-    {
-      effectiveness = "It was not very effective";
-    } 
-    else if(modifier > 1) {
-      effectiveness = "It was very effective";
-    }
-    else if(modifier > 1.5) {
-      effectiveness = "It was super effective";
-    }
-    std::string fainted;
-    if(currentHealth == 0)
-    {
-      fainted = p.getNickname_() + " fainted...";
-    }
-    return attacker_.getNickname_() + " attacked wild " + p.getName_() +
-           " for " + std::to_string(damage) + "\n" + effectiveness + "\n" + fainted;
-  }
-  template <typename T1 = T>
-  typename std::enable_if<std::is_base_of<Ball, T1>::value, bool>::type
-  doAttack(Pokemon &p)
-  {
-  }
-};
 
 bool hasBattleFinished(Pokemon &p1, Pokemon &p2)
 {
@@ -149,7 +70,7 @@ void battleImpl(T *player, P *pokemon, PokemonBattleTag)
   bc();
   while (!battleFinished)
   {
-    std::future<PlayerBattleChoice> choiceFuture = player->makeChoice();
+    std::future<PlayerBattleChoice> choiceFuture = player->makeBattleChoice();
     // Could do something else while waiting for player choice
     choiceFuture.wait();
     PlayerBattleChoice choice = choiceFuture.get();
@@ -171,7 +92,7 @@ void battleImpl(T *player, P *pokemon, PokemonBattleTag)
     case PlayerBattleChoice::UsePokeball:
     {
       std::cout << "Using pokeball..." << std::endl;
-      // TODO::
+      // TODO:
       break;
     }
     case PlayerBattleChoice::Run:

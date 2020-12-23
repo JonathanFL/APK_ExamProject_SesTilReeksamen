@@ -13,7 +13,10 @@ ForwardIt select_random_if(ForwardIt first, ForwardIt last, UnaryPredicate predi
             validElements.emplace_back(numElement);
         }
     }
+    if(validElements.size() == 0)
+        return last;
+
     int randomElement = rand() % validElements.size();
-    advance(tempIt, randomElement);
+    advance(tempIt, validElements[randomElement]);
     return tempIt;
 }
