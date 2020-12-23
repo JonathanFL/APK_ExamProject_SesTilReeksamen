@@ -4,36 +4,43 @@
 #include "../pokeBagItem.hpp"
 #include <iostream>
 
-class Potion : public PokeBagItem {
+class Potion : public PokeBagItem
+{
 public:
-    bool heal(Pokemon& pokemon, unsigned int amount)
+  bool heal(Pokemon &pokemon, unsigned int amount)
+  {
+    auto pokemonHealth    = pokemon.getHealth_();
+    auto pokemonMaxHealth = pokemon.getMaxHealth_();
+    if (pokemonHealth + amount > pokemonMaxHealth)
     {
-        auto pokemonHealth = pokemon.getHealth_();
-        auto pokemonMaxHealth = pokemon.getMaxHealth_();
-        if(pokemonHealth+amount > pokemonMaxHealth){
-            pokemon.setHealth_(pokemonMaxHealth);
-        }else{
-            pokemon.setHealth_(pokemonHealth+amount);
-        }
-        return pokemon.getHealth_() == pokemon.getMaxHealth_() || pokemon.getHealth_() == pokemonHealth+amount;
+      pokemon.setHealth_(pokemonMaxHealth);
     }
-
-    Potion(){}
-
-    void Use(Pokemon& pokemon, std::function<void(PokeBagItemResult res)> callback) override{
-        UsePotion(pokemon, callback);
+    else
+    {
+      pokemon.setHealth_(pokemonHealth + amount);
     }
-    void format(std::ostream &out) const override{
-        this->formatImpl(out);
-    }
+    return pokemon.getHealth_() == pokemon.getMaxHealth_() ||
+           pokemon.getHealth_() == pokemonHealth + amount;
+  }
 
-    virtual void formatImpl(std::ostream &out) const = 0;
+  Potion() {}
 
-    virtual void UsePotion(Pokemon& pokemon,std::function<void(PokeBagItemResult res)> callback) = 0;
+  void Use(Pokemon &                                  pokemon,
+           std::function<void(PokeBagItemResult res)> callback) override
+  {
+    UsePotion(pokemon, callback);
+  }
+  void format(std::ostream &out) const override { this->formatImpl(out); }
 
-    virtual~Potion();
+  virtual void formatImpl(std::ostream &out) const = 0;
+
+  virtual void
+  UsePotion(Pokemon &                                  pokemon,
+            std::function<void(PokeBagItemResult res)> callback) = 0;
+
+  virtual ~Potion();
+
 private:
-    
 };
 
 #endif
