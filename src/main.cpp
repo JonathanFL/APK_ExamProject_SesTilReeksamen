@@ -1,4 +1,3 @@
-#include "include/algorithms/select_random_if.hpp"
 #include "include/dbloader/PokemonLoader.hpp"
 #include "include/game/battle.hpp"
 #include "include/game/player.hpp"
@@ -81,7 +80,7 @@ int main()
       break;
     case PlayerGameChoice::BattleWildPokemon:
       PokemonList::iterator randomPokemon =
-          select_random_if(wildPokemons[wild].begin(), wildPokemons[wild].end(),
+          Utilities::select_random_if(wildPokemons[wild].begin(), wildPokemons[wild].end(),
                            [](const Pokemon &p) { return p.getHealth_() > 0; });
       if (randomPokemon == wildPokemons[wild].end())
       {

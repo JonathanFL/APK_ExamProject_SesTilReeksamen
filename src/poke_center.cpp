@@ -1,6 +1,4 @@
 #include "include/poke_center.hpp"
-#include "include/output/clear_screen.hpp"
-#include "poke_bag/pokeBag.hpp"
 
 void PokeCenter::Center::Heal(Pokemon &pokemon)
 {
@@ -9,70 +7,90 @@ void PokeCenter::Center::Heal(Pokemon &pokemon)
 
 std::shared_ptr<PokeBagItem> &&PokeCenter::Center::BuyPotion()
 {
-  std::cout << "Enter the name of the Potion you would like to buy\n";
-  std::string choice;
-  std::cin >> choice;
-  std::vector<std::shared_ptr<PokeBagItem>>::iterator it =
-      find_if(potions_.begin(), potions_.end(),
-              [choice](std::shared_ptr<PokeBagItem> &p) {
-                return p->getType() == choice;
-              });
-  if (it == potions_.end())
+  while (1)
   {
-    return std::make_shared(nullptr);
+    std::cout
+        << "Enter the name of the Ball you would like to buy\nType X to exit";
+    std::string choice;
+    std::cin >> choice;
+    Utilities::toLower(choice);
+    if (choice == "x")
+    {
+      throw ChoiceCancledException("BuyPotion exit");
+    }
+    std::vector<std::shared_ptr<PokeBagItem>>::iterator it =
+        find_if(potions_.begin(), potions_.end(),
+                [choice](std::shared_ptr<PokeBagItem> &p) {
+                  return p->getType() == choice;
+                });
+    if (it != potions_.end())
+    {
+      return std::move(*it);
+    }
   }
-  return std::move(*it);
 }
 
 std::shared_ptr<PokeBagItem> &&PokeCenter::Center::BuyBall()
 {
-    //TODO Handle incorrect choice or exit
-  std::cout << "Enter the name of the Poke ball you would like to buy\n";
-  std::string choice;
-  std::cin >> choice;
-  std::vector<std::shared_ptr<PokeBagItem>>::iterator it = find_if(
-      balls_.begin(), balls_.end(), [choice](std::shared_ptr<PokeBagItem> &p) {
-        return p->getType() == choice;
-      });
-  if (it == balls_.end())
+  while (1)
   {
-    return std::make_shared(nullptr);
+    std::cout
+        << "Enter the name of the Ball you would like to buy\nType X to exit";
+    std::string choice;
+    std::cin >> choice;
+    Utilities::toLower(choice);
+    if (choice == "x")
+    {
+      throw ChoiceCancledException("BuyPotion exit");
+    }
+    std::vector<std::shared_ptr<PokeBagItem>>::iterator it =
+        find_if(balls_.begin(), balls_.end(),
+                [choice](std::shared_ptr<PokeBagItem> &p) {
+                  return p->getType() == choice;
+                });
+    if (it == balls_.end())
+    {
+      return std::move(*it);
+    }
   }
-  return std::move(*it);
 }
 
 void PokeCenter::Center::usePokecenter(Player &p)
 {
-  clearScreen();
+  Utilities::clearScreen();
   std::cout << "Welcome to the pokecenter"
             << "\n";
   std::cout << "What would you like to do?"
             << "\n";
-  std::cout << PokeCenter::PokeCenterChoice::HealPokemon << ". Heal pokemon"
+  std::cout << PokeCenter::PokecenterChoice::HealPokemon << ". Heal pokemon"
             << "\n";
-  std::cout << PokeCenter::PokeCenterChoice::BuyItem << ". Buy item"
+  std::cout << PokeCenter::PokecenterChoice::BuyItem << ". Buy item"
             << "\n";
   std::cout << "Make choice >";
   std::string input;
   std::cin >> input;
-  clearScreen();
+  Utilities::clearScreen();
   try
   {
     int chosenNumber = std::stoi(input);
     if (chosenNumber > 0 && chosenNumber < 3)
     {
-      chosen = true;
       switch (chosenNumber)
       {
-      case PokeCenter::PokeCenterChoice::HealPokemon:
+      case PokeCenter::PokecenterChoice::HealPokemon:
+      {
         PokeBag &playerBag = p.getBag();
-        playerBag.forEachPokemon(Heal);
+        playerBag.forEachPokemon([&](Pokemon &p) { Heal(p); });
         break;
-      case PokeCenter::PokeCenterChoice::BuyItem:
-        std::shared_ptr<PokeBagItem> item = buyPokeBagItem();
-        PokeBag & playerBag = p.getBag();
+      }
+
+      case PokeCenter::PokecenterChoice::BuyItem:
+      {
+        std::shared_ptr<PokeBagItem> item      = buyPokeBagItem();
+        PokeBag &                    playerBag = p.getBag();
         playerBag.addItem(std::move(item));
         break;
+      }
       }
     }
     else
@@ -91,9 +109,9 @@ void PokeCenter::Center::usePokecenter(Player &p)
   }
 }
 
-std::shared_ptr<PokeBagItem>&& PokeCenter::Center::buyPokeBagItem()
+std::shared_ptr<PokeBagItem> &&PokeCenter::Center::buyPokeBagItem()
 {
-  clearScreen();
+  Utilities::clearScreen();
   std::cout << "What would you like to buy?"
             << "\n";
   std::cout << "Available items are:"
@@ -104,19 +122,18 @@ std::shared_ptr<PokeBagItem>&& PokeCenter::Center::buyPokeBagItem()
   std::cout << "Input choice >";
   std::string input;
   std::cin >> input;
-  clearScreen();
+  Utilities::clearScreen();
   try
   {
     int chosenNumber = std::stoi(input);
     if (chosenNumber > 0 && chosenNumber < 3)
     {
-      chosen = true;
       switch (chosenNumber)
       {
       case PokeCenter::BuyItemChoice::BuyPokeball:
         return BuyBall();
         break;
-      case PokeCenter::BuyItemChoiuce::BuyPotion:
+      case PokeCenter::BuyItemChoice::BuyPotion:
         return BuyPotion();
         break;
       }
