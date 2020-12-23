@@ -8,6 +8,7 @@
 #include "include/poke_bag/pokeBagItem.hpp"
 #include "include/poke_bag/potion/hyperPotion.hpp"
 #include "include/poke_bag/potion/superPotion.hpp"
+#include "include/poke_center.hpp"
 #include "include/pokemon/pokemon.hpp"
 #include "include/algorithms/select_random_if.hpp"
 
@@ -49,6 +50,13 @@ int main()
              poketypes::FirePokemonType(), poketypes::ElectricPokemonType());
   PokeBag bag;
 
+  /*
+  PokeCenter::Center pokecenter;
+  pokecenter.ListAvailableItems();
+  auto ball = pokecenter.BuyBall();
+  std::cout << std::to_string(ball.get()->getPrice()) << std::endl;
+  */
+      
   bool exit = false;
   bag.addPokemon(p2);
   Player player("Ash", bag);

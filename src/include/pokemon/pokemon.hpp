@@ -16,6 +16,7 @@ class Pokemon
 private:
   /* data */
   double                        health_;
+  double                        maxHealth_;
   unsigned int                  level_;
   unsigned int                  xp_;
   double                        attack_;
@@ -49,6 +50,8 @@ public:
   {
     this->health_ = health_;
   }
+  const double      getMaxHealth_() const {return this->maxHealth_;}
+  void              setMaxHealth_(double maxHealth){this->maxHealth_ = maxHealth;}
   const int         getLevel_() const { return this->level_; }
   void              setLevel_(int level_) { this->level_ = level_; }
   const int         getXp_() const { return this->xp_; }
@@ -69,30 +72,32 @@ public:
           poketypes::PokemonTypeVariant &&primaryType,
           poketypes::PokemonTypeVariant &&secondaryType)
   {
-    this->health_ = health;
-    this->level_ = level;
-    this->name_ = std::move(name);
-    this->nickname_ = std::move(nickname);
-    this->xp_       = xp;
-    this->attack_   = attack;
-    this->defense_  = defense;
-    sType_          = std::move(secondaryType);
-    pType_          = std::move(primaryType);
+    this->health_     = health;
+    this->maxHealth_  = health;
+    this->level_      = level;
+    this->name_       = std::move(name);
+    this->nickname_   = std::move(nickname);
+    this->xp_         = xp;
+    this->attack_     = attack;
+    this->defense_    = defense;
+    sType_            = std::move(secondaryType);
+    pType_            = std::move(primaryType);
   }
 
   Pokemon(double health, unsigned int level, unsigned int xp, double attack,
           double defense, std::string &&name, std::string &&nickname,
           poketypes::PokemonTypeVariant &&primaryType)
   {
-    this->health_   = health;
-    this->level_    = level;
-    this->name_     = std::move(name);
-    this->nickname_ = std::move(nickname);
-    this->xp_       = xp;
-    this->attack_   = attack;
-    this->defense_  = defense;
-    pType_          = std::move(primaryType);
-    sType_          = poketypes::PokemonTypeVariant();
+    this->health_     = health;
+    this->maxHealth_  = health;
+    this->level_      = level;
+    this->name_       = std::move(name);
+    this->nickname_   = std::move(nickname);
+    this->xp_         = xp;
+    this->attack_     = attack;
+    this->defense_    = defense;
+    pType_            = std::move(primaryType);
+    sType_            = poketypes::PokemonTypeVariant();
   }
 
   std::string battleCry() { return name_ + name_ + "!!"; }
@@ -116,6 +121,7 @@ public:
 
   Pokemon()
       : health_(0),
+        maxHealth_(0),
         level_(0),
         xp_(0),
         attack_(0),
@@ -150,6 +156,7 @@ public:
     }
 
     in >> p.health_;
+    in >> p.maxHealth_;
     in >> p.level_;
     in >> p.xp_;
     in >> p.attack_;
@@ -161,6 +168,7 @@ public:
     return out << "Pokemon: " << p.getName_()
                << " - Attack: " << to_string(p.getAttack_())
                << " - Health: " << to_string(p.getHealth_())
+               << " - MaxHealth: " << to_string(p.getMaxHealth_())
                << " - Level: " << to_string(p.getLevel_())
                << " - XP: " << to_string(p.getXp_())
                << " - Nickname: " << p.getNickname_() << std::endl;
@@ -171,6 +179,7 @@ public:
     moveVariableStrategy(this->name_, other.name_);
     moveVariableStrategy(this->nickname_, other.nickname_);
     moveVariableStrategy(this->health_, other.health_);
+    moveVariableStrategy(this->maxHealth_, other.maxHealth_);
     moveVariableStrategy(this->level_, other.level_);
     moveVariableStrategy(this->xp_, other.xp_);
     moveVariableStrategy(this->attack_, other.attack_);
@@ -186,6 +195,7 @@ public:
       moveVariableStrategy(this->name_, other.name_);
       moveVariableStrategy(this->nickname_, other.nickname_);
       moveVariableStrategy(this->health_, other.health_);
+      moveVariableStrategy(this->maxHealth_, other.maxHealth_);
       moveVariableStrategy(this->level_, other.level_);
       moveVariableStrategy(this->xp_, other.xp_);
       moveVariableStrategy(this->attack_, other.attack_);
@@ -201,6 +211,7 @@ public:
     this->name_ = other.name_;
     this->nickname_ = other.nickname_;
     this->health_ = other.health_;
+    this->maxHealth_ = other.maxHealth_;
     this->level_ = other.level_;
     this->xp_ = other.xp_;
     this->attack_ = other.attack_;
@@ -216,6 +227,7 @@ public:
       this->name_ = other.name_;
       this->nickname_ = other.nickname_;
       this->health_ = other.health_;
+      this->maxHealth_ = other.maxHealth_;
       this->level_ = other.level_;
       this->xp_ = other.xp_;
       this->attack_ = other.attack_;

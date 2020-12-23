@@ -8,7 +8,7 @@ class Potion : public PokeBagItem {
 public:
     Potion(){}
 
-    void Use(std::function<void(PokeBagItemResult res)> callback) override{
+    void Use(Pokemon& pokemon, std::function<void(PokeBagItemResult res)> callback) override{
         UsePotion(callback);
     }
     void format(std::ostream &out) const override{

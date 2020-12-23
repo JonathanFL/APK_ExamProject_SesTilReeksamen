@@ -27,6 +27,17 @@ public:
       : name_(std::move(name)), bag_(std::move(pokeBag))
   {
   }
+
+  PokeBagItem* choosePokeBagItem()
+  {
+    std::cout << "Enter the name of the Poke Ball that you would like to choose:"
+              << std::endl;
+    bag_.listNumberOfEachItemByType();
+    int choice;
+    std::cin >> choice;
+    return bag_.getItemByIndex(choice);
+  }
+
   void     listPokemon() { bag_.listPokemon(); }
   Pokemon &choosePokemon()
   {
