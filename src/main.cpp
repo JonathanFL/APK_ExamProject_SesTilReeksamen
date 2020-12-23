@@ -17,18 +17,19 @@
 #include <iostream>
 #include <variant>
 
-#define POKEMONS_DB_FILE "config/pokemons.db"
-
 int main()
 {
-  PokemonList             wildPokemons;
+  std::map<std::string, PokemonList> wildPokemons;
   dbloader::PokemonLoader pokemonLoader;
+
+  std::string wild = "config/wild_pokemons.db", user = "config/user_pokemons.db";
 
   try
   {
-    pokemonLoader.ReadPokemonsList(POKEMONS_DB_FILE);
+    pokemonLoader.ReadPokemonsList(wild, user);
     wildPokemons = pokemonLoader.getPokemons();
-    pokemonLoader.PrintPokemonList(wildPokemons);
+    pokemonLoader.PrintPokemonList(wildPokemons[wild]);
+    pokemonLoader.PrintPokemonList(wildPokemons[user]);
   }
   catch (poketypes::UnknownPokemonTypeException &e)
   {
@@ -46,8 +47,6 @@ int main()
     return 0;
   }
 
-   Pokemon p2(100.2, 10, 0, 50, 100, "Charmander", "Valle",
-              poketypes::FirePokemonType(), poketypes::ElectricPokemonType());
   PokeBag bag;
 
   // PokeCenter::Center pokecenter;
@@ -58,9 +57,16 @@ int main()
   //       std::cout << result.result << "\n";
   //     });
   // std::cout << p2 << std::endl;
-  
+
   bool exit = false;
-  bag.addPokemon(p2);
+  try
+  {
+    bag.addPokemon(wildPokemons[user].at(0));
+  }
+  catch (...)
+  {
+    std::cout << "caugth an error" << endl;
+  }
   Player player("Ash", bag);
   while (!exit) // Game loop
   {
@@ -74,9 +80,9 @@ int main()
       break;
     case PlayerGameChoice::BattleWildPokemon:
       PokemonList::iterator randomPokemon =
-          select_random_if(wildPokemons.begin(), wildPokemons.end(),
+          select_random_if(wildPokemons[wild].begin(), wildPokemons[wild].end(),
                            [](const Pokemon &p) { return p.getHealth_() > 0; });
-      if (randomPokemon == wildPokemons.end())
+      if (randomPokemon == wildPokemons[wild].end())
       {
         std::cout << "No wild pokemon left - you have won the game!"
                   << std::endl;
