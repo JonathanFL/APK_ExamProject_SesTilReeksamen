@@ -26,7 +26,7 @@ std::shared_ptr<PokeBagItem> &&PokeCenter::Center::BuyPotion()
 
 std::shared_ptr<PokeBagItem> &&PokeCenter::Center::BuyBall()
 {
-    //TODO Handle incorrect choice or exit
+  //TODO Handle incorrect choice or exit
   std::cout << "Enter the name of the Poke ball you would like to buy\n";
   std::string choice;
   std::cin >> choice;
@@ -70,7 +70,7 @@ void PokeCenter::Center::usePokecenter(Player &p)
         break;
       case PokeCenter::PokeCenterChoice::BuyItem:
         std::shared_ptr<PokeBagItem> item = buyPokeBagItem();
-        PokeBag & playerBag = p.getBag();
+        PokeBag &playerBag = p.getBag();
         playerBag.addItem(std::move(item));
         break;
       }
@@ -91,7 +91,7 @@ void PokeCenter::Center::usePokecenter(Player &p)
   }
 }
 
-std::shared_ptr<PokeBagItem>&& PokeCenter::Center::buyPokeBagItem()
+std::shared_ptr<PokeBagItem> &&PokeCenter::Center::buyPokeBagItem()
 {
   clearScreen();
   std::cout << "What would you like to buy?"

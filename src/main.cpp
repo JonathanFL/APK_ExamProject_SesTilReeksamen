@@ -11,6 +11,7 @@
 #include "include/poke_bag/potion/superPotion.hpp"
 #include "include/poke_center.hpp"
 #include "include/pokemon/pokemon.hpp"
+#include "include/dbloader/PokemonListEntry.hpp"
 
 #include <boost/bind.hpp>
 #include <boost/variant.hpp>
@@ -19,17 +20,15 @@
 
 int main()
 {
-  std::map<std::string, PokemonList> wildPokemons;
+  std::map<std::string, PokemonList> pokemons;
   dbloader::PokemonLoader pokemonLoader;
-
-  std::string wild = "config/wild_pokemons.db", user = "config/user_pokemons.db";
 
   try
   {
-    pokemonLoader.ReadPokemonsList(wild, user);
-    wildPokemons = pokemonLoader.getPokemons();
-    pokemonLoader.PrintPokemonList(wildPokemons[wild]);
-    pokemonLoader.PrintPokemonList(wildPokemons[user]);
+    pokemonLoader.ReadPokemonsList(PokemonListEntry::LowLevelPokemons, PokemonListEntry::MediumLevelPokemons, PokemonListEntry::HighLevelPokemons, PokemonListEntry::RarePokemons, PokemonListEntry::UserPokemons);
+    pokemons = pokemonLoader.getPokemons();
+    pokemonLoader.PrintPokemonList(pokemons[PokemonListEntry::RarePokemons]);
+    pokemonLoader.PrintPokemonList(pokemons[PokemonListEntry::UserPokemons]);
   }
   catch (poketypes::UnknownPokemonTypeException &e)
   {
@@ -62,7 +61,7 @@ int main()
   bool exit = false;
   try
   {
-    bag.addPokemon(wildPokemons[user].at(0));
+    bag.addPokemon(pokemons[PokemonListEntry::UserPokemons].at(0));
   }
   catch (...)
   {
@@ -81,9 +80,9 @@ int main()
       break;
     case PlayerGameChoice::BattleWildPokemon:
       PokemonList::iterator randomPokemon =
-          select_random_if(wildPokemons[wild].begin(), wildPokemons[wild].end(),
+          select_random_if(pokemons[PokemonListEntry::RarePokemons].begin(), pokemons[PokemonListEntry::RarePokemons].end(),
                            [](const Pokemon &p) { return p.getHealth_() > 0; });
-      if (randomPokemon == wildPokemons[wild].end())
+      if (randomPokemon == pokemons[PokemonListEntry::RarePokemons].end())
       {
         std::cout << "No wild pokemon left - you have won the game!"
                   << std::endl;
