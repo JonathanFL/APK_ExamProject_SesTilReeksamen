@@ -11,6 +11,7 @@
 #include "poke_bag/ball/ultraBall.hpp"
 #include "poke_bag/potion/hyperPotion.hpp"
 #include "poke_bag/potion/superPotion.hpp"
+#include "game/player.hpp"
 
 #include <vector>
 #include <memory>
