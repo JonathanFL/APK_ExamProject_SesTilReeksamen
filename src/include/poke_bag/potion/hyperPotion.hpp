@@ -5,18 +5,20 @@
 #include <thread>
 
 class HyperPotion : public Potion {
+private:
+    const unsigned int healAmount = 200;
 public:
     HyperPotion(){}
-    void UsePotion(std::function<void(PokeBagItemResult res)> callback) override
+    void UsePotion(Pokemon& pokemon,std::function<void(PokeBagItemResult res)> callback) override
     {
         std::cout << " Using HyperPotion..." << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        PokeBagItemResult res;res.result = std::to_string(100);
+        PokeBagItemResult res;res.result = heal(pokemon, healAmount) ? pokemon.getNickname_() + " was healed HP" : "Potion failed";
         callback(res);
     }
 
     void formatImpl(std::ostream &out) const override{
-        out << "HyperPotion";
+        out << "SuperPotion healing: " << std::to_string(healAmount);
     }
 
 };

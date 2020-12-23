@@ -24,38 +24,16 @@ class Center{
 private:
     std::vector<std::shared_ptr<PokeBagItem>> balls_;
     std::vector<std::shared_ptr<PokeBagItem>> potions_;
-    
-    std::shared_ptr<PokeBagItem> createPokeBall()
-    {
-        std::shared_ptr<PokeBall> pokeBall = std::make_shared<PokeBall>();
-        PokeBall* pbitem = pokeBall.get();
-        pbitem->setPrice(PokeCenter::Items.at(0).second);
-        pbitem->setType(PokeCenter::Items.at(0).first);
-        return pokeBall;
-    }
-    std::shared_ptr<PokeBagItem> createGreatBall()
-    {
-        std::shared_ptr<GreatBall> greatBall = std::make_shared<GreatBall>();
-        GreatBall* pbitem = greatBall.get();
-        pbitem->setPrice(PokeCenter::Items.at(1).second);
-        pbitem->setType(PokeCenter::Items.at(1).first);
-        return greatBall;
-    }
-    std::shared_ptr<PokeBagItem> createUltraBall()
-    {
-        std::shared_ptr<UltraBall> ultraBall = std::make_shared<UltraBall>();
-        UltraBall* pbitem = ultraBall.get();
-        pbitem->setPrice(PokeCenter::Items.at(2).second);
-        pbitem->setType(PokeCenter::Items.at(2).first);
-        return ultraBall;
-    }
-    std::shared_ptr<PokeBagItem> createMasterBall()
-    {
-        std::shared_ptr<MasterBall> masterBall = std::make_shared<MasterBall>();
-        MasterBall* pbitem = masterBall.get();
-        pbitem->setPrice(PokeCenter::Items.at(3).second);
-        pbitem->setType(PokeCenter::Items.at(3).first);
-        return masterBall;
+
+    template<typename T>
+    std::shared_ptr<PokeBagItem> createItem(double price, std::string type){
+        static_assert(std::is_base_of<PokeBagItem, T>::value, "The type must be a base class of `PokeBagItem`");
+        static_assert(std::is_convertible<T&, PokeBagItem&>::value, "The type must be an *accessible* base class of `PokeBagItem`");
+        std::shared_ptr<T> ball = std::make_shared<T>();
+        T* pbitem = ball.get();
+        pbitem->setPrice(price);
+        pbitem->setType(type);
+        return ball;
     }
 
     void printItemsInShop()
@@ -74,15 +52,18 @@ public:
     {
         for (size_t i = 0; i < 20; i++)
         {
-            balls_.push_back(createPokeBall());
-            balls_.push_back(createGreatBall());
-            balls_.push_back(createUltraBall());
-            balls_.push_back(createMasterBall());
+            balls_.push_back(createItem<PokeBall>(PokeCenter::Items.at(0).second,PokeCenter::Items.at(0).first));
+            balls_.push_back(createItem<GreatBall>(PokeCenter::Items.at(1).second,PokeCenter::Items.at(1).first));
+            balls_.push_back(createItem<UltraBall>(PokeCenter::Items.at(2).second,PokeCenter::Items.at(2).first));
+            balls_.push_back(createItem<MasterBall>(PokeCenter::Items.at(3).second,PokeCenter::Items.at(3).first));
+
+            potions_.push_back(createItem<SuperPotion>(PokeCenter::Items.at(4).second,PokeCenter::Items.at(4).first));
+            potions_.push_back(createItem<HyperPotion>(PokeCenter::Items.at(5).second,PokeCenter::Items.at(5).first));
         }
     }
 
     void Heal(Pokemon& pokemon);
-    PokeBagItem* BuyPotion();
+    std::shared_ptr<PokeBagItem>&& BuyPotion();
     std::shared_ptr<PokeBagItem>&& BuyBall();
     void ListAvailableItems(){
         printItemsInShop();

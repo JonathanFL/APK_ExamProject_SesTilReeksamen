@@ -46,17 +46,19 @@ int main()
     return 0;
   }
 
-  Pokemon p2(100.2, 10, 0, 50, 100, "Charmander", "Valle",
-             poketypes::FirePokemonType(), poketypes::ElectricPokemonType());
+   Pokemon p2(100.2, 10, 0, 50, 100, "Charmander", "Valle",
+              poketypes::FirePokemonType(), poketypes::ElectricPokemonType());
   PokeBag bag;
 
-  /*
-  PokeCenter::Center pokecenter;
-  pokecenter.ListAvailableItems();
-  auto ball = pokecenter.BuyBall();
-  std::cout << std::to_string(ball.get()->getPrice()) << std::endl;
-  */
-      
+  // PokeCenter::Center pokecenter;
+  // pokecenter.ListAvailableItems();
+  // auto potion = pokecenter.BuyPotion();
+  // auto p = potion.get();
+  // p->Use(p2,[](PokeBagItemResult result) {
+  //       std::cout << result.result << "\n";
+  //     });
+  // std::cout << p2 << std::endl;
+  
   bool exit = false;
   bag.addPokemon(p2);
   Player player("Ash", bag);
