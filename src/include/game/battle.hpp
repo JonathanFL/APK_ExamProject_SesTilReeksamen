@@ -2,9 +2,9 @@
 #define BATTLE_HPP
 #include "../poke_bag/ball/ball.hpp"
 #include "../threading/create_thread.hpp"
-#include "player.hpp"
 #include "attack.hpp"
 #include "battle_cry.hpp"
+#include "player.hpp"
 #include <future>
 #include <iostream>
 #include <thread>
@@ -12,16 +12,12 @@
 namespace battle
 {
 
-
-
 struct PlayerBattleTag
 {
 };
 struct PokemonBattleTag
 {
 };
-
-
 
 bool hasBattleFinished(Pokemon &p1, Pokemon &p2)
 {
@@ -85,8 +81,20 @@ void battleImpl(T *player, P *pokemon, PokemonBattleTag)
     }
     case PlayerBattleChoice::UseItem:
     {
-      std::cout << "Using item" << std::endl;
-      // TODO:
+      // std::cout << "Using item" << std::endl;
+      PokeBag playerBag = player->getBag();
+      playerBag.listNumberOfEachItemByType();
+      std::cout << "Vil du bruge en Ball eller en Potion?" << std::endl;
+      std::string choice;
+
+      auto itemToUse = playerBag.getItemByName(choice);
+      if (itemToUse)
+      {
+        // p->Use(pokemons[PokemonListEntry::UserPokemons].at(0),
+        //        [](PokeBagItemResult result) {
+        //          std::cout << result.result << "\n";
+        //        });
+      }
       break;
     }
     case PlayerBattleChoice::UsePokeball:

@@ -51,10 +51,10 @@ void Center::usePokecenter(Player &p)
       throw std::out_of_range("Must be either 1 or 2");
     }
   }
-  catch (const std::invalid_argument &e)
+  catch (const ChoiceCancelledException &e)
   {
-    std::cout << "Invalid input"
-              << "\n";
+    // std::cout << "ChoiceCancelledException " << e.what()
+    //           << "\n";
   }
   catch (const std::out_of_range &e)
   {
@@ -82,30 +82,26 @@ void Center::buyPokeBagItem(PokeBag &playerBag)
       throw ChoiceCancelledException("Cancelled PokeCenter choice");
     }
     auto item = getPokeBagItem(input);
-    if (item.index() == 0)
-    {
-      addToBag(playerBag,
-               std::move(std::get<std::shared_ptr<PokeBagItem>>(item)));
+    if(item){
+      std::cout << "Adding " << item->getType() << " to bag" << std::endl;
+      addToBag(playerBag, std::move(item));
+      return;
     }
   }
 }
 
-std::variant<shared_ptr<PokeBagItem>, std::shared_ptr<std::nullptr_t>> &&
-Center::getPokeBagItem(const std::string choice)
+shared_ptr<PokeBagItem> Center::getPokeBagItem(const std::string choice)
 {
   std::vector<std::shared_ptr<PokeBagItem>>::iterator it =
       find_if(pokeBagItems_.begin(), pokeBagItems_.end(),
               [choice](std::shared_ptr<PokeBagItem> &p) {
-                return p->getType() == choice;
+                auto type = p->getType();
+                Utilities::toLower(type);
+                return type == choice;
               });
-  if (it != pokeBagItems_.end())
-  {
-    return std::move(*it);
-  }
-  else
-  {
-    return std::make_shared<std::nullptr_t>(nullptr);
-  }
+  if (it == pokeBagItems_.end()) return nullptr;
+  pokeBagItems_.erase(it);
+  return *it;
 }
 
 void Center::addToBag(PokeBag &bag, std::shared_ptr<PokeBagItem> &&item)
