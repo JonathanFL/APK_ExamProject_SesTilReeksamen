@@ -52,13 +52,13 @@ private:
     std::vector<std::shared_ptr<PokeBagItem>> potions_;
 
     template<typename T>
-    std::shared_ptr<PokeBagItem>&& createItem(PokeCenter::PokeCenterTypes type){
+    std::shared_ptr<PokeBagItem> createItem(PokeCenter::PokeCenterTypes type){
         static_assert(std::is_base_of<PokeBagItem, T>::value, "The type must be a base class of `PokeBagItem`");
         static_assert(std::is_convertible<T&, PokeBagItem&>::value, "The type must be an *accessible* base class of `PokeBagItem`");
         std::shared_ptr<T> t = std::make_shared<T>();
         t.get()->setPrice(PokeCenter::Items.at(type).second);
         t.get()->setType(PokeCenter::Items.at(type).first);
-        return std::move(t);// return by value(copy?)?, since the other object will just go out of scope
+        return t;// return by rvalue ref(xvalue?), temporary variable, t, is extended beyond the rvalue ref definition
     }
 
     void printItemsInShop()
