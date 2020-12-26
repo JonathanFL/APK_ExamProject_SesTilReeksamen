@@ -6,6 +6,7 @@ namespace PokeCenter
 {
 void Center::heal(Pokemon &pokemon)
 {
+  std::cout << "Healing pokemon: " << pokemon.getNickname_() << std::endl;
   pokemon.setHealth_(pokemon.getMaxHealth_());
 }
 

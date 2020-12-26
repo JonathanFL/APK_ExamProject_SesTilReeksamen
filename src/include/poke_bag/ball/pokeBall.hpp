@@ -7,7 +7,7 @@
 class PokeBall : public Ball
 {
 private:
-  const double probabilityOfCatch = .75;
+  const double probabilityOfCatch = .50;
   const double levelPunishment    = .1;
 
 public:
@@ -16,7 +16,7 @@ public:
              std::function<void(PokeBagItemResult res)> callback) override
   {
     std::cout << "Using PokeBall: probability of catching is "
-              << 0.75_to_percent << "%" << std::endl;
+              << 0.50_to_percent << "%" << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     PokeBagItemResult res;
     if (pokemon.getLevel_() > 15)
