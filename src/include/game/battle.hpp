@@ -90,7 +90,17 @@ namespace battle
       case PlayerBattleChoice::UsePokeball:
       {
         std::cout << "Using pokeball..." << std::endl;
-        auto pokeball = player->choosePokeBagItem();
+        std::shared_ptr<PokeBagItem> pokeball = player->choosePokeBagItem();
+        pokeball->Use(*pokemon, [pokemon, player](PokeBagItemResult res) {
+                                   if (res.result == "You caught the Pokemon\n") {
+                                     std::cout << "You caught the wild " << pokemon->getName_() << "! Give your new pokemon a nickname: " << std::endl;
+                                     std::string nickname;
+                                     std::cin >> nickname;
+                                     pokemon->setNickname_(nickname);
+                                     player->getBag().addPokemon(*pokemon);
+                                   } else {
+                                     std::cout << "The wild " << pokemon->getName_() << " was not caught!" << std::endl;
+                                   } });
         break;
       }
       case PlayerBattleChoice::Run:
