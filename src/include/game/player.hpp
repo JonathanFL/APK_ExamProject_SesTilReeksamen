@@ -48,16 +48,26 @@ public:
 
   std::shared_ptr<PokeBagItem> choosePokeBagItem()
   {
-    std::cout
-        << "Enter the name of the Poke Ball that you would like to choose:"
-        << std::endl;
-    bag_.listNumberOfEachItemByType();
-    std::string choice;
-    std::cin >> choice;
-    auto indexToRemoveAt = -1;
-    auto item = bag_.getItemByName(choice, indexToRemoveAt);
-    bag_.removeItemFromBag(indexToRemoveAt);
-    return item;
+    while (1)
+    {
+      std::cout << "Enter the name of the item that you would like to choose:"
+                << "(X) to go back" << std::endl;
+      bag_.listNumberOfEachItemByType();
+      std::string choice;
+      std::cin >> choice;
+      Utilities::toLower(choice);
+      if (choice == "x")
+      {
+        throw ChoiceCancelledException("choosePokeBagItem");
+      }
+      auto indexToRemoveAt = -1;
+      auto item            = bag_.getItemByName(choice, indexToRemoveAt);
+      if (item)
+      {
+        bag_.removeItemFromBag(indexToRemoveAt);
+        return item;
+      }
+    }
   }
 
   void listPokemon()

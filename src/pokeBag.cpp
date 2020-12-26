@@ -25,7 +25,9 @@ std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName,
   it = find_if(items_.begin(), items_.end(),
                [itemName, &indexToRemoveAt](std::shared_ptr<PokeBagItem> p) {
                  ++indexToRemoveAt;
-                 return p->getType() == itemName;
+                 auto itemType = p->getType();
+                 Utilities::toLower(itemType);
+                 return itemType == itemName;
                });
   if (it == items_.end())
   {
