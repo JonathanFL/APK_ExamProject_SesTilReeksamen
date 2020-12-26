@@ -76,7 +76,7 @@ void Center::buyPokeBagItem(PokeBag &playerBag)
     std::string input;
     std::cin >> input;
     Utilities::clearScreen();
-    //Utilities::toLower(input);
+    Utilities::toLower(input);
     if (input == "x")
     {
       throw ChoiceCancelledException("Cancelled PokeCenter choice");
@@ -84,9 +84,9 @@ void Center::buyPokeBagItem(PokeBag &playerBag)
     auto item = getPokeBagItem(input);
     if (item)
     {
-      std::cout << "Adding " << item->getType() << " to bag" << std::endl;
+      std::cout << "Added " << item->getType() << " to bag" << std::endl;
       addToBag(playerBag, std::move(item));
-      playerBag.listNumberOfEachItemByType();
+      
       return;
     }
   }
@@ -102,7 +102,6 @@ shared_ptr<PokeBagItem> Center::getPokeBagItem(const std::string choice)
                 return type == choice;
               });
   if (it == pokeBagItems_.end()) return nullptr;
-  pokeBagItems_.erase(it);
   return *it;
 }
 
