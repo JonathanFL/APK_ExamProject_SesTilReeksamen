@@ -7,8 +7,8 @@ private:
   std::string choiceType_;
 
 public:
-  ChoiceCancledException(std::string choiceType) : choiceType_(choiceType){};
+  ChoiceCancledException(std::string choiceType) : choiceType_("Choice of type " + choiceType + " cancled..."){};
   ~ChoiceCancledException(){};
 
-  virtual const char *what() const throw() { return "Choice of type " + choiceType_ + " cancled..."; }
+  virtual const char *what() const throw() { return choiceType_.c_str(); }
 };

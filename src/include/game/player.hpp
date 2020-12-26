@@ -3,7 +3,7 @@
 #include "../metaprogramming/if_then_else.hpp"
 #include "../poke_bag/pokeBag.hpp"
 #include "../threading/create_thread.hpp"
-#include "../output/clear_screen.hpp"
+#include "../utility/utilities.hpp"
 // #include "../pokemon/pokedex.hpp"
 #include <future>
 #include <string>
@@ -53,7 +53,7 @@ public:
     bag_.listPokemon();
     std::string choice;
     std::cin >> choice;
-    clearScreen();
+    Utilities::clearScreen();
     return *bag_.findPokemon(choice);
   }
 
@@ -79,7 +79,7 @@ public:
         std::cout << "Input choice >";
         std::string input;
         std::cin >> input;
-        clearScreen();
+        Utilities::clearScreen();
         try
         {
           int chosenNumber = std::stoi(input);
@@ -133,7 +133,7 @@ public:
         std::cout << "Input choice >";
         std::string input;
         std::cin >> input;
-        clearScreen();
+        Utilities::clearScreen();
         try
         {
           int chosenNumber = std::stoi(input);

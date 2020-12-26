@@ -27,7 +27,7 @@ public:
   void addItem(std::shared_ptr<PokeBagItem> item);
 
   std::shared_ptr<PokeBagItem>& getItemByIndex(unsigned int index);
-  std::shared_ptr<PokeBagItem> findPokeBagItem(std::string itemName);
+  std::shared_ptr<PokeBagItem> getItemByName(std::string itemName);
   void listItems();
   void listNumberOfEachItemByType();
 

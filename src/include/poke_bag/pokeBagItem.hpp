@@ -53,7 +53,7 @@ public:
 
   friend std::ostream &
   operator<<(std::ostream &     out,
-             const PokeBagItem *temp) // bruger pointer for at dereferere objekt
+             const std::shared_ptr<PokeBagItem> temp) // bruger pointer for at dereferere objekt
                                       // yderligere efter derefereringen i Copy.
   {
     out << "[" << std::to_string(temp->index_) << "] ";
