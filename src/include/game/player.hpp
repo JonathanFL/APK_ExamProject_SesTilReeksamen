@@ -25,13 +25,6 @@ enum PlayerGameChoice
   ExitGame          = 5,
 };
 
-struct PokeBallTag
-{
-};
-struct PotionTag
-{
-};
-
 class Player
 {
 private:
@@ -46,13 +39,20 @@ public:
 
   void setBag(PokeBag &pokeBag) { bag_ = std::move(pokeBag); }
 
-  std::shared_ptr<PokeBagItem> choosePokeBagItem()
+  std::shared_ptr<PokeBagItem> choosePokeBagItem(PlayerBattleChoice choice)
   {
     while (1)
     {
       std::cout << "Enter the name of the item that you would like to choose:"
                 << "(X) to go back" << std::endl;
-      bag_.listNumberOfEachItemByType();
+      if (choice == PlayerBattleChoice::UsePokeball)
+      {
+        bag_.listNumberOfEachPokeBall();
+      }
+      else if (choice == PlayerBattleChoice::UseItem)
+      {
+        bag_.listNumberOfEachPotion();
+      }
       std::string choice;
       std::cin >> choice;
       Utilities::toLower(choice);
@@ -79,7 +79,7 @@ public:
   void listBagItems()
   {
     std::cout << "Items in the bag:" << std::endl;
-    bag_.listNumberOfEachItemByType();
+    bag_.listNumberOfEachPokeItem();
   }
 
   Pokemon &choosePokemon()

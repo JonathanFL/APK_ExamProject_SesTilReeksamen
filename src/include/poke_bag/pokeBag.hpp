@@ -32,7 +32,9 @@ public:
                                               int &       indexToRemoveAt);
   void                          removeItemFromBag(const int indexToRemoveAt);
   void                          listItems();
-  void                          listNumberOfEachItemByType();
+  void                          listNumberOfEachPokeItem();
+  void                          listNumberOfEachPokeBall();
+  void                          listNumberOfEachPotion();
 
   template <typename P, typename... Pokemons>
   void addPokemon(P &pokemon, Pokemons &... pokemons)

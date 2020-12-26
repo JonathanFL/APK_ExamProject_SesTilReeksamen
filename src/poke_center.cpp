@@ -73,7 +73,7 @@ void Center::buyPokeBagItem(PokeBag &playerBag)
     listAvailableItems();
     std::cout << "What would you like to buy?"
               << "\n";
-    std::cout << "Input name of Item or X to Quit >";
+    std::cout << "Input name of Item - 'X' to go back >";
     std::string input;
     std::cin >> input;
     Utilities::clearScreen();

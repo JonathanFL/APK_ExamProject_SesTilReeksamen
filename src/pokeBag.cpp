@@ -59,10 +59,44 @@ void PokeBag::listItems()
        oStreamIter); // copy vil compile sålænge objektet har operator ++ = og *
 }
 
-void PokeBag::listNumberOfEachItemByType()
+void PokeBag::listNumberOfEachPokeItem()
 {
   int numberOfBalls[PokeCenter::PokeCenterTypes::HyperpotionType + 1] = {};
   for (size_t i = 0; i < PokeCenter::PokeCenterTypes::HyperpotionType + 1; i++)
+  {
+    numberOfBalls[i] = count_if(
+        items_.begin(), items_.end(), [i](std::shared_ptr<PokeBagItem> p) {
+          return p->getType() == PokeCenter::Items.at(i).first;
+        });
+    if (numberOfBalls[i] > 0)
+    {
+      std::cout << numberOfBalls[i] << " " << PokeCenter::Items.at(i).first
+                << "(s)\n";
+    }
+  }
+}
+
+void PokeBag::listNumberOfEachPokeBall()
+{
+  int numberOfBalls[PokeCenter::PokeCenterTypes::HyperpotionType - 1] = {};
+  for (size_t i = 0; i < PokeCenter::PokeCenterTypes::HyperpotionType - 1; i++)
+  {
+    numberOfBalls[i] = count_if(
+        items_.begin(), items_.end(), [i](std::shared_ptr<PokeBagItem> p) {
+          return p->getType() == PokeCenter::Items.at(i).first;
+        });
+    if (numberOfBalls[i] > 0)
+    {
+      std::cout << numberOfBalls[i] << " " << PokeCenter::Items.at(i).first
+                << "(s)\n";
+    }
+  }
+}
+
+void PokeBag::listNumberOfEachPotion()
+{
+  int numberOfBalls[2] = {};
+  for (size_t i = 4; i < 6; i++)
   {
     numberOfBalls[i] = count_if(
         items_.begin(), items_.end(), [i](std::shared_ptr<PokeBagItem> p) {

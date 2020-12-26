@@ -84,18 +84,16 @@ void battleImpl(T *player, P *pokemon, PokemonBattleTag)
       case PlayerBattleChoice::UseItem:
       {
         std::cout << "Using item" << std::endl;
-        std::shared_ptr<PokeBagItem> potion = player->choosePokeBagItem();
+        std::shared_ptr<PokeBagItem> potion = player->choosePokeBagItem(PlayerBattleChoice::UseItem);
         potion->Use(chosenPokemon, [](PokeBagItemResult res) {
           std::cout << "res.result: " << res.result << std::endl;
         });
-
-        // TODO:
         break;
       }
       case PlayerBattleChoice::UsePokeball:
       {
         std::cout << "Using pokeball..." << std::endl;
-        std::shared_ptr<PokeBagItem> pokeball = player->choosePokeBagItem();
+        std::shared_ptr<PokeBagItem> pokeball = player->choosePokeBagItem(PlayerBattleChoice::UsePokeball);
         pokeball->Use(*pokemon, [pokemon, player](PokeBagItemResult res) {
           if (res.result == "You caught the Pokemon\n")
           {
