@@ -18,15 +18,15 @@ class PokeBag
 {
 private:
   std::vector<std::shared_ptr<PokeBagItem>> items_; // For polymorfi, skal bruge pointers!
-                                    // Hvis ikke pointers, kan compileren kun se den abstracte klasse
-  std::vector<Pokemon>    pokemons_;
+                                                    // Hvis ikke pointers, kan compileren kun se den abstracte klasse
+  PokemonList pokemons_;
 
 public:
   void empty();
 
   void addItem(std::shared_ptr<PokeBagItem> item);
 
-  std::shared_ptr<PokeBagItem>& getItemByIndex(unsigned int index);
+  std::shared_ptr<PokeBagItem> &getItemByIndex(unsigned int index);
   std::shared_ptr<PokeBagItem> getItemByName(std::string itemName);
   void listItems();
   void listNumberOfEachItemByType();
@@ -41,18 +41,21 @@ public:
 
   void addPokemon(Pokemon &pokemon) { pokemons_.push_back(std::move(pokemon)); }
 
+  void addPokemons(PokemonList &&pokemons);
+
   double getTotalValue();
   void listPokemon();
-  Pokemon * findPokemon(std::string name);
-  const std::vector<Pokemon> & getPokemon() const {
+  Pokemon *findPokemon(std::string name);
+  const std::vector<Pokemon> &getPokemon() const
+  {
     return pokemons_;
   }
-  void forEachPokemon(std::function<void(Pokemon &)> f) 
+  void forEachPokemon(std::function<void(Pokemon &)> f)
   {
     std::for_each(pokemons_.begin(), pokemons_.end(), f);
   }
-  
-//   void sortPokemon(auto comparer) {}
+
+  //   void sortPokemon(auto comparer) {}
 };
 
 #endif
