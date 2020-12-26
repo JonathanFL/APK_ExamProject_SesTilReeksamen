@@ -120,18 +120,18 @@ void battleImpl(T *player, P *pokemon, PokemonBattleTag)
         break;
       }
       }
+
+      if (!(pokemon->getHealth_() <= 0) && !battleFinished)
+      {
+        Attack<Pokemon> wildPokemonAttack(*pokemon);
+        std::cout << wildPokemonAttack.doAttack(chosenPokemon) << std::endl;
+      }
+      battleFinished |= hasBattleFinished(chosenPokemon, *pokemon);
     }
     catch (const ChoiceCancelledException &e)
     {
-      //std::cerr << e.what() << '\n';
+      // std::cerr << e.what() << '\n';
     }
-
-    if (!(pokemon->getHealth_() <= 0) && !battleFinished)
-    {
-      Attack<Pokemon> wildPokemonAttack(*pokemon);
-      std::cout << wildPokemonAttack.doAttack(chosenPokemon) << std::endl;
-    }
-    battleFinished |= hasBattleFinished(chosenPokemon, *pokemon);
   }
 }
 
