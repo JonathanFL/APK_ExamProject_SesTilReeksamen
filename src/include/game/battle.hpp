@@ -2,9 +2,9 @@
 #define BATTLE_HPP
 #include "../poke_bag/ball/ball.hpp"
 #include "../threading/create_thread.hpp"
-#include "player.hpp"
 #include "attack.hpp"
 #include "battle_cry.hpp"
+#include "player.hpp"
 #include <future>
 #include <iostream>
 #include <thread>

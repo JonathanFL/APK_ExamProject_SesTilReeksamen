@@ -89,8 +89,7 @@ private:
                 // std::cout << pokeBagItems_.at(0).use_count() << std::endl;
   }
 
-  std::variant<shared_ptr<PokeBagItem>, std::shared_ptr<std::nullptr_t>> &&
-       getPokeBagItem(const std::string choice);
+  shared_ptr<PokeBagItem> getPokeBagItem(const std::string choice);
   void addToBag(PokeBag &bag, std::shared_ptr<PokeBagItem> &&item);
 
 public:
@@ -120,6 +119,11 @@ public:
           createItem<HyperPotion>(PokeCenter::PokeCenterTypes::HyperpotionType);
       addToInventory(std::move(hyperPotionItem));
     }
+    // for (size_t i = 0; i < pokeBagItems_.size(); i++)
+    // {
+    //     std::cout << pokeBagItems_.at(i).get()->getType() << "\n";
+    // }
+    // std::cout << std::endl;
   }
 
   void usePokecenter(Player &p);
