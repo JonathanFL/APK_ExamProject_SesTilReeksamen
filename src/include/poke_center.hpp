@@ -89,7 +89,8 @@ private:
                 // std::cout << pokeBagItems_.at(0).use_count() << std::endl;
   }
 
-  shared_ptr<PokeBagItem> getPokeBagItem(const std::string choice);
+  shared_ptr<PokeBagItem> getPokeBagItem(const std::string choice,
+                                         int &             indexToRemove);
   void addToBag(PokeBag &bag, std::shared_ptr<PokeBagItem> &&item);
 
 public:

@@ -81,24 +81,27 @@ void Center::buyPokeBagItem(PokeBag &playerBag)
     {
       throw ChoiceCancelledException("Cancelled PokeCenter choice");
     }
-    auto item = getPokeBagItem(input);
+    auto indexToRemoveAt = -1;
+    auto item = getPokeBagItem(input,indexToRemoveAt);
     if (item)
     {
-      std::cout << "Added " << item->getType() << " to bag" << std::endl;
+      std::cout << "Added " << pokeBagItems_.at(indexToRemoveAt)->getType() << " to bag" << std::endl;
       addToBag(playerBag, std::move(item));
-      
+      pokeBagItems_.erase(pokeBagItems_.begin()+indexToRemoveAt);
       return;
     }
   }
 }
 
-shared_ptr<PokeBagItem> Center::getPokeBagItem(const std::string choice)
+shared_ptr<PokeBagItem> Center::getPokeBagItem(const std::string choice,
+                                               int &             indexToRemoveAt)
 {
   std::vector<std::shared_ptr<PokeBagItem>>::iterator it =
       find_if(pokeBagItems_.begin(), pokeBagItems_.end(),
-              [choice](std::shared_ptr<PokeBagItem> &p) {
+              [choice, &indexToRemoveAt](std::shared_ptr<PokeBagItem> &p) {
                 auto type = p->getType();
                 Utilities::toLower(type);
+                ++indexToRemoveAt;
                 return type == choice;
               });
   if (it == pokeBagItems_.end()) return nullptr;
