@@ -76,15 +76,17 @@ void Center::buyPokeBagItem(PokeBag &playerBag)
     std::string input;
     std::cin >> input;
     Utilities::clearScreen();
-    Utilities::toLower(input);
+    //Utilities::toLower(input);
     if (input == "x")
     {
       throw ChoiceCancelledException("Cancelled PokeCenter choice");
     }
     auto item = getPokeBagItem(input);
-    if(item){
+    if (item)
+    {
       std::cout << "Adding " << item->getType() << " to bag" << std::endl;
       addToBag(playerBag, std::move(item));
+      playerBag.listNumberOfEachItemByType();
       return;
     }
   }

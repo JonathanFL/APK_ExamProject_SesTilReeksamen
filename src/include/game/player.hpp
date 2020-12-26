@@ -9,48 +9,48 @@
 #include <string>
 enum class PlayerBattleChoice : unsigned int
 {
-  Attack = 1,
-  UseItem = 2,
+  Attack      = 1,
+  UseItem     = 2,
   UsePokeball = 3,
-  Run = 4,
-  Nothing = 5,
+  Run         = 4,
+  Nothing     = 5,
 };
 
 enum PlayerGameChoice
 {
-  GoToPokecenter = 1,
+  GoToPokecenter    = 1,
   BattleWildPokemon = 2,
-  CheckPokemons = 3,
-  CheckBagItems = 4,
-  ExitGame = 5,
+  CheckPokemons     = 3,
+  CheckBagItems     = 4,
+  ExitGame          = 5,
 };
 
-struct PokeBallTag{};
+struct PokeBallTag
+{
+};
+struct PotionTag
+{
+};
 
 class Player
 {
 private:
   std::string name_;
-  PokeBag bag_;
+  PokeBag     bag_;
   // Pokedex     pokedex_;
 
 public:
   Player(){};
 
-  void setName(std::string &&name)
-  {
-    name_ = std::move(name);
-  }
+  void setName(std::string &&name) { name_ = std::move(name); }
 
-  void setBag(PokeBag &pokeBag)
-  {
-    bag_ = std::move(pokeBag);
-  }
+  void setBag(PokeBag &pokeBag) { bag_ = std::move(pokeBag); }
 
   std::shared_ptr<PokeBagItem> choosePokeBagItem()
   {
-    std::cout << "Enter the name of the Poke Ball that you would like to choose:"
-              << std::endl;
+    std::cout
+        << "Enter the name of the Poke Ball that you would like to choose:"
+        << std::endl;
     bag_.listNumberOfEachItemByType();
     std::string choice;
     std::cin >> choice;
@@ -84,7 +84,7 @@ public:
   std::future<PlayerGameChoice> makeGameChoice()
   {
     auto choiceLambda = [](std::promise<PlayerGameChoice> &&p) {
-      bool chosen = false;
+      bool             chosen = false;
       PlayerGameChoice choice;
       while (!chosen)
       {
@@ -97,8 +97,8 @@ public:
                   << ". Check pokemons in the bag" << std::endl;
         std::cout << PlayerGameChoice::CheckBagItems
                   << ". Check items in the bag" << std::endl;
-        std::cout << PlayerGameChoice::ExitGame
-                  << ". Quit the game" << std::endl;
+        std::cout << PlayerGameChoice::ExitGame << ". Quit the game"
+                  << std::endl;
         std::cout << "Input choice >";
         std::string input;
         std::cin >> input;
@@ -150,7 +150,7 @@ public:
   std::future<PlayerBattleChoice> makeBattleChoice()
   {
     auto choiceLambda = [](std::promise<PlayerBattleChoice> &&p) {
-      bool chosen = false;
+      bool               chosen = false;
       PlayerBattleChoice choice;
       while (!chosen)
       {
@@ -208,10 +208,7 @@ public:
     };
     return createFuture<PlayerBattleChoice>(choiceLambda);
   }
-  PokeBag &getBag()
-  {
-    return bag_;
-  }
+  PokeBag &getBag() { return bag_; }
 };
 
 #endif

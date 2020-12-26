@@ -51,27 +51,27 @@ void PokeBag::listNumberOfEachItemByType()
 {
   int numberOfPokeBalls = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(0).first;
+        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::PokeballType).first;
       });
   int numberOfGreatBalls = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(1).first;
+        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::GreatBallType).first;
       });
   int numberOfUltraBalls = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(2).first;
+        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::UltraballType).first;
       });
   int numberOfMasterBalls = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(3).first;
+        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::MasterballType).first;
       });
   int numberOfSuperPotion = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(3).first;
+        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::SuperpotionType).first;
       });
   int numberOfHyperPotion = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(4).first;
+        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::HyperpotionType).first;
       });
   if (numberOfPokeBalls > 0)
   {
@@ -87,7 +87,7 @@ void PokeBag::listNumberOfEachItemByType()
   }
   if (numberOfMasterBalls > 0)
   {
-    std::cout << numberOfMasterBalls << " Ultraball(s)\n";
+    std::cout << numberOfMasterBalls << " MasterBall(s)\n";
   }
   if (numberOfSuperPotion > 0)
   {
