@@ -5,11 +5,11 @@
 
 namespace Utilities{
 
-static void clearScreen() { std::cout << std::string(50, '\n'); }
-static void toLower(std::string& string){transform(string.begin(), string.end(), string.begin(), ::tolower);}
+void clearScreen();// { std::cout << std::string(50, '\n'); }
+void toLower(std::string& string);//{transform(string.begin(), string.end(), string.begin(), ::tolower);}
 
 template<typename ForwardIt, typename UnaryPredicate>
-ForwardIt select_random_if(ForwardIt first, ForwardIt last, UnaryPredicate predicate)
+inline ForwardIt select_random_if(ForwardIt first, ForwardIt last, UnaryPredicate predicate)
 {
     std::vector<int> validElements;
     ForwardIt tempIt = first;
