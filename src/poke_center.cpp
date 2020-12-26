@@ -41,7 +41,7 @@ std::shared_ptr<PokeBagItem> &&Center::buyBall()
       throw ChoiceCancledException("BuyPotion exit");
     }
     auto it = getItemByType(choice);
-    if (it == balls_.end())
+    if (it != balls_.end())
     {
       return std::move(*it);
     }
