@@ -52,7 +52,7 @@ public:
     bag_.listNumberOfEachItemByType();
     int choice;
     std::cin >> choice;
-    return bag_.getItemByIndex(choice);
+    // return bag_.getItemByIndex(choice);
   }
 
   void listPokemon()

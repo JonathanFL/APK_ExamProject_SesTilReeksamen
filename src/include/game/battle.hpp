@@ -90,7 +90,7 @@ namespace battle
       case PlayerBattleChoice::UsePokeball:
       {
         std::cout << "Using pokeball..." << std::endl;
-        // TODO:
+        auto pokeball = player->choosePokeBagItem();
         break;
       }
       case PlayerBattleChoice::Run:
