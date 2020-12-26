@@ -54,7 +54,10 @@ public:
     bag_.listNumberOfEachItemByType();
     std::string choice;
     std::cin >> choice;
-    return bag_.getItemByName(choice);
+    auto indexToRemoveAt = -1;
+    auto item = bag_.getItemByName(choice, indexToRemoveAt);
+    bag_.removeItemFromBag(indexToRemoveAt);
+    return item;
   }
 
   void listPokemon()

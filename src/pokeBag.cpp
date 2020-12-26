@@ -18,11 +18,13 @@ void PokeBag::empty() { std::cout << "Emptying bag..." << std::endl; }
 //   }
 // }
 
-std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName)
+std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName,
+                                                    int &       indexToRemoveAt)
 {
   std::vector<shared_ptr<PokeBagItem>>::iterator it;
   it = find_if(items_.begin(), items_.end(),
-               [itemName](std::shared_ptr<PokeBagItem> p) {
+               [itemName, &indexToRemoveAt](std::shared_ptr<PokeBagItem> p) {
+                 ++indexToRemoveAt;
                  return p->getType() == itemName;
                });
   if (it == items_.end())
@@ -30,8 +32,15 @@ std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName)
     std::cout << "No Items with that name - try another one" << std::endl;
     return nullptr;
   }
-  items_.erase(it);
   return *it;
+}
+
+void PokeBag::removeItemFromBag(const int indexToRemoveAt)
+{
+  if (indexToRemoveAt > -1)
+  {
+    items_.erase(items_.begin() + indexToRemoveAt);
+  }
 }
 
 void PokeBag::addItem(std::shared_ptr<PokeBagItem> item)
@@ -52,27 +61,41 @@ void PokeBag::listNumberOfEachItemByType()
 {
   int numberOfPokeBalls = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::PokeballType).first;
+        return p->getType() ==
+               PokeCenter::Items.at(PokeCenter::PokeCenterTypes::PokeballType)
+                   .first;
       });
   int numberOfGreatBalls = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::GreatBallType).first;
+        return p->getType() ==
+               PokeCenter::Items.at(PokeCenter::PokeCenterTypes::GreatBallType)
+                   .first;
       });
   int numberOfUltraBalls = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::UltraballType).first;
+        return p->getType() ==
+               PokeCenter::Items.at(PokeCenter::PokeCenterTypes::UltraballType)
+                   .first;
       });
   int numberOfMasterBalls = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::MasterballType).first;
+        return p->getType() ==
+               PokeCenter::Items.at(PokeCenter::PokeCenterTypes::MasterballType)
+                   .first;
       });
   int numberOfSuperPotion = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::SuperpotionType).first;
+        return p->getType() ==
+               PokeCenter::Items
+                   .at(PokeCenter::PokeCenterTypes::SuperpotionType)
+                   .first;
       });
   int numberOfHyperPotion = count_if(
       items_.begin(), items_.end(), [](std::shared_ptr<PokeBagItem> p) {
-        return p->getType() == PokeCenter::Items.at(PokeCenter::PokeCenterTypes::HyperpotionType).first;
+        return p->getType() ==
+               PokeCenter::Items
+                   .at(PokeCenter::PokeCenterTypes::HyperpotionType)
+                   .first;
       });
   if (numberOfPokeBalls > 0)
   {
@@ -122,8 +145,7 @@ Pokemon *PokeBag::findPokemon(std::string nickName)
       find_if(pokemons_.begin(), pokemons_.end(), [nickName](const Pokemon &p) {
         return p.getNickname_() == nickName;
       });
-  if (it == pokemons_.end())
-    return nullptr;
+  if (it == pokemons_.end()) return nullptr;
   return &*it;
 }
 
