@@ -9,30 +9,38 @@
 #include <string>
 enum class PlayerBattleChoice : unsigned int
 {
-  Attack      = 1,
-  UseItem     = 2,
+  Attack = 1,
+  UseItem = 2,
   UsePokeball = 3,
-  Run         = 4,
-  Nothing     = 5,
+  Run = 4,
+  Nothing = 5,
 };
 
 enum PlayerGameChoice
 {
-  GoToPokecenter    = 1,
-  BattleWildPokemon = 2
+  GoToPokecenter = 1,
+  BattleWildPokemon = 2,
+  CheckPokemons = 3
 };
 
 class Player
 {
 private:
   std::string name_;
-  PokeBag     bag_;
+  PokeBag bag_;
   // Pokedex     pokedex_;
 
 public:
-  Player(std::string &&name, PokeBag &pokeBag)
-      : name_(std::move(name)), bag_(std::move(pokeBag))
+  Player(){};
+
+  void setName(std::string &&name)
   {
+    name_ = std::move(name);
+  }
+
+  void setBag(PokeBag &pokeBag)
+  {
+    bag_ = std::move(pokeBag);
   }
 
   std::shared_ptr<PokeBagItem> choosePokeBagItem()
@@ -45,7 +53,7 @@ public:
     return bag_.getItemByIndex(choice);
   }
 
-  void     listPokemon() { bag_.listPokemon(); }
+  void listPokemon() { bag_.listPokemon(); }
   Pokemon &choosePokemon()
   {
     std::cout << "Enter the name of the pokemon that you would like to choose:"
@@ -67,7 +75,7 @@ public:
   std::future<PlayerGameChoice> makeGameChoice()
   {
     auto choiceLambda = [](std::promise<PlayerGameChoice> &&p) {
-      bool             chosen = false;
+      bool chosen = false;
       PlayerGameChoice choice;
       while (!chosen)
       {
@@ -95,15 +103,16 @@ public:
               choice = PlayerGameChoice::BattleWildPokemon;
               break;
             }
-          } 
-          else 
+          }
+          else
           {
             throw std::out_of_range("Must be either 1 or 2");
           }
         }
         catch (const std::invalid_argument &e)
         {
-          std::cout << "Invalid input" << "\n";
+          std::cout << "Invalid input"
+                    << "\n";
         }
         catch (const std::out_of_range &e)
         {
@@ -117,7 +126,7 @@ public:
   std::future<PlayerBattleChoice> makeBattleChoice()
   {
     auto choiceLambda = [](std::promise<PlayerBattleChoice> &&p) {
-      bool               chosen = false;
+      bool chosen = false;
       PlayerBattleChoice choice;
       while (!chosen)
       {
@@ -155,15 +164,16 @@ public:
               choice = PlayerBattleChoice::Run;
               break;
             }
-          } 
-          else 
+          }
+          else
           {
             throw std::out_of_range("Must be between 1 and 4");
           }
         }
         catch (const std::invalid_argument &e)
         {
-          std::cout << "Invalid input" << "\n";
+          std::cout << "Invalid input"
+                    << "\n";
         }
         catch (const std::out_of_range &e)
         {
@@ -174,7 +184,8 @@ public:
     };
     return createFuture<PlayerBattleChoice>(choiceLambda);
   }
-  PokeBag &getBag() {
+  PokeBag &getBag()
+  {
     return bag_;
   }
 };

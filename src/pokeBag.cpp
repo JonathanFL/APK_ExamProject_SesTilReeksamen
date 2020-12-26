@@ -121,6 +121,12 @@ Pokemon *PokeBag::findPokemon(std::string nickName)
       find_if(pokemons_.begin(), pokemons_.end(), [nickName](const Pokemon &p) {
         return p.getNickname_() == nickName;
       });
-  if (it == pokemons_.end()) return nullptr;
+  if (it == pokemons_.end())
+    return nullptr;
   return &*it;
+}
+
+void PokeBag::addPokemons(PokemonList &&pokemons)
+{
+  pokemons_ = std::move(pokemons);
 }
