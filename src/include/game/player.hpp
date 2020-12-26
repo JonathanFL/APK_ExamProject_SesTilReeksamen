@@ -25,6 +25,8 @@ enum PlayerGameChoice
   ExitGame = 5,
 };
 
+struct PokeBallTag{};
+
 class Player
 {
 private:
@@ -50,9 +52,9 @@ public:
     std::cout << "Enter the name of the Poke Ball that you would like to choose:"
               << std::endl;
     bag_.listNumberOfEachItemByType();
-    int choice;
+    std::string choice;
     std::cin >> choice;
-    return bag_.getItemByIndex(choice);
+    return bag_.getItemByName(choice);
   }
 
   void listPokemon()
