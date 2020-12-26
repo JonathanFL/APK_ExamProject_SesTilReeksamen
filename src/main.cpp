@@ -46,7 +46,7 @@ int main()
   }
 
   PokeBag bag;
-  PokeCenter::Center pokecenter;
+  PokeCenter::Center center;
   // pokecenter.listAvailableItems();
   // auto potion = pokecenter.buyBall();
   // auto p = potion.get();
@@ -54,7 +54,7 @@ int main()
   //       std::cout << result.result << "\n";
   //     });
   // std::cout << pokemons[PokemonListEntry::UserPokemons].at(0) << std::endl;
-/*
+
   bool exit = false;
   try
   {
@@ -96,6 +96,6 @@ int main()
       }
       break;
     }
-  }*/
+  }
   return 0;
 }
