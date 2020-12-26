@@ -68,10 +68,10 @@ public:
         std::cout << "Enter your name: ";
         std::cin >> name;
 
+        std::cout << "Welcome to the Pokemon Game Simulator " << name << std::endl;
+
         player_.setName(std::forward<std::string>(name));
         player_.setBag(bag_);
-
-        std::cout << "Welcome to the Pokemon Game Simulator " << name << std::endl;
     }
 
     void run()

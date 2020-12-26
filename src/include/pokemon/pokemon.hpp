@@ -187,7 +187,7 @@ public:
     moveVariableStrategy(this->attack_, other.attack_);
     moveVariableStrategy(this->defense_, other.defense_);
     moveVariableStrategy(this->pType_, other.pType_);
-    moveVariableStrategy(this->sType_, other.sType_); // TODO: Make move assignment and move constructor
+    moveVariableStrategy(this->sType_, other.sType_);
   }
 
   Pokemon &operator=(Pokemon &&other) noexcept
@@ -203,7 +203,7 @@ public:
       moveVariableStrategy(this->attack_, other.attack_);
       moveVariableStrategy(this->defense_, other.defense_);
       moveVariableStrategy(this->pType_, other.pType_);
-      moveVariableStrategy(this->sType_, other.sType_); // TODO: Make move assignment and move constructor
+      moveVariableStrategy(this->sType_, other.sType_);
     }
     return *this;
   }
@@ -219,7 +219,7 @@ public:
     this->attack_ = other.attack_;
     this->defense_ = other.defense_;
     this->sType_ = other.sType_;
-    this->pType_ = other.pType_; //TODO: Make copy assignment and copy constructor
+    this->pType_ = other.pType_;
   }
 
   Pokemon &operator=(const Pokemon &other)
@@ -235,7 +235,7 @@ public:
       this->attack_ = other.attack_;
       this->defense_ = other.defense_;
       this->sType_ = other.sType_;
-      this->pType_ = other.pType_; // TODO: Make move assignment and move constructor
+      this->pType_ = other.pType_;
     }
     return *this;
   }
