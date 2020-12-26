@@ -52,18 +52,17 @@ private:
     std::vector<std::shared_ptr<PokeBagItem>> potions_;
 
     template<typename T>
-    std::shared_ptr<PokeBagItem> createItem(PokeCenter::PokeCenterTypes type){
+    std::shared_ptr<PokeBagItem>&& createItem(PokeCenter::PokeCenterTypes type){
         static_assert(std::is_base_of<PokeBagItem, T>::value, "The type must be a base class of `PokeBagItem`");
         static_assert(std::is_convertible<T&, PokeBagItem&>::value, "The type must be an *accessible* base class of `PokeBagItem`");
         std::shared_ptr<T> t = std::make_shared<T>();
         t.get()->setPrice(PokeCenter::Items.at(type).second);
         t.get()->setType(PokeCenter::Items.at(type).first);
-        return t;// return by value(copy?), since the other object will just go out of scope
+        return std::move(t);// return by value(copy?)?, since the other object will just go out of scope
     }
 
     void printItemsInShop()
     {
-        std::cout << "Available items:" << "\n";
         auto i = 0;
         for(auto [first,second] : PokeCenter::Items){
             std::cout << "#" << i << " " << first << ", Price:" << second << "\n";
@@ -100,10 +99,10 @@ public:
 
     void usePokecenter(Player &p);
 
-    void Heal(Pokemon& pokemon);
-    std::shared_ptr<PokeBagItem>&& BuyPotion();
-    std::shared_ptr<PokeBagItem>&& BuyBall();
-    void ListAvailableItems(){
+    void heal(Pokemon& pokemon);
+    std::shared_ptr<PokeBagItem>&& buyPotion();
+    std::shared_ptr<PokeBagItem>&& buyBall();
+    void listAvailableItems(){
         printItemsInShop();
     }
     std::shared_ptr<PokeBagItem>&&  buyPokeBagItem();

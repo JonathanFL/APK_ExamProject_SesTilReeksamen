@@ -1,11 +1,11 @@
 #include "include/poke_center.hpp"
 
-void PokeCenter::Center::Heal(Pokemon &pokemon)
+void PokeCenter::Center::heal(Pokemon &pokemon)
 {
   pokemon.setHealth_(pokemon.getMaxHealth_());
 }
 
-std::shared_ptr<PokeBagItem> &&PokeCenter::Center::BuyPotion()
+std::shared_ptr<PokeBagItem> &&PokeCenter::Center::buyPotion()
 {
   while (1)
   {
@@ -30,7 +30,7 @@ std::shared_ptr<PokeBagItem> &&PokeCenter::Center::BuyPotion()
   }
 }
 
-std::shared_ptr<PokeBagItem> &&PokeCenter::Center::BuyBall()
+std::shared_ptr<PokeBagItem> &&PokeCenter::Center::buyBall()
 {
   while (1)
   {
@@ -80,15 +80,14 @@ void PokeCenter::Center::usePokecenter(Player &p)
       case PokeCenter::PokecenterChoice::HealPokemon:
       {
         PokeBag &playerBag = p.getBag();
-        playerBag.forEachPokemon([&](Pokemon &p) { Heal(p); });
+        playerBag.forEachPokemon([&](Pokemon &p) { heal(p); });
         break;
       }
 
       case PokeCenter::PokecenterChoice::BuyItem:
       {
-        std::shared_ptr<PokeBagItem> item      = buyPokeBagItem();
-        PokeBag &                    playerBag = p.getBag();
-        playerBag.addItem(std::move(item));
+        PokeBag &playerBag = p.getBag();
+        playerBag.addItem(std::move(buyPokeBagItem()));
         break;
       }
       }
@@ -116,7 +115,7 @@ std::shared_ptr<PokeBagItem> &&PokeCenter::Center::buyPokeBagItem()
             << "\n";
   std::cout << "Available items are:"
             << "\n";
-  ListAvailableItems();
+  listAvailableItems();
   std::cout << PokeCenter::BuyItemChoice::BuyPokeball << ". Pokeball \n";
   std::cout << PokeCenter::BuyItemChoice::BuyPotion << ". Potion \n";
   std::cout << "Input choice >";
@@ -131,10 +130,10 @@ std::shared_ptr<PokeBagItem> &&PokeCenter::Center::buyPokeBagItem()
       switch (chosenNumber)
       {
       case PokeCenter::BuyItemChoice::BuyPokeball:
-        return BuyBall();
+        return buyBall();
         break;
       case PokeCenter::BuyItemChoice::BuyPotion:
-        return BuyPotion();
+        return buyPotion();
         break;
       }
     }
