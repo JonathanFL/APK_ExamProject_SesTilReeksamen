@@ -81,6 +81,8 @@ private:
         potions_.push_back(std::forward<std::shared_ptr<PokeBagItem>>(item));
     }
 
+    std::vector<shared_ptr<PokeBagItem>>::iterator getItemByType(const std::string choice);
+
 public:
 
     Center()
