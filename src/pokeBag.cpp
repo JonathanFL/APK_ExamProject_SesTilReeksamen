@@ -61,8 +61,7 @@ void PokeBag::listItems()
 
 void PokeBag::listNumberOfEachItemByType()
 {
-  int numberOfBalls[PokeCenter::PokeCenterTypes::HyperpotionType + 1] = {
-      0, 0, 0, 0, 0, 0};
+  int numberOfBalls[PokeCenter::PokeCenterTypes::HyperpotionType + 1] = {};
   for (size_t i = 0; i < PokeCenter::PokeCenterTypes::HyperpotionType + 1; i++)
   {
     numberOfBalls[i] = count_if(
@@ -84,7 +83,6 @@ double PokeBag::getTotalValue()
       items_.begin(), items_.end(), std::back_inserter(prices),
       [](std::shared_ptr<PokeBagItem> item) { return item->getPrice(); });
   return std::accumulate(prices.begin(), prices.end(), 0.0);
-  return 0;
 }
 
 void PokeBag::listPokemon()
