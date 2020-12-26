@@ -118,6 +118,7 @@ public:
             }
             case PlayerGameChoice::CheckBagItems:
             {
+                player_.listBagItems();
                 break;
             }
             case PlayerGameChoice::ExitGame:

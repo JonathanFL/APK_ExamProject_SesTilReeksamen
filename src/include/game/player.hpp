@@ -61,6 +61,12 @@ public:
     bag_.listPokemon();
   }
 
+  void listBagItems()
+  {
+    std::cout << "Items in the bag:" << std::endl;
+    bag_.listNumberOfEachItemByType();
+  }
+
   Pokemon &choosePokemon()
   {
     std::cout << "Enter the name of the pokemon that you would like to choose:"
