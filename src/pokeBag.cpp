@@ -30,6 +30,7 @@ std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName)
     std::cout << "No Items with that name - try another one" << std::endl;
     return nullptr;
   }
+  items_.erase(it);
   return *it;
 }
 

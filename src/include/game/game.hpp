@@ -57,9 +57,9 @@ public:
         }
     }
 
-    void setPokeCenter(std::shared_ptr<PokeCenter::Center> center)
+    void setPokeCenter(std::shared_ptr<PokeCenter::Center> &&center)
     {
-        center_ = std::move(center);
+        center_ = std::forward<std::shared_ptr<PokeCenter::Center>>(center);
     }
 
     void initPlayer()
@@ -118,6 +118,7 @@ public:
             }
             case PlayerGameChoice::CheckBagItems:
             {
+                player_.listBagItems();
                 break;
             }
             case PlayerGameChoice::ExitGame:
