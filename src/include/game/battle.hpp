@@ -84,6 +84,11 @@ namespace battle
       case PlayerBattleChoice::UseItem:
       {
         std::cout << "Using item" << std::endl;
+        std::shared_ptr<PokeBagItem> potion = player->choosePokeBagItem();
+        potion->Use(chosenPokemon, [](PokeBagItemResult res) {
+          std::cout << "res.result: " << res.result << std::endl;
+        });
+
         // TODO:
         break;
       }
