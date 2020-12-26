@@ -32,7 +32,8 @@ int main()
 
   std::shared_ptr<PokeCenter::Center> center = std::make_shared<PokeCenter::Center>();
 
-  pokemonGame.setPokeCenter(center);
+  pokemonGame.setPokeCenter(std::move(center));
+
   pokemonGame.initPlayer();
   pokemonGame.run();
 
