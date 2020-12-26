@@ -85,9 +85,12 @@ public:
             switch (choice)
             {
             case PlayerGameChoice::GoToPokecenter:
+            {
                 center_->usePokecenter(player_);
                 break;
+            }
             case PlayerGameChoice::BattleWildPokemon:
+            {
                 PokemonList::iterator randomPokemon =
                     Utilities::select_random_if(pokemons[PokemonListEntry::RarePokemons].begin(), pokemons[PokemonListEntry::RarePokemons].end(),
                                                 [](const Pokemon &p) { return p.getHealth_() > 0; });
@@ -107,9 +110,21 @@ public:
                     battle::playBattle(&player_, &*randomPokemon);
                 }
                 break;
-                // case PlayerGameChoice::CheckPokemons:
-                //     player_.listPokemon();
-                //     break;
+            }
+            case PlayerGameChoice::CheckPokemons:
+            {
+                player_.listPokemon();
+                break;
+            }
+            case PlayerGameChoice::CheckBagItems:
+            {
+                break;
+            }
+            case PlayerGameChoice::ExitGame:
+            {
+                exit = true;
+                break;
+            }
             }
         }
     }

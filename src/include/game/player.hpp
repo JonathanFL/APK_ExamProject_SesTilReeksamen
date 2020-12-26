@@ -20,7 +20,9 @@ enum PlayerGameChoice
 {
   GoToPokecenter = 1,
   BattleWildPokemon = 2,
-  CheckPokemons = 3
+  CheckPokemons = 3,
+  CheckBagItems = 4,
+  ExitGame = 5,
 };
 
 class Player
@@ -53,7 +55,12 @@ public:
     return bag_.getItemByIndex(choice);
   }
 
-  void listPokemon() { bag_.listPokemon(); }
+  void listPokemon()
+  {
+    std::cout << "Pokemons:" << std::endl;
+    bag_.listPokemon();
+  }
+
   Pokemon &choosePokemon()
   {
     std::cout << "Enter the name of the pokemon that you would like to choose:"
@@ -84,6 +91,12 @@ public:
                   << ". Go to the pokecenter" << std::endl;
         std::cout << PlayerGameChoice::BattleWildPokemon
                   << ". Battle wild pokemon" << std::endl;
+        std::cout << PlayerGameChoice::CheckPokemons
+                  << ". Check pokemons in the bag" << std::endl;
+        std::cout << PlayerGameChoice::CheckBagItems
+                  << ". Check items in the bag" << std::endl;
+        std::cout << PlayerGameChoice::ExitGame
+                  << ". Quit the game" << std::endl;
         std::cout << "Input choice >";
         std::string input;
         std::cin >> input;
@@ -91,7 +104,7 @@ public:
         try
         {
           int chosenNumber = std::stoi(input);
-          if (chosenNumber > 0 && chosenNumber < 5)
+          if (chosenNumber > 0 && chosenNumber <= 5)
           {
             chosen = true;
             switch (chosenNumber)
@@ -102,11 +115,20 @@ public:
             case 2:
               choice = PlayerGameChoice::BattleWildPokemon;
               break;
+            case 3:
+              choice = PlayerGameChoice::CheckPokemons;
+              break;
+            case 4:
+              choice = PlayerGameChoice::CheckBagItems;
+              break;
+            case 5:
+              choice = PlayerGameChoice::ExitGame;
+              break;
             }
           }
           else
           {
-            throw std::out_of_range("Must be either 1 or 2");
+            throw std::out_of_range("Must be between 1 and 5");
           }
         }
         catch (const std::invalid_argument &e)
