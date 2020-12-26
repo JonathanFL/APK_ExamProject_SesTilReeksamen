@@ -46,17 +46,15 @@ int main()
   }
 
   PokeBag bag;
-  PokeCenter::Center center;
-
-  // PokeCenter::Center pokecenter;
-  // pokecenter.ListAvailableItems();
-  // auto potion = pokecenter.BuyPotion();
+  PokeCenter::Center pokecenter;
+  // pokecenter.listAvailableItems();
+  // auto potion = pokecenter.buyBall();
   // auto p = potion.get();
-  // p->Use(p2,[](PokeBagItemResult result) {
+  // p->Use(pokemons[PokemonListEntry::UserPokemons].at(0),[](PokeBagItemResult result) {
   //       std::cout << result.result << "\n";
   //     });
-  // std::cout << p2 << std::endl;
-
+  // std::cout << pokemons[PokemonListEntry::UserPokemons].at(0) << std::endl;
+/*
   bool exit = false;
   try
   {
@@ -98,6 +96,6 @@ int main()
       }
       break;
     }
-  }
+  }*/
   return 0;
 }
