@@ -1,51 +1,12 @@
+#ifndef __POKE_CENTER_H__
+#define __POKE_CENTER_H__
+
 #include "include/poke_center.hpp"
 namespace PokeCenter
 {
 void Center::heal(Pokemon &pokemon)
 {
   pokemon.setHealth_(pokemon.getMaxHealth_());
-}
-
-std::shared_ptr<PokeBagItem> &&Center::buyPotion()
-{
-  while (1)
-  {
-    std::cout
-        << "Enter the name of the Ball you would like to buy\nType X to exit";
-    std::string choice;
-    std::cin >> choice;
-    Utilities::toLower(choice);
-    if (choice == "x")
-    {
-      throw ChoiceCancledException("BuyPotion exit");
-    }
-    auto it = getItemByType(choice);
-    if (it != potions_.end())
-    {
-      return std::move(*it);
-    }
-  }
-}
-
-std::shared_ptr<PokeBagItem> &&Center::buyBall()
-{
-  while (1)
-  {
-    std::cout
-        << "Enter the name of the Ball you would like to buy\nType X to exit";
-    std::string choice;
-    std::cin >> choice;
-    Utilities::toLower(choice);
-    if (choice == "x")
-    {
-      throw ChoiceCancledException("BuyPotion exit");
-    }
-    auto it = getItemByType(choice);
-    if (it != balls_.end())
-    {
-      return std::move(*it);
-    }
-  }
 }
 
 void Center::usePokecenter(Player &p)
@@ -80,7 +41,7 @@ void Center::usePokecenter(Player &p)
       case PokecenterChoice::BuyItem:
       {
         PokeBag &playerBag = p.getBag();
-        playerBag.addItem(std::move(buyPokeBagItem()));
+        buyPokeBagItem(playerBag);
         break;
       }
       }
@@ -101,59 +62,55 @@ void Center::usePokecenter(Player &p)
   }
 }
 
-std::shared_ptr<PokeBagItem> &&Center::buyPokeBagItem()
+void Center::buyPokeBagItem(PokeBag &playerBag)
 {
-  Utilities::clearScreen();
-  std::cout << "What would you like to buy?"
-            << "\n";
-  std::cout << "Available items are:"
-            << "\n";
-  listAvailableItems();
-  std::cout << BuyItemChoice::BuyPokeball << ". Pokeball \n";
-  std::cout << BuyItemChoice::BuyPotion << ". Potion \n";
-  std::cout << "Input choice >";
-  std::string input;
-  std::cin >> input;
-  Utilities::clearScreen();
-  try
+  while (1)
   {
-    int chosenNumber = std::stoi(input);
-    if (chosenNumber > 0 && chosenNumber < 3)
-    {
-      switch (chosenNumber)
-      {
-      case BuyItemChoice::BuyPokeball:
-        return buyBall();
-        break;
-      case BuyItemChoice::BuyPotion:
-        return buyPotion();
-        break;
-      }
-    }
-    else
-    {
-      throw std::out_of_range("Must be either 1 or 2");
-    }
-  }
-  catch (const std::invalid_argument &e)
-  {
-    std::cout << "Invalid input"
+    Utilities::clearScreen();
+    std::cout << "Available items are:"
               << "\n";
-  }
-  catch (const std::out_of_range &e)
-  {
-    std::cout << "Input number was out of range" << e.what() << "\n";
+    listAvailableItems();
+    std::cout << "What would you like to buy?"
+              << "\n";
+    std::cout << "Input name of Item or X to Quit >";
+    std::string input;
+    std::cin >> input;
+    Utilities::clearScreen();
+    Utilities::toLower(input);
+    if (input == "x")
+    {
+      throw ChoiceCancelledException("Cancelled PokeCenter choice");
+    }
+    auto item = getPokeBagItem(input);
+    if (item.index() == 0)
+    {
+      addToBag(playerBag,
+               std::move(std::get<std::shared_ptr<PokeBagItem>>(item)));
+    }
   }
 }
 
-std::vector<shared_ptr<PokeBagItem>>::iterator
-Center::getItemByType(const std::string choice)
+std::variant<shared_ptr<PokeBagItem>, std::shared_ptr<std::nullptr_t>> &&
+Center::getPokeBagItem(const std::string choice)
 {
   std::vector<std::shared_ptr<PokeBagItem>>::iterator it =
-      find_if(potions_.begin(), potions_.end(),
+      find_if(pokeBagItems_.begin(), pokeBagItems_.end(),
               [choice](std::shared_ptr<PokeBagItem> &p) {
                 return p->getType() == choice;
               });
-  return it;
+  if (it != pokeBagItems_.end())
+  {
+    return std::move(*it);
+  }
+  else
+  {
+    return std::make_shared<std::nullptr_t>(nullptr);
+  }
+}
+
+void Center::addToBag(PokeBag &bag, std::shared_ptr<PokeBagItem> &&item)
+{
+  bag.addItem(std::forward<std::shared_ptr<PokeBagItem>>(item));
 }
 } // namespace PokeCenter
+#endif // __POKE_CENTER_H__
