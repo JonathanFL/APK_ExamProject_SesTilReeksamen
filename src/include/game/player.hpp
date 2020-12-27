@@ -97,7 +97,7 @@ public:
   {
     std::cout << "Enter the name of the pokemon that you would like to choose:"
               << std::endl;
-    bag_.listPokemon();
+    bag_.listBattleReadyPokemons();
     std::string choice;
     std::cin >> choice;
     Utilities::clearScreen();
@@ -108,7 +108,7 @@ public:
   {
     const PokemonList &pokemons = bag_.getPokemon();
     return !pokemons.empty() &&
-           std::all_of(pokemons.begin(), pokemons.end(),
+           std::any_of(pokemons.begin(), pokemons.end(),
                        [](const Pokemon &p) { return p.getHealth_() > 0; });
   }
   std::future<PlayerGameChoice> makeGameChoice()

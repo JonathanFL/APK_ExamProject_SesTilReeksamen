@@ -127,6 +127,16 @@ double PokeBag::getTotalValue()
   return std::accumulate(prices.begin(), prices.end(), 0.0);
 }
 
+void PokeBag::listBattleReadyPokemons()
+{
+  PokemonList nonFaintedPokemons;
+
+  std::copy_if(pokemons_.begin(), pokemons_.end(), std::back_inserter(nonFaintedPokemons), [](Pokemon p) { return p.getHealth_() > 0; });
+
+  std::ostream_iterator<Pokemon> oStreamIter(std::cout, "\n");
+  copy(nonFaintedPokemons.begin(), nonFaintedPokemons.end(), oStreamIter);
+}
+
 void PokeBag::listPokemon()
 {
   std::ostream_iterator<Pokemon> oStreamIter(std::cout, "\n");

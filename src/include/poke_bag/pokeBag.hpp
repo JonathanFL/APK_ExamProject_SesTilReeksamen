@@ -49,6 +49,7 @@ public:
   void addPokemons(PokemonList &&pokemons);
 
   double getTotalValue();
+  void listBattleReadyPokemons();
   void listPokemon();
   Pokemon *findPokemon(std::string name);
   const std::vector<Pokemon> &getPokemon() const { return pokemons_; }

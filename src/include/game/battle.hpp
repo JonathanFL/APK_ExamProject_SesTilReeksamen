@@ -75,15 +75,16 @@ namespace battle
     std::future<Pokemon &> chosenPokemonFuture = createFuture<Pokemon &>(choosePokemonLambda);
     chosenPokemonFuture.wait();
     Pokemon &chosenPokemon = chosenPokemonFuture.get();
-    std::cout << "Go " << chosenPokemon.getNickname_() << "!" << std::endl;
+    std::cout << "Go " << chosenPokemon.getNickname_() << "!" << std::endl
+              << std::endl;
     BattleCry bc;
     bc.add(std::bind(&Pokemon::battleCry, pokemon));
     bc.add(std::bind(&Pokemon::battleCry, chosenPokemon));
     bc();
+    std::cout << std::endl;
     while (!battleFinished)
     {
-      std::cout << std::endl
-                << pokemon->getName_() << ": " << pokemon->getHealth_() << " HP" << std::endl
+      std::cout << pokemon->getName_() << ": " << pokemon->getHealth_() << " HP" << std::endl
                 << std::endl;
       std::cout << chosenPokemon.getNickname_() << ": " << chosenPokemon.getHealth_() << " HP" << std::endl
                 << std::endl;
@@ -97,7 +98,8 @@ namespace battle
         {
         case PlayerBattleChoice::Attack:
         {
-          std::cout << "Attacking wild pokemon" << std::endl;
+          std::cout << "Attacking wild pokemon" << std::endl
+                    << std::endl;
           Attack<Pokemon> attack(chosenPokemon);
           std::cout << attack.doAttack(*pokemon) << std::endl;
           break;
