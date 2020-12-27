@@ -4,32 +4,34 @@
 #include "../poke_bag/pokeBag.hpp"
 #include "../threading/create_thread.hpp"
 #include "../utility/utilities.hpp"
+#include "../exceptions/NoPokeballsException.hpp"
+#include "../exceptions/NoPotionsException.hpp"
 // #include "../pokemon/pokedex.hpp"
 #include <future>
 #include <string>
 enum class PlayerBattleChoice : unsigned int
 {
-  Attack      = 1,
-  UseItem     = 2,
+  Attack = 1,
+  UseItem = 2,
   UsePokeball = 3,
-  Run         = 4,
-  Nothing     = 5,
+  Run = 4,
+  Nothing = 5,
 };
 
 enum PlayerGameChoice
 {
-  GoToPokecenter    = 1,
+  GoToPokecenter = 1,
   BattleWildPokemon = 2,
-  CheckPokemons     = 3,
-  CheckBagItems     = 4,
-  ExitGame          = 5,
+  CheckPokemons = 3,
+  CheckBagItems = 4,
+  ExitGame = 5,
 };
 
 class Player
 {
 private:
   std::string name_;
-  PokeBag     bag_;
+  PokeBag bag_;
   // Pokedex     pokedex_;
 
 public:
@@ -43,16 +45,25 @@ public:
   {
     while (1)
     {
-      std::cout << "Enter the name of the item that you would like to choose:"
-                << "(X) to go back" << std::endl;
       if (choice == PlayerBattleChoice::UsePokeball)
       {
-        bag_.listNumberOfEachPokeBall();
+        auto hasPokeballs = bag_.listNumberOfEachPokeBall();
+        if (!hasPokeballs)
+        {
+          throw NoPokeballsException();
+        }
       }
       else if (choice == PlayerBattleChoice::UseItem)
       {
-        bag_.listNumberOfEachPotion();
+        auto hasPotions = bag_.listNumberOfEachPotion();
+        if (!hasPotions)
+        {
+          throw NoPotionsException();
+        }
       }
+
+      std::cout << "Enter the name of the item that you would like to choose:"
+                << "(X) to go back" << std::endl;
       std::string choice;
       std::cin >> choice;
       Utilities::toLower(choice);
@@ -61,7 +72,7 @@ public:
         throw ChoiceCancelledException("choosePokeBagItem");
       }
       auto indexToRemoveAt = -1;
-      auto item            = bag_.getItemByName(choice, indexToRemoveAt);
+      auto item = bag_.getItemByName(choice, indexToRemoveAt);
       if (item)
       {
         bag_.removeItemFromBag(indexToRemoveAt);
@@ -103,7 +114,7 @@ public:
   std::future<PlayerGameChoice> makeGameChoice()
   {
     auto choiceLambda = [](std::promise<PlayerGameChoice> &&p) {
-      bool             chosen = false;
+      bool chosen = false;
       PlayerGameChoice choice;
       while (!chosen)
       {
@@ -169,7 +180,7 @@ public:
   std::future<PlayerBattleChoice> makeBattleChoice()
   {
     auto choiceLambda = [](std::promise<PlayerBattleChoice> &&p) {
-      bool               chosen = false;
+      bool chosen = false;
       PlayerBattleChoice choice;
       while (!chosen)
       {

@@ -19,7 +19,7 @@ void PokeBag::empty() { std::cout << "Emptying bag..." << std::endl; }
 // }
 
 std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName,
-                                                    int &       indexToRemoveAt)
+                                                    int &indexToRemoveAt)
 {
   std::vector<shared_ptr<PokeBagItem>>::iterator it;
   it = find_if(items_.begin(), items_.end(),
@@ -76,8 +76,9 @@ void PokeBag::listNumberOfEachPokeItem()
   }
 }
 
-void PokeBag::listNumberOfEachPokeBall()
+bool PokeBag::listNumberOfEachPokeBall()
 {
+  bool hasPokeballs = false;
   int numberOfBalls[PokeCenter::PokeCenterTypes::HyperpotionType - 1] = {};
   for (size_t i = 0; i < PokeCenter::PokeCenterTypes::HyperpotionType - 1; i++)
   {
@@ -87,14 +88,18 @@ void PokeBag::listNumberOfEachPokeBall()
         });
     if (numberOfBalls[i] > 0)
     {
+      hasPokeballs = true;
       std::cout << numberOfBalls[i] << " " << PokeCenter::Items.at(i).first
                 << "(s)\n";
     }
   }
+
+  return hasPokeballs;
 }
 
-void PokeBag::listNumberOfEachPotion()
+bool PokeBag::listNumberOfEachPotion()
 {
+  bool hasPotions = false;
   int numberOfBalls[2] = {};
   for (size_t i = 4; i < 6; i++)
   {
@@ -104,10 +109,12 @@ void PokeBag::listNumberOfEachPotion()
         });
     if (numberOfBalls[i] > 0)
     {
+      hasPotions = true;
       std::cout << numberOfBalls[i] << " " << PokeCenter::Items.at(i).first
                 << "(s)\n";
     }
   }
+  return hasPotions;
 }
 
 double PokeBag::getTotalValue()
@@ -131,7 +138,8 @@ Pokemon *PokeBag::findPokemon(std::string nickName)
       find_if(pokemons_.begin(), pokemons_.end(), [nickName](const Pokemon &p) {
         return p.getNickname_() == nickName;
       });
-  if (it == pokemons_.end()) return nullptr;
+  if (it == pokemons_.end())
+    return nullptr;
   return &*it;
 }
 

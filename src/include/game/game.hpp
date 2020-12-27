@@ -34,6 +34,15 @@ public:
 
     void loadPokemons()
     {
+        std::cout << "=================================" << std::endl;
+        std::cout << "=  WELCOME TO THE POKEMON GAME  =" << std::endl;
+        std::cout << "=           SIMULATOR           =" << std::endl;
+        std::cout << "=================================" << std::endl;
+
+        std::cout << std::endl
+                  << "Loading game setup..." << std::endl
+                  << std::endl;
+
         try
         {
             pokemonLoader.ReadPokemonsList(PokemonListEntry::LowLevelPokemons, PokemonListEntry::MediumLevelPokemons, PokemonListEntry::HighLevelPokemons, PokemonListEntry::RarePokemons, PokemonListEntry::UserPokemons);
@@ -65,10 +74,11 @@ public:
     void initPlayer()
     {
         std::string name;
-        std::cout << "Enter your name: ";
+        std::cout << "Enter your player name: ";
         std::cin >> name;
 
-        std::cout << "Welcome to the Pokemon Game Simulator " << name << std::endl;
+        std::cout << "Welcome to the game " << name << std::endl
+                  << std::endl;
 
         player_.setName(std::forward<std::string>(name));
         player_.setBag(bag_);
