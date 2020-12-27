@@ -2,6 +2,7 @@
 #define BATTLE_HPP
 #include "../poke_bag/ball/ball.hpp"
 #include "../threading/create_thread.hpp"
+#include "../exceptions/UnknownPokemonException.hpp"
 #include "attack.hpp"
 #include "battle_cry.hpp"
 #include "player.hpp"
@@ -54,11 +55,23 @@ namespace battle
     }
 
     auto choosePokemonLambda = [player](std::promise<Pokemon &> &&p) {
-      Pokemon &pokemon = player->choosePokemon();
-      p.set_value_at_thread_exit(pokemon);
+      bool pokemonChosen = false;
+      while (!pokemonChosen)
+      {
+        try
+        {
+          Pokemon &pokemon = player->choosePokemon();
+          p.set_value_at_thread_exit(pokemon);
+          pokemonChosen = true;
+        }
+        catch (const UnknownPokemonException &e)
+        {
+          std::cerr << e.what() << std::endl;
+        }
+      }
     };
-    std::future<Pokemon &> chosenPokemonFuture =
-        createFuture<Pokemon &>(choosePokemonLambda);
+
+    std::future<Pokemon &> chosenPokemonFuture = createFuture<Pokemon &>(choosePokemonLambda);
     chosenPokemonFuture.wait();
     Pokemon &chosenPokemon = chosenPokemonFuture.get();
     std::cout << "Go " << chosenPokemon.getNickname_() << "!" << std::endl;
@@ -151,7 +164,7 @@ namespace battle
                   << std::endl;
       }
     }
-  }
+  } // namespace battle
 
 } // namespace battle
 

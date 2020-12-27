@@ -1,4 +1,5 @@
 #include "include/exceptions/cancel_exception.hpp"
+#include "include/exceptions/UnknownPokemonException.hpp"
 #include "include/poke_center.hpp"
 #include <algorithm>
 #include <iterator>
@@ -139,7 +140,7 @@ Pokemon *PokeBag::findPokemon(std::string nickName)
         return p.getNickname_() == nickName;
       });
   if (it == pokemons_.end())
-    return nullptr;
+    throw UnknownPokemonException();
   return &*it;
 }
 
