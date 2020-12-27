@@ -46,7 +46,8 @@ namespace battle
   void battleImpl(T *player, P *pokemon, PokemonBattleTag)
   {
     bool battleFinished = false;
-    std::cout << "A wild " << pokemon->getName_() << " appeared!" << std::endl;
+    std::cout << "A wild " << pokemon->getName_() << " appeared!" << std::endl
+              << std::endl;
     if (!(player->canBattle()))
     {
       std::cout << "You're unable to battle - running from battle..."

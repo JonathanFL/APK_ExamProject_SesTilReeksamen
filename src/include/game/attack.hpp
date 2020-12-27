@@ -41,7 +41,7 @@ public:
     std::string fainted;
     if (p.getHealth_() == 0)
     {
-      fainted = (p.getNickname_().empty() ? p.getName_() : p.getNickname_()) + " fainted...\n";
+      fainted = (p.getNickname_().empty() ? ("Wild " + p.getName_()) : p.getNickname_()) + " fainted...\n";
     }
 
     if (p.getNickname_().empty())

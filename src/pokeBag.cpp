@@ -32,7 +32,9 @@ std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName,
                });
   if (it == items_.end())
   {
-    std::cout << "No Items with that name - try another one" << std::endl;
+    Utilities::clearScreen();
+    std::cout << "No Items with that name - try another one" << std::endl
+              << std::endl;
     return nullptr;
   }
   return *it;
