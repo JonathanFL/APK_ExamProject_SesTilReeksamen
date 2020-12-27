@@ -66,7 +66,8 @@ namespace battle
         }
         catch (const UnknownPokemonException &e)
         {
-          std::cerr << e.what() << std::endl;
+          std::cerr << e.what() << std::endl
+                    << std::endl;
         }
       }
     };
