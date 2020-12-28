@@ -23,10 +23,17 @@ void Center::usePokecenter(Player &p)
               << "\n";
     std::cout << PokecenterChoice::BuyItem << ". Buy item"
               << "\n";
+    std::cout << "Press x and enter to go back"
+              << "\n";
     std::cout << "Make choice >";
     std::string input;
     std::cin >> input;
     Utilities::clearScreen();
+    Utilities::toLower(input);
+    if (input == "x")
+    {
+      return;
+    }
     try
     {
       int chosenNumber = std::stoi(input);
@@ -53,11 +60,6 @@ void Center::usePokecenter(Player &p)
       {
         throw std::out_of_range("Must be either 1 or 2");
       }
-    }
-    catch (const ChoiceCancelledException &e)
-    {
-      std::cout << "Exiting PokeCenter..." << "\n";
-      return;
     }
     catch (const std::out_of_range &e)
     {
@@ -87,7 +89,7 @@ void Center::buyPokeBagItem(PokeBag &playerBag)
     if (input == "x")
     {
       Utilities::clearScreen();
-      throw ChoiceCancelledException("Cancelled PokeCenter choice");
+      return;
     }
     auto indexToRemoveAt = -1;
     auto item            = getPokeBagItem(input, indexToRemoveAt);
