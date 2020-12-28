@@ -81,9 +81,8 @@ private:
   }
   template <typename T> void addToInventory(T &&item)
   {
-    // Perfect forwarding of arguments for push_back
+    // Perfect forwarding of objekter for push_back
     pokeBagItems_.push_back(std::forward<T>(item)); // kalder den nødvendige push_back overload
-                // std::cout << pokeBagItems_.at(0).use_count() << std::endl;
   }
 
   shared_ptr<PokeBagItem> getPokeBagItem(const std::string choice,
@@ -96,25 +95,17 @@ public:
     {
       // we just want to MOVE the pointer of the shared_ptr, instead of
       // incrementing the counter and immediately after decrement it
+      // Copies the ball into the inventory
       auto pokeBallItem =
           createItem<PokeBall>(PokeCenter::PokeCenterTypes::PokeballType);
       // forcer std::shared_ptr move-constructor
       addToInventory(pokeBallItem);
-      auto greatBallItem =
-          createItem<GreatBall>(PokeCenter::PokeCenterTypes::GreatBallType);
-      addToInventory(std::move(greatBallItem));
-      auto ultraBallItem =
-          createItem<UltraBall>(PokeCenter::PokeCenterTypes::UltraballType);
-      addToInventory(std::move(ultraBallItem));
-      auto masterBallItem =
-          createItem<MasterBall>(PokeCenter::PokeCenterTypes::MasterballType);
-      addToInventory(std::move(masterBallItem));
-      auto superPotionItem =
-          createItem<SuperPotion>(PokeCenter::PokeCenterTypes::SuperpotionType);
-      addToInventory(std::move(superPotionItem));
-      auto hyperPotionItem =
-          createItem<HyperPotion>(PokeCenter::PokeCenterTypes::HyperpotionType);
-      addToInventory(std::move(hyperPotionItem));
+      //Moves ball into the inventory
+      addToInventory(createItem<GreatBall>(PokeCenter::PokeCenterTypes::GreatBallType));
+      addToInventory(createItem<UltraBall>(PokeCenter::PokeCenterTypes::UltraballType));
+      addToInventory(createItem<MasterBall>(PokeCenter::PokeCenterTypes::MasterballType));
+      addToInventory(createItem<SuperPotion>(PokeCenter::PokeCenterTypes::SuperpotionType));
+      addToInventory(createItem<HyperPotion>(PokeCenter::PokeCenterTypes::HyperpotionType));
     }
     // for (size_t i = 0; i < pokeBagItems_.size(); i++)
     // {

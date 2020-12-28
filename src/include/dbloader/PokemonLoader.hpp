@@ -28,7 +28,7 @@ namespace dbloader
             std::future<PokemonList> futurePokemonList = promiseList.get_future();
 
             std::thread(
-                [fileName](std::promise<PokemonList> p) {
+                [fileName](std::promise<PokemonList> &&p) {
                     std::ifstream pokemonsFile(fileName.c_str());
 
                     if (!pokemonsFile)
@@ -44,7 +44,7 @@ namespace dbloader
                     std::copy(it1, it2, std::back_inserter(pokemonList));
                     p.set_value(pokemonList);
                 },
-                std::move(promiseList))
+                std::move(promiseList)) //Move promise as only the thread should be able to complete it.
                 .detach();
 
             futures.insert(std::make_pair(fileName, std::move(futurePokemonList)));
