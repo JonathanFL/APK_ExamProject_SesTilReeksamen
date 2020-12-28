@@ -97,7 +97,7 @@ void Center::buyPokeBagItem(PokeBag &playerBag)
       std::cout << "Added " << pokeBagItems_.at(indexToRemoveAt)->getType()
                 << " to bag" << std::endl
                 << std::endl;
-      addToBag(playerBag, std::move(item));
+      playerBag.addItem(std::move(item));
       pokeBagItems_.erase(pokeBagItems_.begin() + indexToRemoveAt);
     }
     else
@@ -122,11 +122,6 @@ shared_ptr<PokeBagItem> Center::getPokeBagItem(const std::string choice,
               });
   if (it == pokeBagItems_.end()) return nullptr;
   return *it;
-}
-
-void Center::addToBag(PokeBag &bag, std::shared_ptr<PokeBagItem> &&item)
-{
-  bag.addItem(std::forward<std::shared_ptr<PokeBagItem>>(item));
 }
 } // namespace PokeCenter
 #endif // __POKE_CENTER_H__

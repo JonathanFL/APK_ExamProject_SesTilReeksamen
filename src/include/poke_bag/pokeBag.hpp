@@ -50,7 +50,7 @@ public:
   void                        listBattleReadyPokemons();
   void                        listPokemon();
   Pokemon *                   findPokemon(std::string name);
-  const std::vector<Pokemon> &getPokemon() const { return pokemons_; }
+  const std::vector<Pokemon> &getPokemons() const { return pokemons_; }
   void                        forEachPokemon(std::function<void(Pokemon &)> f)
   {
     std::for_each(pokemons_.begin(), pokemons_.end(), f);

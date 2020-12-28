@@ -91,7 +91,6 @@ private:
 
   shared_ptr<PokeBagItem> getPokeBagItem(const std::string choice,
                                          int &             indexToRemove);
-  // void addToBag(PokeBag &bag, std::shared_ptr<PokeBagItem> &&item);
 
 public:
   Center()

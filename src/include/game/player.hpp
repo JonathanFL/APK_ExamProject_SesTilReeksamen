@@ -106,7 +106,7 @@ public:
 
   bool canBattle()
   {
-    const PokemonList &pokemons = bag_.getPokemon();
+    const PokemonList &pokemons = bag_.getPokemons();
     return !pokemons.empty() &&
            std::any_of(pokemons.begin(), pokemons.end(),
                        [](const Pokemon &p) { return p.getHealth_() > 0; });
