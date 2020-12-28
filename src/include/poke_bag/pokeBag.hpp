@@ -7,13 +7,6 @@
 #include <variant>
 #include <vector>
 
-enum class ErrorCode
-{
-  SystemError,
-  IoError,
-  NetworkError
-};
-
 class PokeBag
 {
 private:
@@ -25,7 +18,7 @@ private:
 public:
   template <typename T> void addItem(T &&t)
   {
-    //Implement perfect forwarding
+    // Implement perfect forwarding
     this->items_.push_back(std::forward<T>(t));
   }
 
