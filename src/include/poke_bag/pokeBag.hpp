@@ -23,11 +23,9 @@ private:
   PokemonList pokemons_;
 
 public:
-  void empty();
 
   void addItem(std::shared_ptr<PokeBagItem> &&item);
 
-  std::shared_ptr<PokeBagItem> &getItemByIndex(unsigned int index);
   std::shared_ptr<PokeBagItem>  getItemByName(std::string itemName,
                                               int &       indexToRemoveAt);
   void                          removeItemFromBag(const int indexToRemoveAt);

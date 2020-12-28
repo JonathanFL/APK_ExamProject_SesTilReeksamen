@@ -7,7 +7,6 @@
 #include <numeric>
 #include <variant>
 #include <vector>
-void PokeBag::empty() { std::cout << "Emptying bag..." << std::endl; }
 
 std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName,
                                                     int &       indexToRemoveAt)
