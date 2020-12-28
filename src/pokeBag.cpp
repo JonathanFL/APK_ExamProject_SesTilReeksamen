@@ -9,7 +9,7 @@
 #include <vector>
 
 std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName,
-                                                    int &       indexToRemoveAt)
+                                                    int &indexToRemoveAt)
 {
   std::vector<shared_ptr<PokeBagItem>>::iterator it;
   it = find_if(items_.begin(), items_.end(),
@@ -36,7 +36,6 @@ void PokeBag::removeItemFromBag(const int indexToRemoveAt)
     items_.erase(items_.begin() + indexToRemoveAt);
   }
 }
-
 
 void PokeBag::listItems()
 {
@@ -66,8 +65,8 @@ void PokeBag::listNumberOfEachPokeItem()
 
 bool PokeBag::listNumberOfEachPokeBall()
 {
-  bool hasPokeballs                                                    = false;
-  int  numberOfBalls[PokeCenter::PokeCenterTypes::HyperpotionType - 1] = {};
+  bool hasPokeballs = false;
+  int numberOfBalls[PokeCenter::PokeCenterTypes::HyperpotionType - 1] = {};
   for (size_t i = 0; i < PokeCenter::PokeCenterTypes::HyperpotionType - 1; i++)
   {
     numberOfBalls[i] = count_if(
@@ -87,8 +86,8 @@ bool PokeBag::listNumberOfEachPokeBall()
 
 bool PokeBag::listNumberOfEachPotion()
 {
-  bool hasPotions       = false;
-  int  numberOfBalls[2] = {};
+  bool hasPotions = false;
+  int numberOfBalls[2] = {};
   for (size_t i = 4; i < 6; i++)
   {
     numberOfBalls[i] = count_if(
@@ -135,10 +134,12 @@ void PokeBag::listPokemon()
 Pokemon *PokeBag::findPokemon(std::string nickName)
 {
   std::vector<Pokemon>::iterator it =
-      find_if(pokemons_.begin(), pokemons_.end(), [nickName](const Pokemon &p) {
-        return p.getNickname_() == nickName;
-      });
-  if (it == pokemons_.end()) throw UnknownPokemonException();
+      find_if(pokemons_.begin(), pokemons_.end(),
+              [nickName](const Pokemon &p) {
+                return p.getNickname_() == nickName;
+              });
+  if (it == pokemons_.end())
+    throw UnknownPokemonException();
   return &*it;
 }
 
