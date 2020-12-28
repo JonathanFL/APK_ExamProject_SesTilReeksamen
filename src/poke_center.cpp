@@ -51,10 +51,10 @@ void Center::usePokecenter(Player &p)
     {
       throw std::out_of_range("Must be either 1 or 2");
     }
-    catch (const std::invalid_argument &e)
-    {
-      std::cout << e.what()<< "\n";
-    }
+  }
+  catch (const std::invalid_argument &e)
+  {
+    std::cout << e.what() << "\n";
   }
   catch (const ChoiceCancelledException &e)
   {
