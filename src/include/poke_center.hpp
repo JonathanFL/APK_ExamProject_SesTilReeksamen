@@ -101,7 +101,8 @@ public:
       // forcer std::shared_ptr move-constructor
       addToInventory(pokeBallItem);
       //Moves ball into the inventory
-      addToInventory(createItem<GreatBall>(PokeCenter::PokeCenterTypes::GreatBallType));
+      auto greatBallItem = createItem<GreatBall>(PokeCenter::PokeCenterTypes::GreatBallType);
+      addToInventory(std::move(greatBallItem));
       addToInventory(createItem<UltraBall>(PokeCenter::PokeCenterTypes::UltraballType));
       addToInventory(createItem<MasterBall>(PokeCenter::PokeCenterTypes::MasterballType));
       addToInventory(createItem<SuperPotion>(PokeCenter::PokeCenterTypes::SuperpotionType));
