@@ -1,0 +1,55 @@
+@startuml BattlePokemon 
+skinparam monochrome true
+
+mainframe <b>State:</b> BattleWildPokemon
+state BattleWildPokemon {
+    BattleWildPokemon : entry / Display battle cry and info text
+    [*] -down-> MakeBattleChoice 
+    MakeBattleChoice : entry / Display choices
+    state BattleChoice <<choice>> 
+    MakeBattleChoice -down-> BattleChoice : choice made
+    state AttackPokemon {
+        AttackPokemon : entry / attack wild pokemon 
+    }
+    BattleChoice --> AttackPokemon : choice == attack
+    state UseItem {
+        UseItem : entry / list items
+        state ChooseItem
+        [*] --> ChooseItem 
+        ChooseItem --> UsingItem : chose item
+        UsingItem : entry / Use item on player pokemon
+        ChooseItem --> [*] : cancel
+        UsingItem --> [*] : item used
+    }
+    BattleChoice -right-> UseItem : choice == use item
+    state UsePokeball {
+        UsePokeball : entry / list pokeballs
+        state ChoosePokeball
+        [*] --> ChoosePokeball 
+        ChoosePokeball --> UsingPokeball : chose pokeball
+        UsingPokeball : entry / Use pokeball on wild pokemon
+        ChoosePokeball --> [*] : cancel
+        UsingPokeball --> [*] : pokeball used
+    }
+    BattleChoice -left-> UsePokeball : choice == use pokeball
+    UseItem -up-> MakeBattleChoice : canceled 
+    UsePokeball -up-> MakeBattleChoice : canceled
+    state UsePokeballResult <<choice>>
+    state WildPokemonTurn <<choice>>
+    WildPokemonTurn --> WildPokemonAttacking : wild pokemon is alive
+    state WildPokemonAttacking 
+    WildPokemonAttacking : entry / attack player pokemon
+    UsePokeball --> UsePokeballResult : pokeball used
+    UsePokeballResult --> [*] : wild pokemon caught
+    UsePokeballResult --> WildPokemonAttacking : not caught
+    UseItem --> WildPokemonAttacking : item used
+    AttackPokemon -down-> WildPokemonTurn : done
+    state RoundDone <<choice>>
+    WildPokemonAttacking --> RoundDone 
+    RoundDone --> [*] : player pokemon dead 
+    WildPokemonTurn --> [*] : wild pokemon is dead
+    RoundDone --> MakeBattleChoice : player pokemon alive
+    
+}
+
+@enduml

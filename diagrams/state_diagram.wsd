@@ -1,0 +1,71 @@
+@startuml StateDigram 
+skinparam monochrome true
+
+mainframe <b>State:</b> Game
+[*] -down-> MakeGameChoice 
+
+state MakeGameChoice {
+    MakeGameChoice : entry / Check if game won   
+    MakeGameChoice : do / list available choices if !won  
+    MakeGameChoice : do / Wait for choice
+}
+MakeGameChoice -up-> [*] : Game won
+state GameChoice <<choice>>
+
+MakeGameChoice -down-> GameChoice : choice made 
+GameChoice --> UsePokeCenter : choice == GoToPokecenter
+GameChoice -up-> [*] : choice == ExitGame 
+GameChoice --> BattleWildPokemon : choice == BattleWildPokemon
+GameChoice --> CheckPokemons : choice == CheckPokemons 
+GameChoice --> CheckBagItems : choice == CheckBagItems
+
+state UsePokeCenter {
+    ' UsePokeCenter : entry / display options
+    ' [*] --> MakePokeCenterChoice
+    ' state PokeCenterChoice <<choice>>
+    ' MakePokeCenterChoice --> PokeCenterChoice : choice made
+    ' PokeCenterChoice --> BuyItem : choice == BuyItem
+    ' PokeCenterChoice --> HealPokemon : choice == HealPokemon
+    ' HealPokemon : entry / heal pokemon
+    ' HealPokemon --> MakePokeCenterChoice : pokemon healed
+    ' BuyItem : entry / display available items 
+    ' BuyItem : do / wait for and handle choice 
+    ' BuyItem --> MakePokeCenterChoice : item bought
+    ' BuyItem --> MakePokeCenterChoice : canceled
+    ' PokeCenterChoice -up-> MakeGameChoice : choice == ExitPokecenter
+}
+UsePokeCenter --> MakeGameChoice : Exit pokecenter
+
+state BattleWildPokemon {
+    ' BattleWildPokemon : entry / Display battle cry and info text
+    ' [*] --> MakeBattleChoice 
+    ' MakeBattleChoice : entry / Display choices
+    ' state BattleChoice <<choice>> 
+    ' MakeBattleChoice --> BattleChoice : choice made
+    ' state AttackPokemon {
+    '     AttackPokemon : entry / attack wild pokemon 
+    ' }
+    ' state UseItem {
+
+    ' }
+    ' state UsePokeball {
+
+    ' }
+}
+
+BattleWildPokemon -up-> MakeGameChoice : battle finished
+
+
+state CheckPokemons {
+    CheckPokemons : entry / List pokemons 
+}
+CheckPokemons --> MakeGameChoice : pokemons listed
+
+state CheckBagItems {
+    CheckBagItems : entry / List items
+}
+CheckBagItems --> MakeGameChoice : Items listed
+
+
+
+@enduml

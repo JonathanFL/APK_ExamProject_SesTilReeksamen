@@ -1,0 +1,56 @@
+@startuml PokeSim class
+skinparam class {
+    BackgroundColor white
+    BorderColor black
+    ArrowColor black
+}
+hide member
+hide circle
+
+' class ElementType <<class>> {
+    
+' }
+
+' class FireType <<class>> {
+
+' }
+
+' class WaterType <<class>> {
+
+' }
+
+' class ElectricType <<class>> {
+
+' }
+
+' class GroundType <<class>> {
+
+' }
+
+' class NormalType <<class>> {
+
+' }
+
+class Pokemon <<class>> {
+
+}
+
+class PokeBagItem <<abstract>> {
+
+}
+
+class Ball <<abstract>> {
+
+}
+
+package PokeBalls {
+
+}
+
+
+
+
+
+
+
+@enduml
