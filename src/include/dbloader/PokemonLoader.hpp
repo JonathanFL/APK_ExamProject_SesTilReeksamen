@@ -24,28 +24,23 @@ namespace dbloader
 
         void ReadPokemonsList(const std::string &fileName)
         {
-            std::promise<PokemonList> promiseList;
-            std::future<PokemonList> futurePokemonList = promiseList.get_future();
+            std::future<PokemonList> futurePokemonList = std::async(std::launch::async, [fileName]() {
+                std::string fileDir = "config/" + fileName;
+                std::ifstream pokemonsFile(fileDir.c_str());
 
-            std::thread(
-                [fileName](std::promise<PokemonList> &&p) {
-                    std::ifstream pokemonsFile(fileName.c_str());
+                if (!pokemonsFile)
+                {
+                    throw FileNotFoundException(fileDir);
+                }
 
-                    if (!pokemonsFile)
-                    {
-                        throw FileNotFoundException(fileName);
-                    }
+                std::istream_iterator<Pokemon> it1(pokemonsFile);
+                std::istream_iterator<Pokemon> it2;
 
-                    std::istream_iterator<Pokemon> it1(pokemonsFile);
-                    std::istream_iterator<Pokemon> it2;
+                PokemonList pokemonList;
 
-                    PokemonList pokemonList;
-
-                    std::copy(it1, it2, std::back_inserter(pokemonList));
-                    p.set_value(pokemonList);
-                },
-                std::move(promiseList)) //Move promise as only the thread should be able to complete it.
-                .detach();
+                std::copy(it1, it2, std::back_inserter(pokemonList));
+                return pokemonList;
+            });
 
             futures.insert(std::make_pair(fileName, std::move(futurePokemonList)));
         }
