@@ -79,13 +79,11 @@ private:
     }
     std::cout << std::endl;
   }
-
-  void addToInventory(std::shared_ptr<PokeBagItem> &&item)
+  template <typename T> void addToInventory(T &&item)
   {
     // There also exist a Copyable push_back in std::vector, but since we get
     // the item as xvalue we use the Moveable push_back
-    pokeBagItems_.push_back(std::forward<std::shared_ptr<PokeBagItem>>(
-        item)); // kalder den nødvendige push_back overload
+    pokeBagItems_.push_back(std::forward<T>(item)); // kalder den nødvendige push_back overload
                 // std::cout << pokeBagItems_.at(0).use_count() << std::endl;
   }
 
@@ -102,7 +100,7 @@ public:
       auto pokeBallItem =
           createItem<PokeBall>(PokeCenter::PokeCenterTypes::PokeballType);
       // forcer std::shared_ptr move-constructor
-      addToInventory(std::move(pokeBallItem));
+      addToInventory(pokeBallItem);
       auto greatBallItem =
           createItem<GreatBall>(PokeCenter::PokeCenterTypes::GreatBallType);
       addToInventory(std::move(greatBallItem));
@@ -133,6 +131,8 @@ public:
   std::shared_ptr<PokeBagItem> &&buyBall();
   void                           listAvailableItems() { printItemsInShop(); }
   void                           buyPokeBagItem(PokeBag &playerBag);
+
+  void addToBag(PokeBag &bag, std::shared_ptr<PokeBagItem> &&item);
 };
 } // namespace PokeCenter
 

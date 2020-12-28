@@ -39,7 +39,7 @@ void PokeBag::removeItemFromBag(const int indexToRemoveAt)
 
 void PokeBag::addItem(std::shared_ptr<PokeBagItem> &&item)
 {
-  this->items_.push_back(std::forward<std::shared_ptr<PokeBagItem>>(item));
+  this->items_.push_back(std::move(item));
 }
 
 void PokeBag::listItems()
