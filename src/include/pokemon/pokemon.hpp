@@ -27,7 +27,7 @@ private:
   poketypes::PokemonTypeVariant sType_;
 
   template <typename T>
-  typename std::enable_if<std::is_same_v<T, double> || std::is_same_v<T, unsigned int>>::type
+  typename std::enable_if<std::is_same<T, double>::value || std::is_same<T, unsigned int>::value>::type
   moveVariableStrategy(T &target, T &source)
   {
     std::swap(target, source);
@@ -38,7 +38,7 @@ private:
   }
 
   template <typename T>
-  typename std::enable_if<std::is_same_v<T, std::string> || std::is_same_v<T, poketypes::PokemonTypeVariant>>::type
+  typename std::enable_if<std::is_same<T, std::string>::value || std::is_same<T, poketypes::PokemonTypeVariant>::value>::type
   moveVariableStrategy(T &target, T &source)
   {
     target = std::move(source);
