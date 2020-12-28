@@ -44,7 +44,7 @@ public:
     addPokemon(pokemons...);
   }
 
-  void addPokemon(const Pokemon &pokemon) { pokemons_.push_back(pokemon); }
+  void addPokemon(Pokemon &pokemon) { pokemons_.push_back(std::move(pokemon)); }
 
   void addPokemons(PokemonList &&pokemons);
 
