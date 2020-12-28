@@ -61,6 +61,10 @@ namespace PokeCenter
     {
       std::cout << "Input number was out of range" << e.what() << "\n";
     }
+    catch (const std::invalid_argument &e)
+    {
+      std::cout << e.what()<< "\n";
+    }
   }
 
   void Center::buyPokeBagItem(PokeBag &playerBag)
