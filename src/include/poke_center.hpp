@@ -81,8 +81,7 @@ private:
   }
   template <typename T> void addToInventory(T &&item)
   {
-    // There also exist a Copyable push_back in std::vector, but since we get
-    // the item as xvalue we use the Moveable push_back
+    // Perfect forwarding of arguments for push_back
     pokeBagItems_.push_back(std::forward<T>(item)); // kalder den nødvendige push_back overload
                 // std::cout << pokeBagItems_.at(0).use_count() << std::endl;
   }

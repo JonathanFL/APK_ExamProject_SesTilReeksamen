@@ -49,8 +49,7 @@ public:
                                      PokemonListEntry::RarePokemons,
                                      PokemonListEntry::UserPokemons);
       pokemons = pokemonLoader.getPokemons();
-      bag_.addPokemons(
-          std::forward<PokemonList>(pokemons[PokemonListEntry::UserPokemons]));
+      bag_.addPokemons(std::move(pokemons[PokemonListEntry::UserPokemons]));
     }
     catch (poketypes::UnknownPokemonTypeException &e)
     {
@@ -71,7 +70,7 @@ public:
 
   void setPokeCenter(std::shared_ptr<PokeCenter::Center> &&center)
   {
-    center_ = std::forward<std::shared_ptr<PokeCenter::Center>>(center);
+    center_ = std::move(center);
   }
 
   void initPlayer()
@@ -82,7 +81,7 @@ public:
 
     std::cout << "Welcome to the game " << name << std::endl << std::endl;
 
-    player_.setName(std::forward<std::string>(name));
+    player_.setName(std::move(name));
     player_.setBag(bag_);
   }
 

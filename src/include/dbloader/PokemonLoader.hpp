@@ -47,7 +47,7 @@ namespace dbloader
                 std::move(promiseList))
                 .detach();
 
-            futures.insert(std::make_pair(fileName, std::forward<std::future<PokemonList>>(futurePokemonList)));
+            futures.insert(std::make_pair(fileName, std::move(futurePokemonList)));
         }
 
         template <typename File, typename... Files>

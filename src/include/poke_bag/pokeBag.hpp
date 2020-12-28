@@ -23,17 +23,19 @@ private:
   PokemonList pokemons_;
 
 public:
+  template <typename T> void addItem(T &&t)
+  {
+    //Implement perfect forwarding
+    this->items_.push_back(std::forward<T>(t));
+  }
 
-  void addItem(std::shared_ptr<PokeBagItem> &&item);
-
-  std::shared_ptr<PokeBagItem>  getItemByName(std::string itemName,
-                                              int &       indexToRemoveAt);
-  void                          removeItemFromBag(const int indexToRemoveAt);
-  void                          listItems();
-  void                          listNumberOfEachPokeItem();
-  bool                          listNumberOfEachPokeBall();
-  bool                          listNumberOfEachPotion();
-
+  std::shared_ptr<PokeBagItem> getItemByName(std::string itemName,
+                                             int &       indexToRemoveAt);
+  void                         removeItemFromBag(const int indexToRemoveAt);
+  void                         listItems();
+  void                         listNumberOfEachPokeItem();
+  bool                         listNumberOfEachPokeBall();
+  bool                         listNumberOfEachPotion();
   template <typename P, typename... Pokemons>
   void addPokemon(P &pokemon, Pokemons &... pokemons)
   {
