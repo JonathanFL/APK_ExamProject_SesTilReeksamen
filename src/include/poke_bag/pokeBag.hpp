@@ -25,16 +25,16 @@ private:
 public:
   void empty();
 
-  void addItem(std::shared_ptr<PokeBagItem> item);
+  void addItem(std::shared_ptr<PokeBagItem> &&item);
 
   std::shared_ptr<PokeBagItem> &getItemByIndex(unsigned int index);
-  std::shared_ptr<PokeBagItem> getItemByName(std::string itemName,
-                                             int &indexToRemoveAt);
-  void removeItemFromBag(const int indexToRemoveAt);
-  void listItems();
-  void listNumberOfEachPokeItem();
-  bool listNumberOfEachPokeBall();
-  bool listNumberOfEachPotion();
+  std::shared_ptr<PokeBagItem>  getItemByName(std::string itemName,
+                                              int &       indexToRemoveAt);
+  void                          removeItemFromBag(const int indexToRemoveAt);
+  void                          listItems();
+  void                          listNumberOfEachPokeItem();
+  bool                          listNumberOfEachPokeBall();
+  bool                          listNumberOfEachPotion();
 
   template <typename P, typename... Pokemons>
   void addPokemon(P &pokemon, Pokemons &... pokemons)
@@ -48,12 +48,12 @@ public:
 
   void addPokemons(PokemonList &&pokemons);
 
-  double getTotalValue();
-  void listBattleReadyPokemons();
-  void listPokemon();
-  Pokemon *findPokemon(std::string name);
+  double                      getTotalValue();
+  void                        listBattleReadyPokemons();
+  void                        listPokemon();
+  Pokemon *                   findPokemon(std::string name);
   const std::vector<Pokemon> &getPokemon() const { return pokemons_; }
-  void forEachPokemon(std::function<void(Pokemon &)> f)
+  void                        forEachPokemon(std::function<void(Pokemon &)> f)
   {
     std::for_each(pokemons_.begin(), pokemons_.end(), f);
   }

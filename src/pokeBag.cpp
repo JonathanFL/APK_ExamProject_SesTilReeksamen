@@ -1,5 +1,5 @@
-#include "include/exceptions/cancel_exception.hpp"
 #include "include/exceptions/UnknownPokemonException.hpp"
+#include "include/exceptions/cancel_exception.hpp"
 #include "include/poke_center.hpp"
 #include <algorithm>
 #include <iterator>
@@ -9,18 +9,8 @@
 #include <vector>
 void PokeBag::empty() { std::cout << "Emptying bag..." << std::endl; }
 
-// std::shared_ptr<PokeBagItem> &PokeBag::getItemByIndex(unsigned int index)
-// {
-//   if (this->items_.size() > index)
-//     return this->items_.at(index);
-//   else
-//   {
-//     return ;
-//   }
-// }
-
 std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName,
-                                                    int &indexToRemoveAt)
+                                                    int &       indexToRemoveAt)
 {
   std::vector<shared_ptr<PokeBagItem>>::iterator it;
   it = find_if(items_.begin(), items_.end(),
@@ -48,9 +38,9 @@ void PokeBag::removeItemFromBag(const int indexToRemoveAt)
   }
 }
 
-void PokeBag::addItem(std::shared_ptr<PokeBagItem> item)
+void PokeBag::addItem(std::shared_ptr<PokeBagItem> &&item)
 {
-  this->items_.push_back(item);
+  this->items_.push_back(std::forward<std::shared_ptr<PokeBagItem>>(item));
 }
 
 void PokeBag::listItems()
@@ -81,8 +71,8 @@ void PokeBag::listNumberOfEachPokeItem()
 
 bool PokeBag::listNumberOfEachPokeBall()
 {
-  bool hasPokeballs = false;
-  int numberOfBalls[PokeCenter::PokeCenterTypes::HyperpotionType - 1] = {};
+  bool hasPokeballs                                                    = false;
+  int  numberOfBalls[PokeCenter::PokeCenterTypes::HyperpotionType - 1] = {};
   for (size_t i = 0; i < PokeCenter::PokeCenterTypes::HyperpotionType - 1; i++)
   {
     numberOfBalls[i] = count_if(
@@ -102,8 +92,8 @@ bool PokeBag::listNumberOfEachPokeBall()
 
 bool PokeBag::listNumberOfEachPotion()
 {
-  bool hasPotions = false;
-  int numberOfBalls[2] = {};
+  bool hasPotions       = false;
+  int  numberOfBalls[2] = {};
   for (size_t i = 4; i < 6; i++)
   {
     numberOfBalls[i] = count_if(
@@ -133,7 +123,9 @@ void PokeBag::listBattleReadyPokemons()
 {
   PokemonList nonFaintedPokemons;
 
-  std::copy_if(pokemons_.begin(), pokemons_.end(), std::back_inserter(nonFaintedPokemons), [](Pokemon p) { return p.getHealth_() > 0; });
+  std::copy_if(pokemons_.begin(), pokemons_.end(),
+               std::back_inserter(nonFaintedPokemons),
+               [](Pokemon p) { return p.getHealth_() > 0; });
 
   std::ostream_iterator<Pokemon> oStreamIter(std::cout, "\n");
   copy(nonFaintedPokemons.begin(), nonFaintedPokemons.end(), oStreamIter);
@@ -151,8 +143,7 @@ Pokemon *PokeBag::findPokemon(std::string nickName)
       find_if(pokemons_.begin(), pokemons_.end(), [nickName](const Pokemon &p) {
         return p.getNickname_() == nickName;
       });
-  if (it == pokemons_.end())
-    throw UnknownPokemonException();
+  if (it == pokemons_.end()) throw UnknownPokemonException();
   return &*it;
 }
 
