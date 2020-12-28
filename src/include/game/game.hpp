@@ -1,14 +1,7 @@
 #include <iostream>
 
 #include "battle.hpp"
-// #include "include/game/player.hpp"
-// #include "include/poke_bag/ball/ball.hpp"
-// #include "include/poke_bag/ball/masterBall.hpp"
-// #include "include/poke_bag/ball/ultraBall.hpp"
 #include "../poke_bag/pokeBag.hpp"
-// #include "include/poke_bag/pokeBagItem.hpp"
-// #include "include/poke_bag/potion/hyperPotion.hpp"
-// #include "include/poke_bag/potion/superPotion.hpp"
 #include "../poke_center.hpp"
 #include "../pokemon/pokemon.hpp"
 
@@ -106,10 +99,10 @@ public:
             case PlayerGameChoice::BattleWildPokemon:
             {
                 PokemonList::iterator randomPokemon = Utilities::select_random_if(
-                    pokemons[PokemonListEntry::RarePokemons].begin(),
-                    pokemons[PokemonListEntry::RarePokemons].end(),
+                    pokemons[PokemonListEntry::LowLevelPokemons].begin(),
+                    pokemons[PokemonListEntry::LowLevelPokemons].end(),
                     [](const Pokemon &p) { return p.getHealth_() > 0; });
-                if (randomPokemon == pokemons[PokemonListEntry::RarePokemons].end())
+                if (randomPokemon == pokemons[PokemonListEntry::LowLevelPokemons].end())
                 {
                     std::cout << "No wild pokemon left - you have won the game!"
                               << std::endl;
