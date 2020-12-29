@@ -11,6 +11,7 @@ state BattleWildPokemon {
     state AttackPokemon {
         AttackPokemon : entry / attack wild pokemon 
     }
+    BattleChoice -up-> [*] : choice == run
     BattleChoice --> AttackPokemon : choice == attack
     state UseItem {
         UseItem : entry / list items
