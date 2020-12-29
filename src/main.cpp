@@ -9,7 +9,7 @@
 
 int main()
 {
-  PokemonGame pokemonGame;
+  game::PokemonGame pokemonGame;
   try
   {
     pokemonGame.loadPokemons();

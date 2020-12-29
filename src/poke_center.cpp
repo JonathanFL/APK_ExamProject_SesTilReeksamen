@@ -10,7 +10,7 @@ void Center::heal(Pokemon &pokemon)
   pokemon.setHealth_(pokemon.getMaxHealth_());
 }
 
-void Center::usePokecenter(Player &p)
+void Center::usePokecenter(game::Player &p)
 {
   while (1)
   {
@@ -111,7 +111,7 @@ void Center::buyPokeBagItem(PokeBag &playerBag)
   }
 }
 
-shared_ptr<PokeBagItem> Center::getPokeBagItem(const std::string choice,
+std::shared_ptr<PokeBagItem> Center::getPokeBagItem(const std::string choice,
                                                int &indexToRemoveAt)
 {
   std::vector<std::shared_ptr<PokeBagItem>>::iterator it =

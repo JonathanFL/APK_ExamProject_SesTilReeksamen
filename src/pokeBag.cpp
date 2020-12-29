@@ -11,7 +11,7 @@
 std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName,
                                                     int &indexToRemoveAt)
 {
-  std::vector<shared_ptr<PokeBagItem>>::iterator it;
+  std::vector<std::shared_ptr<PokeBagItem>>::iterator it;
   it = find_if(items_.begin(), items_.end(),
                [itemName, &indexToRemoveAt](std::shared_ptr<PokeBagItem> p) {
                  ++indexToRemoveAt;
@@ -139,7 +139,7 @@ Pokemon *PokeBag::findPokemon(std::string nickName)
                 return p.getNickname_() == nickName;
               });
   if (it == pokemons_.end())
-    throw UnknownPokemonException();
+    throw exceptions::UnknownPokemonException();
   return &*it;
 }
 

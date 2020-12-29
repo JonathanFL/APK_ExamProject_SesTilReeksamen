@@ -9,8 +9,6 @@
 #include <string.h>
 #include <string>
 
-using namespace std;
-
 class Pokemon
 {
 private:
@@ -168,11 +166,11 @@ public:
   friend std::ostream &operator<<(std::ostream &out, const Pokemon &p)
   {
     return out << "Pokemon: " << p.getName_()
-               << " - Attack: " << to_string(p.getAttack_())
-               << " - Health: " << to_string(p.getHealth_())
-               << " - MaxHealth: " << to_string(p.getMaxHealth_())
-               << " - Level: " << to_string(p.getLevel_())
-               << " - XP: " << to_string(p.getXp_())
+               << " - Attack: " << std::to_string(p.getAttack_())
+               << " - Health: " << std::to_string(p.getHealth_())
+               << " - MaxHealth: " << std::to_string(p.getMaxHealth_())
+               << " - Level: " << std::to_string(p.getLevel_())
+               << " - XP: " << std::to_string(p.getXp_())
                << " - Nickname: " << p.getNickname_() << std::endl;
   }
 
