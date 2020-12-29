@@ -1,6 +1,9 @@
 #pragma once
 #include <exception>
 #include <string>
+namespace exceptions
+{
+
 class ChoiceCancelledException : public std::exception
 {
 private:
@@ -12,3 +15,5 @@ public:
 
   virtual const char *what() const throw() { return choiceType_.c_str(); }
 };
+
+}

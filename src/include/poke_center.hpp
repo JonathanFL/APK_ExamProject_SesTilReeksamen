@@ -115,7 +115,7 @@ public:
     // std::cout << std::endl;
   }
 
-  void usePokecenter(Player &p);
+  void usePokecenter(game::Player &p);
 
   void                           heal(Pokemon &pokemon);
   std::shared_ptr<PokeBagItem> &&buyPotion();

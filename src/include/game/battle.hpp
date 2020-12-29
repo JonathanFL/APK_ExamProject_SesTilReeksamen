@@ -65,7 +65,7 @@ namespace battle
           p.set_value_at_thread_exit(pokemon);
           pokemonChosen = true;
         }
-        catch (const UnknownPokemonException &e)
+        catch (const exceptions::UnknownPokemonException &e)
         {
           std::cerr << e.what() << std::endl
                     << std::endl;
@@ -89,15 +89,15 @@ namespace battle
                 << std::endl;
       std::cout << chosenPokemon.getNickname_() << ": " << chosenPokemon.getHealth_() << " HP" << std::endl
                 << std::endl;
-      std::future<PlayerBattleChoice> choiceFuture = player->makeBattleChoice();
+      std::future<game::PlayerBattleChoice> choiceFuture = player->makeBattleChoice();
       // Could do something else while waiting for player choice
       choiceFuture.wait();
-      PlayerBattleChoice choice = choiceFuture.get();
+      game::PlayerBattleChoice choice = choiceFuture.get();
       try
       {
         switch (choice)
         {
-        case PlayerBattleChoice::Attack:
+        case game::PlayerBattleChoice::Attack:
         {
           std::cout << "Attacking wild pokemon" << std::endl
                     << std::endl;
@@ -105,17 +105,17 @@ namespace battle
           std::cout << attack.doAttack(*pokemon) << std::endl;
           break;
         }
-        case PlayerBattleChoice::UseItem:
+        case game::PlayerBattleChoice::UseItem:
         {
-          std::shared_ptr<PokeBagItem> potion = player->choosePokeBagItem(PlayerBattleChoice::UseItem);
+          std::shared_ptr<PokeBagItem> potion = player->choosePokeBagItem(game::PlayerBattleChoice::UseItem);
           potion->Use(chosenPokemon, [](PokeBagItemResult res) {
             std::cout << res.result << std::endl;
           });
           break;
         }
-        case PlayerBattleChoice::UsePokeball:
+        case game::PlayerBattleChoice::UsePokeball:
         {
-          std::shared_ptr<PokeBagItem> pokeball = player->choosePokeBagItem(PlayerBattleChoice::UsePokeball);
+          std::shared_ptr<PokeBagItem> pokeball = player->choosePokeBagItem(game::PlayerBattleChoice::UsePokeball);
           pokeball->Use(*pokemon, [pokemon, player](PokeBagItemResult res) {
             if (res.result == "You caught the Pokemon\n")
             {
@@ -134,7 +134,7 @@ namespace battle
           });
           break;
         }
-        case PlayerBattleChoice::Run:
+        case game::PlayerBattleChoice::Run:
         {
           std::cout << "Running from battle..." << std::endl;
           battleFinished = true;
@@ -153,22 +153,22 @@ namespace battle
         }
         battleFinished |= hasBattleFinished(chosenPokemon, *pokemon);
       }
-      catch (const ChoiceCancelledException &e)
+      catch (const exceptions::ChoiceCancelledException &e)
       {
         // std::cerr << e.what() << '\n';
       }
-      catch (const NoPokeballsException &e)
+      catch (const exceptions::NoPokeballsException &e)
       {
         std::cerr << e.what() << std::endl
                   << std::endl;
       }
-      catch (const NoPotionsException &e)
+      catch (const exceptions::NoPotionsException &e)
       {
         std::cerr << e.what() << std::endl
                   << std::endl;
       }
     }
-  } // namespace battle
+  }
 
 } // namespace battle
 

@@ -1,6 +1,9 @@
 #ifndef BATTLECRY_HPP
 #define BATTLECRY_HPP
 #include "boost/signals2.hpp"
+namespace battle 
+{
+
 template <typename T> class PrintContainer
 {
 public:
@@ -35,5 +38,6 @@ public:
   void add(const BattleCrySlot &cb) { battleCrySignal_.connect(cb); }
   void operator()() { battleCrySignal_(); }
 };
+}
 
 #endif

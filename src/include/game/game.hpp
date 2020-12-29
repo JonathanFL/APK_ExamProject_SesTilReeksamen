@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 
 #include "battle.hpp"
@@ -11,6 +12,8 @@
 
 #include "../dbloader/PokemonListEntry.hpp"
 #include "../dbloader/PokemonLoader.hpp"
+namespace game 
+{
 
 class PokemonGame
 {
@@ -138,3 +141,4 @@ public:
         }
     }
 };
+}
