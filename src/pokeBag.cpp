@@ -11,7 +11,7 @@
 std::shared_ptr<PokeBagItem> PokeBag::getItemByName(std::string itemName,
                                                     int &indexToRemoveAt)
 {
-  std::vector<shared_ptr<PokeBagItem>>::iterator it;
+  std::vector<std::shared_ptr<PokeBagItem>>::iterator it;
   it = find_if(items_.begin(), items_.end(),
                [itemName, &indexToRemoveAt](std::shared_ptr<PokeBagItem> p) {
                  ++indexToRemoveAt;

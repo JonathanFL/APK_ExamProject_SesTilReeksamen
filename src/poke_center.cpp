@@ -111,7 +111,7 @@ void Center::buyPokeBagItem(PokeBag &playerBag)
   }
 }
 
-shared_ptr<PokeBagItem> Center::getPokeBagItem(const std::string choice,
+std::shared_ptr<PokeBagItem> Center::getPokeBagItem(const std::string choice,
                                                int &indexToRemoveAt)
 {
   std::vector<std::shared_ptr<PokeBagItem>>::iterator it =

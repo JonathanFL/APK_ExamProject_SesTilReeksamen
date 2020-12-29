@@ -85,7 +85,7 @@ private:
     pokeBagItems_.push_back(std::forward<T>(item)); // kalder den nødvendige push_back overload
   }
 
-  shared_ptr<PokeBagItem> getPokeBagItem(const std::string choice,
+  std::shared_ptr<PokeBagItem> getPokeBagItem(const std::string choice,
                                          int &             indexToRemove);
 
 public:
