@@ -16,21 +16,21 @@ state BattleWildPokemon {
     state UseItem {
         UseItem : entry / list items
         state ChooseItem
-        [*] --> ChooseItem 
+        [*] -right-> ChooseItem 
         ChooseItem --> UsingItem : chose item
         UsingItem : entry / Use item on player pokemon
         ChooseItem --> [*] : cancel
-        UsingItem --> [*] : item used
+        UsingItem -left-> [*] : item used
     }
     BattleChoice -right-> UseItem : choice == use item
     state UsePokeball {
         UsePokeball : entry / list pokeballs
         state ChoosePokeball
-        [*] --> ChoosePokeball 
+        [*] -right-> ChoosePokeball 
         ChoosePokeball --> UsingPokeball : chose pokeball
         UsingPokeball : entry / Use pokeball on wild pokemon
         ChoosePokeball --> [*] : cancel
-        UsingPokeball --> [*] : pokeball used
+        UsingPokeball -left-> [*] : pokeball used
     }
     BattleChoice -left-> UsePokeball : choice == use pokeball
     UseItem -up-> MakeBattleChoice : canceled 
@@ -49,8 +49,7 @@ state BattleWildPokemon {
     WildPokemonAttacking --> RoundDone 
     RoundDone --> [*] : player pokemon dead 
     WildPokemonTurn --> [*] : wild pokemon is dead
-    RoundDone --> MakeBattleChoice : player pokemon alive
-    
+    RoundDone --> MakeBattleChoice : player pokemon alive   
 }
 
 @enduml
