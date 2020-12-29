@@ -136,7 +136,9 @@ Pokemon *PokeBag::findPokemon(std::string nickName)
   std::vector<Pokemon>::iterator it =
       find_if(pokemons_.begin(), pokemons_.end(),
               [nickName](const Pokemon &p) {
-                return p.getNickname_() == nickName;
+                auto nickname_ = p.getNickname_();
+                Utilities::toLower(nickname_);
+                return nickname_ == nickName;
               });
   if (it == pokemons_.end())
     throw exceptions::UnknownPokemonException();

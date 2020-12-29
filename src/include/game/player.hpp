@@ -95,12 +95,13 @@ public:
 
   Pokemon &choosePokemon()
   {
-    std::cout << "Enter the name of the pokemon that you would like to choose:"
+    std::cout << "Enter the nickname of the pokemon that you would like to choose:"
               << std::endl;
     bag_.listBattleReadyPokemons();
     std::string choice;
     std::cin >> choice;
     Utilities::clearScreen();
+    Utilities::toLower(choice);
     return *bag_.findPokemon(choice);
   }
 
