@@ -6,7 +6,6 @@
 #include "../poke_bag/pokeBag.hpp"
 #include "../threading/create_thread.hpp"
 #include "../utility/utilities.hpp"
-// #include "../pokemon/pokedex.hpp"
 #include <future>
 #include <string>
 namespace game
@@ -34,7 +33,6 @@ class Player
 private:
   std::string name_;
   PokeBag     bag_;
-  // Pokedex     pokedex_;
 
 public:
   Player(){};
