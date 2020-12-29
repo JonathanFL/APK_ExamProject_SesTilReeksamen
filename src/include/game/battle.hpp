@@ -109,7 +109,7 @@ namespace battle
         {
           std::shared_ptr<PokeBagItem> potion = player->choosePokeBagItem(PlayerBattleChoice::UseItem);
           potion->Use(chosenPokemon, [](PokeBagItemResult res) {
-            std::cout << "res.result: " << res.result << std::endl;
+            std::cout << res.result << std::endl;
           });
           break;
         }
