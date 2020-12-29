@@ -59,14 +59,14 @@ namespace dbloader
             std::copy(pl.begin(), pl.end(), it1);
         }
 
-        std::map<std::string, PokemonList> &&getPokemons()
+        void getPokemons(std::map<std::string, PokemonList> &pm)
         {
             for (auto &f : futures)
             {
                 pokemonMap_.insert(std::make_pair(f.first, f.second.get()));
             }
 
-            return std::move(pokemonMap_);
+            pm = std::move(pokemonMap_);
         }
     };
 } // namespace dbloader

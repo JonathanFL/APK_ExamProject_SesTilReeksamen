@@ -43,7 +43,7 @@ namespace game
             {
                 pokemonLoader.ReadPokemonsList(PokemonMapEntry::WildPokemons,
                                                PokemonMapEntry::UserPokemons);
-                pokemons = pokemonLoader.getPokemons();
+                pokemonLoader.getPokemons(pokemons);
                 bag_.addPokemons(std::move(pokemons[PokemonMapEntry::UserPokemons]));
             }
             catch (exceptions::UnknownPokemonTypeException &e)
