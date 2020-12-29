@@ -16,9 +16,9 @@ class PokeBagItem
 {
 
 private:
-  double              price_;
-  std::string         type_;
-  unsigned int        index_;
+  double price_;
+  std::string type_;
+  unsigned int index_;
   static unsigned int indexCounter;
 
 public:
@@ -42,26 +42,26 @@ public:
   {
   }
 
-  double      getPrice() { return price_; }
-  void        setPrice(double price) { price_ = price; }
+  double getPrice() { return price_; }
+  void setPrice(double price) { price_ = price; }
   std::string getType() { return type_; }
-  void        setType(const std::string type) { type_ = type; }
+  void setType(const std::string type) { type_ = type; }
 
-  virtual void Use(Pokemon &                                  pokemon,
+  virtual void Use(Pokemon &pokemon,
                    std::function<void(PokeBagItemResult res)> callback) = 0;
-  virtual void format(std::ostream &out) const                          = 0;
+  virtual void format(std::ostream &out) const = 0;
 
   friend std::ostream &
-  operator<<(std::ostream &     out,
+  operator<<(std::ostream &out,
              const std::shared_ptr<PokeBagItem> temp) // bruger pointer for at dereferere objekt
-                                      // yderligere efter derefereringen i Copy.
+                                                      // yderligere efter derefereringen i Copy.
   {
     out << "[" << std::to_string(temp->index_) << "] ";
     temp->format(out);
     return out;
   }
 
-  virtual ~PokeBagItem();
+  virtual ~PokeBagItem(){};
 };
 
 #endif
