@@ -4,7 +4,7 @@
 #include <iostream>
 #include <map>
 #include "poke_type.hpp"
-#include "UnknownPokemonTypeException.hpp"
+#include "../exceptions/UnknownPokemonTypeException.hpp"
 
 namespace poketypes
 {
@@ -30,7 +30,7 @@ namespace poketypes
                 return pokeTypeMap[type];
             }
 
-            throw(UnknownPokemonTypeException(type));
+            throw(exceptions::UnknownPokemonTypeException(type));
         }
     };
 

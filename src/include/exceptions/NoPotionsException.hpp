@@ -3,11 +3,11 @@
 #include <string>
 namespace exceptions
 {
-struct NoPotionsException : public std::exception
-{
-    const char *what() const throw()
+    struct NoPotionsException : public std::exception
     {
-        return "No available potions...";
-    }
-};
-}
+        const char *what() const throw()
+        {
+            return "No available potions...";
+        }
+    };
+} // namespace exceptions

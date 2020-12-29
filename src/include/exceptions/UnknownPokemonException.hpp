@@ -3,11 +3,11 @@
 #include <string>
 namespace exceptions
 {
-struct UnknownPokemonException : public std::exception
-{
-    const char *what() const throw()
+    struct UnknownPokemonException : public std::exception
     {
-        return "Unknown pokemon... Please enter the name of a pokemon from your bag!";
-    }
-};
-}
+        const char *what() const throw()
+        {
+            return "Unknown pokemon... Please enter the name of a pokemon from your bag!";
+        }
+    };
+} // namespace exceptions

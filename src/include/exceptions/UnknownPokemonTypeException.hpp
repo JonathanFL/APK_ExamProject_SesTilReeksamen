@@ -1,6 +1,6 @@
 #include <iostream>
 
-namespace poketypes
+namespace exceptions
 {
     class UnknownPokemonTypeException : public std::exception
     {

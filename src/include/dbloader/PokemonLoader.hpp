@@ -6,7 +6,7 @@
 #include <future>
 #include <thread>
 #include "../pokemon/pokemon.hpp"
-#include "FileNotFoundException.hpp"
+#include "../exceptions/FileNotFoundException.hpp"
 
 namespace dbloader
 {
@@ -30,7 +30,7 @@ namespace dbloader
 
                 if (!pokemonsFile)
                 {
-                    throw FileNotFoundException(fileDir);
+                    throw exceptions::FileNotFoundException(fileDir);
                 }
 
                 std::istream_iterator<Pokemon> it1(pokemonsFile);

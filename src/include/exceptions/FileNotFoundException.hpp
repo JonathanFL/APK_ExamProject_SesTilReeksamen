@@ -1,6 +1,6 @@
 #include <iostream>
 
-namespace dbloader
+namespace exceptions
 {
     class FileNotFoundException : public std::exception
     {
