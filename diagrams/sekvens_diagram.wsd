@@ -1,0 +1,11 @@
+@startuml SekvensDiagram 
+skinparam ResponseMessageBelowArrow true
+skinparam SequenceMessageAlign center
+hide footbox
+skinparam monochrome true
+
+actor Player
+participant 
+
+
+@enduml
