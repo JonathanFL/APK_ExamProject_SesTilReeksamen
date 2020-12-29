@@ -28,12 +28,6 @@ enum PokecenterChoice
   BuyItem     = 2
 };
 
-enum BuyItemChoice
-{
-  BuyPokeball = 1,
-  BuyPotion   = 2
-};
-
 enum PokeCenterTypes
 {
   PokeballType    = 0,
@@ -108,11 +102,6 @@ public:
       addToInventory(createItem<SuperPotion>(PokeCenter::PokeCenterTypes::SuperpotionType));
       addToInventory(createItem<HyperPotion>(PokeCenter::PokeCenterTypes::HyperpotionType));
     }
-    // for (size_t i = 0; i < pokeBagItems_.size(); i++)
-    // {
-    //     std::cout << pokeBagItems_.at(i).get()->getType() << "\n";
-    // }
-    // std::cout << std::endl;
   }
 
   void usePokecenter(game::Player &p);
