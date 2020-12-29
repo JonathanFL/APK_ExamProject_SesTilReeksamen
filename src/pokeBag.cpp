@@ -139,7 +139,7 @@ Pokemon *PokeBag::findPokemon(std::string nickName)
                 return p.getNickname_() == nickName;
               });
   if (it == pokemons_.end())
-    throw UnknownPokemonException();
+    throw exceptions::UnknownPokemonException();
   return &*it;
 }
 

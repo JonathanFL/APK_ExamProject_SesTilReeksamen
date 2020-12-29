@@ -1,7 +1,8 @@
 #pragma once
 #include <exception>
 #include <string>
-
+namespace exceptions
+{
 struct NoPokeballsException : public std::exception
 {
     const char *what() const throw()
@@ -9,3 +10,4 @@ struct NoPokeballsException : public std::exception
         return "No available pokeballs...";
     }
 };
+}

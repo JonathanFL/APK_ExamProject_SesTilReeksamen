@@ -10,7 +10,7 @@ void Center::heal(Pokemon &pokemon)
   pokemon.setHealth_(pokemon.getMaxHealth_());
 }
 
-void Center::usePokecenter(Player &p)
+void Center::usePokecenter(game::Player &p)
 {
   while (1)
   {
