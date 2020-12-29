@@ -9,7 +9,7 @@ class Potion : public PokeBagItem
 public:
   bool heal(Pokemon &pokemon, unsigned int amount)
   {
-    auto pokemonHealth = pokemon.getHealth_();
+    auto pokemonHealth    = pokemon.getHealth_();
     auto pokemonMaxHealth = pokemon.getMaxHealth_();
     if (pokemonHealth + amount > pokemonMaxHealth)
     {
@@ -25,7 +25,7 @@ public:
 
   Potion() {}
 
-  void Use(Pokemon &pokemon,
+  void Use(Pokemon &                                  pokemon,
            std::function<void(PokeBagItemResult res)> callback) override
   {
     UsePotion(pokemon, callback);
@@ -35,7 +35,7 @@ public:
   virtual void formatImpl(std::ostream &out) const = 0;
 
   virtual void
-  UsePotion(Pokemon &pokemon,
+  UsePotion(Pokemon &                                  pokemon,
             std::function<void(PokeBagItemResult res)> callback) = 0;
 
   virtual ~Potion(){};

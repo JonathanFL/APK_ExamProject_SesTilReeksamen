@@ -95,8 +95,9 @@ public:
 
   Pokemon &choosePokemon()
   {
-    std::cout << "Enter the nickname of the pokemon that you would like to choose:"
-              << std::endl;
+    std::cout
+        << "Enter the nickname of the pokemon that you would like to choose:"
+        << std::endl;
     bag_.listBattleReadyPokemons();
     std::string choice;
     std::cin >> choice;
