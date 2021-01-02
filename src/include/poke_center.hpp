@@ -107,8 +107,6 @@ public:
   void usePokecenter(game::Player &p);
 
   void                           heal(Pokemon &pokemon);
-  std::shared_ptr<PokeBagItem> &&buyPotion();
-  std::shared_ptr<PokeBagItem> &&buyBall();
   void                           listAvailableItems() { printItemsInShop(); }
   void                           buyPokeBagItem(PokeBag &playerBag);
 
